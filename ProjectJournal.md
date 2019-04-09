@@ -18,6 +18,8 @@ Team members:
     - Rental car application to book a car on rent after checking the car details
     - A eCommerce platform like Shopify for online stores and retail point-of-sale systems for selling and marketing
     - A online ticket system like Fandango for reserving seats and booking tickets for Movies, Plays and Shows around the user
+    - Home automation along with community monitoring platform (smart communities)
+    - Platform for drone management - control and operate drones for agriculture, monitoring and delivery.
 
 - Finalized Project
     - 
@@ -30,3 +32,5 @@ Team members:
     - The API and database schema of the project
     - Listing out services which needs to be leveraged from different cloud providers for the project
     - Developing more scalable application and avoiding the single point of failure
+    - Dashboard to monitor the end-to-end status of the system
+    - Setup continuous integration and delivery
