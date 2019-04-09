@@ -4,7 +4,7 @@ Submitted To: [Prof Paul Nguyen](https://github.com/paulnguyen)
 
 Team members:
 1. [Arihant Sai](https://github.com/Arihant1467)
-2. Pratik Bhandarkar
+2. [Pratik Bhandarkar](https://github.com/pratikb25)
 3. [Sayali Patil](https://github.com/SayaliPatil)
 4. [Sharwari Phadnis](https://github.com/sharwari09)
 5. Thol Chidambaram
@@ -16,6 +16,8 @@ Team members:
     - A door dash kind of system for dry cleaners 
     - An online event-planning site from which you can create an event page, register attendees, and sell tickets online
     - Rental car application to book a car on rent after checking the car details
+    - A eCommerce platform like Shopify for online stores and retail point-of-sale systems for selling and marketing
+    - A online ticket system like Fandango for reserving seats and booking tickets for Movies, Plays and Shows around the user
 
 - Finalized Project
     - 
