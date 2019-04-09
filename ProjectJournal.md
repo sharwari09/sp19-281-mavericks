@@ -5,16 +5,17 @@ Submitted To: [Prof Paul Nguyen](https://github.com/paulnguyen)
 Team members:
 1. [Arihant Sai](https://github.com/Arihant1467)
 2. Pratik Bhandarkar
-3. Sayali Patil
+3. [Sayali Patil](https://github.com/SayaliPatil)
 4. [Sharwari Phadnis](https://github.com/sharwari09)
 5. Thol Chidambaram
 
-# Meeting Logs
+# Minutes of Meeting :
 
 ## Week-1 (8 April, 2019)
 - Ideas: Few project ideas that have been thought and put on the table
     - A door dash kind of system for dry cleaners 
     - An online event-planning site from which you can create an event page, register attendees, and sell tickets online
+    - Rental car application to book a car on rent after checking the car details
 
 - Finalized Project
     - 
@@ -26,3 +27,4 @@ Team members:
 - Challenges
     - The API and database schema of the project
     - Listing out services which needs to be leveraged from different cloud providers for the project
+    - Developing more scalable application and avoiding the single point of failure
