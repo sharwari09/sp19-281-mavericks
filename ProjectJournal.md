@@ -6,7 +6,7 @@ Team members:
 1. [Arihant Sai](https://github.com/Arihant1467)
 2. Pratik Bhandarkar
 3. Sayali Patil
-4. Sharwari Phadnis
+4. [Sharwari Phadnis](https://github.com/sharwari09)
 5. Thol Chidambaram
 
 # Meeting Logs
@@ -14,6 +14,7 @@ Team members:
 ## Week-1 (8 April, 2019)
 - Ideas: Few project ideas that have been thought and put on the table
     - A door dash kind of system for dry cleaners 
+    - An online event-planning site from which you can create an event page, register attendees, and sell tickets online
 
 - Finalized Project
     - 
