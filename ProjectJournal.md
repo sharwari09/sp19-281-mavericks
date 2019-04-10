@@ -7,7 +7,7 @@ Team members:
 2. [Pratik Bhandarkar](https://github.com/pratikb25)
 3. [Sayali Patil](https://github.com/SayaliPatil)
 4. [Sharwari Phadnis](https://github.com/sharwari09)
-5. Thol Chidambaram
+5. [Thol Chidambaram](https://github.com/thol)
 
 # Minutes of Meeting :
 
