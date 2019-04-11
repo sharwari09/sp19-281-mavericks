@@ -11,11 +11,11 @@ Team members:
 
 # Microservices Distribution:
 
-User signup - Pratik
-Create Event - Sharwari
-Browse Event - Thol
-Booking event - Sayali
-Dashboard - Arihant
+1. User signup - Pratik
+2. Create Event - Sharwari
+3. Browse Event - Thol
+4. Booking event - Sayali
+5. Dashboard - Arihant
 
 
 # Minutes of Meeting :
