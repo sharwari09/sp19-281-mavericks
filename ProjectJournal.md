@@ -71,5 +71,6 @@ Team members:
  - MongoDB: Cluster for storing Users, events, payments information
  - Redis key-value store: To improve lookup performance while listing events
  - decided scalable architecture of the application
+ - decided how partition will affect nosql system
 
 
