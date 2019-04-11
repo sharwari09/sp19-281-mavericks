@@ -11,7 +11,7 @@ Team members:
 
 # Microservices Distribution
 1. User signup - (Owner: Pratik Bhandarkar)<br/>
-   - This microservice allows a user to sign up with out app.
+   - This microservice allows a user to sign up with our app.
    - During sign up a user has to provide his/her email id (which can later be used to login) and a password.
    - The user details and credentials are stored in the MongoDB cluster. A user, on signed up, can book register for an
      event and create his/her own events to be hosted.
@@ -21,7 +21,10 @@ Team members:
      event that they want to host. 
    - The service will contain API implementation of creating events and storing them into the MongoDB cluster.
 3. Browse Event - Thol
-4. Booking event - Sayali
+4. Booking event - (Owner: Sayali)<br>
+   - This microservice handles booking of an event on our app.
+   - The user can book the ticket and process it with payment
+   - The service will contain API implementation of booking the events and storing them into the MongoDB cluster.
 5. Dashboard - Arihant
 
 # Minutes of Meeting
