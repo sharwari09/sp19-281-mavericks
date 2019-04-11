@@ -34,3 +34,23 @@ Team members:
     - Developing more scalable application and avoiding the single point of failure
     - Dashboard to monitor the end-to-end status of the system
     - Setup continuous integration and delivery
+
+## Apr 10
+ - Assign microservices tasks to all
+ - No need for MySQL, we can use 
+ - Assign micro-services tasks for each member
+ - Assign micro-services tasks for each member
+ - No need for MySQL, we can use MongoDB for all db needs
+ - Load balancer
+ - Network or HAProxy?
+ - Create sharded MongoDB in a VPC share it with team
+ - VPC pairing for replication
+ - Application components in AKF Scaling
+     - X-axis - replication
+     - Y-axis - microservices
+     - Z-axis - mongodb sharding
+
+ - Redis for browsing the events to improve response time
+ - REST API documentation / design
+ - Create Postman REST API collection and share
+
