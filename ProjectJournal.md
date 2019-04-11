@@ -12,7 +12,11 @@ Team members:
 # Microservices Distribution:
 
 1. User signup - Pratik
-2. Create Event - Sharwari
+2. Create Event - Sharwari<br>
+   - This microservice handles creation of events on our app. 
+   - The user/organiser has to add details such as name, schedule, venue related to a particular 
+     event that they want to host. 
+   - The service will contain API implementation of creating events and storing them into the MongoDB cluster.
 3. Browse Event - Thol
 4. Booking event - Sayali
 5. Dashboard - Arihant
@@ -31,7 +35,7 @@ Team members:
     - Platform for drone management - control and operate drones for agriculture, monitoring and delivery.
 
 - Finalized Project
-    - 
+    - An online event-planning site from which you can create an event page, register attendees, and sell tickets online
 
 - Action Items:
     - A kanban board has been developed for the project to list various tasks of each member.
