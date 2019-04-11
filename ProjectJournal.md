@@ -54,9 +54,6 @@ Team members:
 
 ### April 10, 2019
  - Assign microservices tasks to all
- - No need for MySQL, we can use 
- - Assign micro-services tasks for each member
- - Assign micro-services tasks for each member
  - No need for MySQL, we can use MongoDB for all db needs
  - Load balancer
  - Network or HAProxy?
@@ -67,6 +64,12 @@ Team members:
      - Y-axis - microservices
      - Z-axis - mongodb sharding
  - Redis for browsing the events to improve response time
- - REST API documentation / design
+ - REST API documentation / design per microservice
  - Create Postman REST API collection and share
+ - Implementing kong or AWS API gateway
+ - discussion regarding wow factor - Amazon EKS service
+ - MongoDB: Cluster for storing Users, events, payments information
+ - Redis key-value store: To improve lookup performance while listing events
+ - decided scalable architecture of the application
+
 
