@@ -9,6 +9,15 @@ Team members:
 4. [Sharwari Phadnis](https://github.com/sharwari09)
 5. [Thol Chidambaram](https://github.com/thol)
 
+# Microservices Distribution:
+
+User signup - Pratik
+Create Event - Sharwari
+Browse Event - Thol
+Booking event - Sayali
+Dashboard - Arihant
+
+
 # Minutes of Meeting :
 
 ## Week-1 (8 April, 2019)
@@ -35,7 +44,7 @@ Team members:
     - Dashboard to monitor the end-to-end status of the system
     - Setup continuous integration and delivery
 
-## Apr 10
+## Apr 10, 2019
  - Assign microservices tasks to all
  - No need for MySQL, we can use 
  - Assign micro-services tasks for each member
