@@ -78,16 +78,16 @@ Team members:
 - Decided global redis for all microservices
 - Riak db for dashboard
 - List of microservices :
--------------------------
-Users : 	(Pratik) <br/>
+
+   Users : 	(Pratik) <br/>
       Login
       Signup
       update
-Events :    (Sharwari & Sayali)<br/>
+   Events :    (Sharwari & Sayali)<br/>
        create event 
        list event
        book event
-Dashboard :  (Arihant & Thol)<br/>
+   Dashboard :  (Arihant & Thol)<br/>
       booked events
       Event and number of views
       No. of events posted
@@ -95,9 +95,9 @@ Dashboard :  (Arihant & Thol)<br/>
 
 - event details :
 
-Event name 
-Fees
-Location
-Time
-Organizer
+   Event name 
+   Fees
+   Location
+   Time
+   Organizer
 
