@@ -73,6 +73,31 @@ Team members:
  - decided scalable architecture of the application
  - decided how partition will affect nosql system
 
-### April 13, 2019
+### Minutes of meeting - April 13, 2019
 
 - Decided global redis for all microservices
+- Riak db for dashboard
+- List of microservices :
+-------------------------
+Users : 	(Pratik) <br/>
+      Login
+      Signup
+      update
+Events :    (Sharwari & Sayali)<br/>
+       create event 
+       list event
+       book event
+Dashboard :  (Arihant & Thol)<br/>
+      booked events
+      Event and number of views
+      No. of events posted
+      Number of bookings
+
+- event details :
+
+Event name 
+Fees
+Location
+Time
+Organizer
+
