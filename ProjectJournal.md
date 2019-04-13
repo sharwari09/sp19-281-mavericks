@@ -73,4 +73,6 @@ Team members:
  - decided scalable architecture of the application
  - decided how partition will affect nosql system
 
+### April 13, 2019
 
+- Decided global redis for all microservices
