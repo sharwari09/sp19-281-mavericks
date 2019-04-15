@@ -9,6 +9,9 @@ Team members:
 4. [Sharwari Phadnis](https://github.com/sharwari09)
 5. [Thol Chidambaram](https://github.com/thol)
 
+# Project Architecture
+<img src="./images/mavericks_project_arch.png"/>
+
 # Project Journal
 [Project Journal](ProjectJournal.md)
 
