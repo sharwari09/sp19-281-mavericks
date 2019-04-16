@@ -7,3 +7,19 @@
 > db.users.createIndex( { "id": 1 }, { unique: true } )
 
 > db.users.save({id:"1", firstname:"rambo", lastname:"Z", email:"rambo@circus.com", password:"qwerty", address:{ city:"jalgaon", state:"MH", street:"1st", zip:"95000" } } )
+
+
+Sample JSON for Postman:
+{
+	"id": "12",
+		"firstname": "rambo",
+		"lastname": "Z",
+		"email": "mango@circus.com",
+		"password": "qwerty",
+		"address": {
+			"city": "jalgaon",
+			"state": "MH",
+			"street": "1st",
+			"zip": "95000"
+		}
+}
