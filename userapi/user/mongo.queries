@@ -3,4 +3,7 @@
 // Unique index for email field
 > db.users.createIndex( { "email": 1 }, { unique: true } )
 
-> db.users.save({id:"1", firstname:"rambo", lastname:"Z", email:"", password:"qwerty", address:{ city:"jalgaon", state:"MH", street:"1st", zip:"95000" } } )
+// Unique index for ID field
+> db.users.createIndex( { "id": 1 }, { unique: true } )
+
+> db.users.save({id:"1", firstname:"rambo", lastname:"Z", email:"rambo@circus.com", password:"qwerty", address:{ city:"jalgaon", state:"MH", street:"1st", zip:"95000" } } )
