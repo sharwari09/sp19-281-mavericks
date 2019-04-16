@@ -20,16 +20,13 @@ import (
 	"gopkg.in/mgo.v2/bson"
 
 	// "net"
-	"os"
+	// "os"
 	// "strings"
 )
 
 var mongodb_server = os.Getenv("MONGO_SERVER")
 var mongodb_database = os.Getenv("MONGO_DATABASE")
 var mongodb_collection = os.Getenv("MONGO_COLLECTION")
-var mongo_admin_database = os.Getenv("MONGO_ADMIN_DATABASE")
-var mongo_username = os.Getenv("MONGO_USERNAME")
-var mongo_password = os.Getenv("MONGO_PASS")
 
 func newUserServer() *negroni.Negroni {
 	formatter := render.New(render.Options{
@@ -86,11 +83,11 @@ func getAllUsers(w http.ResponseWriter, req *http.Request) {
 
 	session.SetMode(mgo.Monotonic, true)
 
-	var result []bson.M
+	var result []User
 
 	c := session.DB(mongodb_database).C(mongodb_collection)
 
-	query := bson.M{} // Query to fetch all records
+	query := bson.M{} // Empty query to fetch all records
 
 	err = c.Find(query).All(&result) // Fetch all users
 
