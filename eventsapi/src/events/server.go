@@ -11,7 +11,7 @@ import (
 	"github.com/unrolled/render"
 	_ "github.com/satori/go.uuid"
 	 "gopkg.in/mgo.v2"
-    _"gopkg.in/mgo.v2/bson"
+    "gopkg.in/mgo.v2/bson"
 )
 
 var mongodb_server = "localhost:27017"
@@ -32,8 +32,8 @@ func NewServer() *negroni.Negroni {
 func initRoutes(mx *mux.Router, formatter *render.Render) {
 	mx.HandleFunc("/ping", pingHandler(formatter)).Methods("GET")
 	mx.HandleFunc("/events", postEventHandler(formatter)).Methods("POST")
-	//mx.HandleFunc("/events", getAllEventsHandler(formatter)).Methods("GET")
-	mx.HandleFunc("/events", getEventHandler(formatter)).Methods("GET").Queries("eventname")
+	mx.HandleFunc("/events", getAllEventsHandler(formatter)).Methods("GET")
+	mx.HandleFunc("/events/{eventname}", getEventHandler(formatter)).Methods("GET")
 }
 
 func postEventHandler(formatter *render.Render) http.HandlerFunc {
@@ -65,7 +65,6 @@ func postEventHandler(formatter *render.Render) http.HandlerFunc {
 				struct{ Response string }{"Event successfully added"})
 		}
 	}
-	
 }
 
 // API Get All Events Handler
@@ -88,14 +87,9 @@ func getEventHandler(formatter *render.Render) http.HandlerFunc {
 		var results []Event
 		params := mux.Vars(req)
 		fmt.Println("Params: ", params)
-		var path string = params["path"]
-		fmt.Println("Path is: ", path)
-		//if len(eventName) != 0 {
-		//	fmt.Printf( "Event Name: %s", eventName )
-		//	err = c.Find(bson.M{"eventname": eventName}).All(&results)
-		//} else {
-		err = c.Find(nil).All(&results)
-		//}
+		var eventName string = params["eventname"]
+		fmt.Printf( "Event Name: %s", eventName )
+		err = c.Find(bson.M{"eventname": eventName}).All(&results)
 		if err != nil {
 			log.Fatal(err)
 		}
