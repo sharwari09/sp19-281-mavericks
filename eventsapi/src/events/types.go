@@ -1,10 +1,24 @@
 package main
 
-import "gopkg.in/mgo.v2/bson"
+import "time"
 
 type Event struct{
-	Id      	bson.ObjectId `json:"id" bson:"_id,omitempty"`
-	EventName string
-	Organiser string	
-	Schedule string		
+	EventId   string    `json:"eventId" bson:"eventId"`
+	EventName string	`json:"eventName" bson:"eventName"`
+	Organizer string	`json:"organizer" bson:"organizer"`
+	Location string		`json:"location" bson:"location"`
+	Date int64		`json:"date" bson:"date"`
+}
+
+type ScheduledEvent struct{
+	EventId   string    `json:"eventId" bson:"eventId"`
+	EventName string	`json:"eventName" bson:"eventName"`
+	Organizer string	`json:"organizer" bson:"organizer"`
+	Location string		`json:"location" bson:"location"`
+	Date time.Time		`json:"date" bson:"date"`
+}
+
+type EventResponse struct{
+	Count	int
+	Events  []ScheduledEvent
 }

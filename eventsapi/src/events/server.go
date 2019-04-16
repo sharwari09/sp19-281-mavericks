@@ -11,7 +11,8 @@ import (
 	"github.com/unrolled/render"
 	_ "github.com/satori/go.uuid"
 	 "gopkg.in/mgo.v2"
-    "gopkg.in/mgo.v2/bson"
+	"gopkg.in/mgo.v2/bson"
+	"time"
 )
 
 var mongodb_server = "localhost:27017"
@@ -41,7 +42,9 @@ func postEventHandler(formatter *render.Render) http.HandlerFunc {
 		var e Event
 		// Open MongoDB Session
 		_ = json.NewDecoder(req.Body).Decode(&e)
-		fmt.Println("Event is: ", e.EventName)
+		//fmt.Println("Request body: ", *req.Body)
+		fmt.Println("Event: ", e)
+		fmt.Println("Event Venue is: ", e.Location)
 		session, err := mgo.Dial(mongodb_server)
         if err != nil {
                 panic(err)
@@ -49,10 +52,12 @@ func postEventHandler(formatter *render.Render) http.HandlerFunc {
 		defer session.Close()
         session.SetMode(mgo.Monotonic, true)
 		c := session.DB(mongodb_database).C(mongodb_collection)
-		event_entry := Event{
+		event_entry := ScheduledEvent{
+			EventId: e.EventId,
 			EventName: e.EventName,
-			Organiser: e.Organiser,	
-			Schedule: e.Schedule}
+			Organizer: e.Organizer,	
+			Date: time.Unix(e.Date, 0),
+			Location: e.Location}
 
 		err = c.Insert(event_entry)				
 						
@@ -84,7 +89,7 @@ func getEventHandler(formatter *render.Render) http.HandlerFunc {
 		session.SetMode(mgo.Monotonic, true)
 		c := session.DB(mongodb_database).C(mongodb_collection)
 
-		var results []Event
+		var results []ScheduledEvent
 		params := mux.Vars(req)
 		fmt.Println("Params: ", params)
 		var eventName string = params["eventname"]
@@ -94,8 +99,12 @@ func getEventHandler(formatter *render.Render) http.HandlerFunc {
 			log.Fatal(err)
 		}
 		fmt.Println(results)
+		response := EventResponse{
+			Count: len(results),
+			Events: results}
+		
 		if len(results) > 0 {
-			formatter.JSON(w, http.StatusOK, results)
+			formatter.JSON(w, http.StatusOK, response)
 		}else{
 			formatter.JSON(w, http.StatusNoContent, 
 				struct{ Response string }{"No Events found for the given ID"})
@@ -119,7 +128,7 @@ func getAllEventsHandler(formatter *render.Render) http.HandlerFunc {
 		defer session.Close()
 		session.SetMode(mgo.Monotonic, true)
 		c := session.DB(mongodb_database).C(mongodb_collection)
-		var results []Event
+		var results []ScheduledEvent
 		err = c.Find(nil).All(&results)
 
 		if err != nil {
