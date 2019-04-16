@@ -51,7 +51,7 @@ func initRoutes(router *mux.Router, formatter *render.Render) {
 	router.HandleFunc("/users", getAllUsers).Methods("GET")
 	router.HandleFunc("/users/{id}", getUserById).Methods("GET")
 	router.HandleFunc("/users/signup", createUser).Methods("POST")
-	// router.HandleFunc("/users/signin", userSignIn).Methods("POST")
+	router.HandleFunc("/users/signin", userSignIn).Methods("POST")
 	// router.HandleFunc("/users/{id}", deleteUser).Methods("DELETE")
 	// router.HandleFunc("/users/{id}", updateUser).Methods("PUT")
 	router.HandleFunc("/ping", checkPing(formatter)).Methods("GET")
@@ -185,14 +185,15 @@ func getUserById(w http.ResponseWriter, req *http.Request) {
 	json.NewEncoder(w).Encode(result)
 }
 
+/**
+ * Handler for /users/signup URI
+ */
 func createUser(w http.ResponseWriter, req *http.Request) {
 	setupResponse(&w, req)
 	w.Header().Set("Content-Type", "application/json")
 
 	var user User
 	_ = json.NewDecoder(req.Body).Decode(&user)
-	uniqueId := uuid.NewV4()
-	user.Id = uniqueId.String()
 
 	/* Open DB session */
 	session, err := mgo.Dial(mongodb_server)
@@ -242,6 +243,10 @@ func createUser(w http.ResponseWriter, req *http.Request) {
 		json.NewEncoder(w).Encode(message)
 		return
 	}
+
+	/* Assign new user ID */
+	uniqueId := uuid.NewV4()
+	user.Id = uniqueId.String()
 
 	/* Set password hash */
 	user.Password = pHash
@@ -339,44 +344,64 @@ func updateUser(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 	json.NewEncoder(w).Encode(struct{ Message string }{"user with id:" + params["id"] + " was Updated"})
-}
+}*/
+
+/* Handler for /users/signin resource */
 func userSignIn(w http.ResponseWriter, req *http.Request) {
+	setupResponse(&w, req)
 	w.Header().Set("Content-Type", "application/json")
-	var person User
-	_ = json.NewDecoder(req.Body).Decode(&person)
+
+	var user User
+	_ = json.NewDecoder(req.Body).Decode(&user)
+
+	/* Open DB session */
 	session, err := mgo.Dial(mongodb_server)
 	if err != nil {
-		message := struct{ Message string }{"Some error occured while connecting to database!!"}
+		message := struct{ Message string }{"Error while connecting to database"}
 		w.WriteHeader(http.StatusInternalServerError)
 		json.NewEncoder(w).Encode(message)
 		return
 	}
-	err = session.DB(mongo_admin_database).Login(mongo_username, mongo_password)
-	if err != nil {
-		message := struct{ Message string }{"Some error occured while login to database!!"}
-		w.WriteHeader(http.StatusInternalServerError)
-		json.NewEncoder(w).Encode(message)
-		return
-	}
+
 	defer session.Close()
+
 	session.SetMode(mgo.Monotonic, true)
+
+	/* Obtain DB connection */
 	c := session.DB(mongodb_database).C(mongodb_collection)
-	query := bson.M{"email": person.Email,
-		"password": person.Password}
+
+	query := bson.M{"email": user.Email}
+
 	var result User
+
+	/* Check if user already exists */
 	err = c.Find(query).One(&result)
+
 	if err != nil && err != mgo.ErrNotFound {
-		message := struct{ Message string }{"Some error occured while querying to database!!"}
-		w.WriteHeader(http.StatusUnauthorized)
+		message := "Error while fetching user information"
+		w.WriteHeader(http.StatusInternalServerError)
 		json.NewEncoder(w).Encode(message)
 		return
 	}
+
+	/* User not found in database */
 	if err == mgo.ErrNotFound {
-		message := struct{ Message string }{"Login Failed"}
+		message := "User not found"
 		w.WriteHeader(http.StatusUnauthorized)
 		json.NewEncoder(w).Encode(message)
 		return
 	}
+
+	/* Verify password */
+	tempPwd := user.Password
+	passwordHash := result.Password
+	if !verifyPasswordHash(tempPwd, passwordHash) {
+		message := "Incorrect password"
+		w.WriteHeader(http.StatusUnauthorized)
+		json.NewEncoder(w).Encode(message)
+		return
+	}
+
 	userData := bson.M{
 		"email":     result.Email,
 		"firstName": result.Firstname,
@@ -384,4 +409,4 @@ func userSignIn(w http.ResponseWriter, req *http.Request) {
 		"address":   result.Address,
 		"id":        result.Id}
 	json.NewEncoder(w).Encode(userData)
-}*/
+}
