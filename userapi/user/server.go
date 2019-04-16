@@ -17,6 +17,8 @@ import (
 
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
+
+	"golang.org/x/crypto/bcrypt"
 	// "net"
 	// "os"
 	// "strings"
@@ -47,8 +49,8 @@ func newUserServer() *negroni.Negroni {
 /* Initializing resource URI */
 func initRoutes(router *mux.Router, formatter *render.Render) {
 	router.HandleFunc("/users", getAllUsers).Methods("GET")
-	router.HandleFunc("/users/{id}", getUser).Methods("GET")
-	// router.HandleFunc("/users/signup", createUser).Methods("POST")
+	router.HandleFunc("/users/{id}", getUserById).Methods("GET")
+	router.HandleFunc("/users/signup", createUser).Methods("POST")
 	// router.HandleFunc("/users/signin", userSignIn).Methods("POST")
 	// router.HandleFunc("/users/{id}", deleteUser).Methods("DELETE")
 	// router.HandleFunc("/users/{id}", updateUser).Methods("PUT")
@@ -68,6 +70,22 @@ func checkPing(formatter *render.Render) http.HandlerFunc {
 		message := "User API is alive!"
 		formatter.JSON(w, http.StatusOK, struct{ Test string }{message})
 	}
+}
+
+/* Generates hash of password */
+func hashPassword(password string) (string, error) {
+	bytes, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	return string(bytes), err
+}
+
+/* Compare and verify password hash */
+func verifyPasswordHash(password, hash string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
+	return err == nil
+}
+
+func logger(message string) {
+	fmt.Println(message)
 }
 
 /* Handler for /user to fetch all users */
@@ -111,7 +129,7 @@ func getAllUsers(w http.ResponseWriter, req *http.Request) {
  * Fetch record of given user
  * Handler for /user/{id}
  */
-func getUser(w http.ResponseWriter, req *http.Request) {
+func getUserById(w http.ResponseWriter, req *http.Request) {
 	setupResponse(&w, req)
 	w.Header().Set("Content-Type", "application/json")
 
@@ -192,7 +210,13 @@ func createUser(w http.ResponseWriter, req *http.Request) {
 	/* Obtain DB connection */
 	c := session.DB(mongodb_database).C(mongodb_collection)
 
-	/* TODO Validate that email ID is not empty */
+	/* Validate that email ID is not empty */
+	if len(user.Email) <= 0 {
+		message := "Email not provided"
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(message)
+		return
+	}
 
 	/* Check for duplicate email address */
 	query := bson.M{"email": user.Email}
@@ -209,6 +233,18 @@ func createUser(w http.ResponseWriter, req *http.Request) {
 		json.NewEncoder(w).Encode(message)
 		return
 	}
+
+	/* Generate password hash */
+	pHash, err := hashPassword(user.Password)
+	if err != nil {
+		message := "Error creating password hash"
+		w.WriteHeader(http.StatusInternalServerError)
+		json.NewEncoder(w).Encode(message)
+		return
+	}
+
+	/* Set password hash */
+	user.Password = pHash
 
 	/* Commit new user info */
 	err = c.Insert(user)
