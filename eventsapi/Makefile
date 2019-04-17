@@ -22,7 +22,7 @@ go-install:
 go-build:
 	go build events
 
-go-run:
+go-run: go-build
 	./events
 
 docker-run:

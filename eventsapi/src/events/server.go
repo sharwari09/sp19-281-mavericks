@@ -50,10 +50,12 @@ func postEventHandler(formatter *render.Render) http.HandlerFunc {
 		defer session.Close()
         session.SetMode(mgo.Monotonic, true)
 		c := session.DB(mongodb_database).C(mongodb_collection)
-		var match ScheduledEvent
-		err = c.Find(bson.M{"location": e.Location}).One(&match)
+		var match Event
+
+		err = c.Find(bson.M{"date": time.Unix(e.Date, 0)}).One(&match)
+		fmt.Println("Match: ", match)
 		if err == nil{
-			fmt.Printf("Event with location %s already exists!", match.Location)
+			fmt.Printf("Event %s is already scheduled at the same time provided!", match.EventName)
 		} else {
 		event_entry := ScheduledEvent{
 			EventId: e.EventId,
