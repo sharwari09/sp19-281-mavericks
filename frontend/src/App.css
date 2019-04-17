@@ -1,0 +1,120 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 40vmin;
+  pointer-events: none;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.back{
+  background-color: #f4f4f4;
+  min-height: 1000px;
+  background-size: cover
+}
+
+.login-form1 {
+  text-align : center;
+  background-color: white;
+  height: 700px;
+  margin-top : 5px;
+}
+.login-form1 .form-group1 {
+  margin-bottom:10px;
+  margin-top : 20px;
+}
+
+.login-form1 .field-label {
+  padding-top: 0.5em;
+  vertical-align: top;
+  width: 200px;
+}
+
+.login-form1  .btn.btn-primary1 {
+  background: #24afe6 none repeat scroll 0 0;
+  border-color: rgb(27, 167, 231);
+  color: #0e0d0d;
+  margin-top : 50px;
+  font-size: 20px;
+  width: 30%;
+  height: 40px;
+  /* padding: 10px; */
+  border-radius: 5px;
+  
+}
+.signupform {
+  margin-top : 10px;
+  box-shadow: 0 0 20px 0 rgba(0,0,0,.1)
+}
+.main_cont {
+  display:flex;
+  /* flex-wrap :wrap; */
+  }
+
+  .main-div3 {
+    padding:30px;
+    flex:80%;
+    height: 1000px;
+    margin-left : 390px;
+    margin-right : 390px;
+  }
+
+  .headerback
+{
+    height: 140px;
+    display: block;
+	justify-content: center;
+    background-color : #5c6f7c;
+  background-image: url(http://static.licdn.com/sc/h/3chad3rzxalsf65nuo7hxciac)
+}
+
+.header {
+  overflow: hidden;
+    text-overflow: ellipsis;
+    color: #1E0A3C;
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 29px;
+    letter-spacing: .5px;
+    word-break: break-word;
+    font-style: italic;
+}
+
+.title {
+  text-align: left;
+  margin-left: 50px;
+  margin-top : 60px;
+  margin-right : 100px;
+  font-weight: 600;
+  font-style: italic;
+}
+
+.content {
+  margin-right : -20px;
+  margin-top : -37px;
+  
+}
