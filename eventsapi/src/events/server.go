@@ -1,24 +1,26 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
+	"github.com/codegangsta/negroni"
+	"github.com/gorilla/handlers"
+	"github.com/gorilla/mux"
+	_ "github.com/satori/go.uuid"
+	_ "github.com/streadway/amqp"
+	"github.com/unrolled/render"
+	"gopkg.in/mgo.v2"
+	"gopkg.in/mgo.v2/bson"
 	"log"
 	"net/http"
-	"encoding/json"
-	"github.com/gorilla/handlers"
-	"github.com/codegangsta/negroni"
-	_ "github.com/streadway/amqp"
-	"github.com/gorilla/mux"
-	"github.com/unrolled/render"
-	_ "github.com/satori/go.uuid"
-	 "gopkg.in/mgo.v2"
-	"gopkg.in/mgo.v2/bson"
 	"time"
 )
 
-var mongodb_server = "localhost:27017"
-var mongodb_database = "eventbrite"
-var mongodb_collection = "events"
+/*TODO: Support environment variables for Mongo Config*/
+
+var mongodbServer = "localhost:27017"
+var mongodbDatabase = "eventbrite"
+var mongodbCollection = "events"
 
 func NewServer() *negroni.Negroni {
 	formatter := render.New(render.Options{
@@ -42,19 +44,21 @@ func initRoutes(mx *mux.Router, formatter *render.Render) {
 	mx.HandleFunc("/events/{eventName}", deleteEventhandler(formatter)).Methods("DELETE")
 }
 
+/*TODO: Connect to MongoDb only when admin user is provided*/
+
 func postEventHandler(formatter *render.Render) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
 		var e Event
 		// Open MongoDB Session
 		_ = json.NewDecoder(req.Body).Decode(&e)
 		fmt.Println("Event: ", e)
-		session, err := mgo.Dial(mongodb_server)
+		session, err := mgo.Dial(mongodbServer)
         if err != nil {
                 panic(err)
 		}
 		defer session.Close()
         session.SetMode(mgo.Monotonic, true)
-		c := session.DB(mongodb_database).C(mongodb_collection)
+		c := session.DB(mongodbDatabase).C(mongodbCollection)
 		var match Event
 
 		err = c.Find(bson.M{"date": time.Unix(e.Date, 0)}).One(&match)
@@ -87,7 +91,7 @@ func postEventHandler(formatter *render.Render) http.HandlerFunc {
 func getEventHandler(formatter *render.Render) http.HandlerFunc {
 
 	return func(w http.ResponseWriter, req *http.Request) {
-		session, err := mgo.Dial(mongodb_server)
+		session, err := mgo.Dial(mongodbServer)
 		if err != nil {
 			panic(err)
 		}
@@ -98,14 +102,13 @@ func getEventHandler(formatter *render.Render) http.HandlerFunc {
 		}
 		defer session.Close()
 		session.SetMode(mgo.Monotonic, true)
-		c := session.DB(mongodb_database).C(mongodb_collection)
+		c := session.DB(mongodbDatabase).C(mongodbCollection)
 
 		var results []ScheduledEvent
 		params := mux.Vars(req)
-		fmt.Println("Params: ", params)
-		var eventName string = params["eventname"]
+		var eventName string = params["eventName"]
 		fmt.Printf( "Event Name: %s", eventName )
-		err = c.Find(bson.M{"eventname": eventName}).All(&results)
+		err = c.Find(bson.M{"eventName": eventName}).All(&results)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -127,7 +130,7 @@ func getEventHandler(formatter *render.Render) http.HandlerFunc {
 func getAllEventsHandler(formatter *render.Render) http.HandlerFunc {
 
 	return func(w http.ResponseWriter, req *http.Request) {
-		session, err := mgo.Dial(mongodb_server)
+		session, err := mgo.Dial(mongodbServer)
 		if err != nil {
 			panic(err)
 		}
@@ -138,7 +141,7 @@ func getAllEventsHandler(formatter *render.Render) http.HandlerFunc {
 		}
 		defer session.Close()
 		session.SetMode(mgo.Monotonic, true)
-		c := session.DB(mongodb_database).C(mongodb_collection)
+		c := session.DB(mongodbDatabase).C(mongodbCollection)
 		var results []ScheduledEvent
 		err = c.Find(nil).All(&results)
 
@@ -146,21 +149,24 @@ func getAllEventsHandler(formatter *render.Render) http.HandlerFunc {
 			log.Fatal(err)
 		}
 		fmt.Println(results)
+		response := EventResponse{
+			Count: len(results),
+			Events: results}
 		if len(results) > 0 {
-			formatter.JSON(w, http.StatusOK, results)
+			formatter.JSON(w, http.StatusOK, response)
 		}else{
-			formatter.JSON(w, http.StatusNoContent, 
-				struct{ Response string }{"No Events found for the given ID"})
+			formatter.JSON(w, http.StatusNoContent,
+				struct{ Response string }{"No Events found"})
 		}
 	}
 }
 
 func deleteEventhandler(formatter *render.Render) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
-		session, err := mgo.Dial(mongodb_server)
+		session, err := mgo.Dial(mongodbServer)
 		defer session.Close()
 		session.SetMode(mgo.Monotonic, true)
-		c := session.DB(mongodb_database).C(mongodb_collection)
+		c := session.DB(mongodbDatabase).C(mongodbCollection)
 		params := mux.Vars(req)
 		var eventName string = params["eventName"]
 		fmt.Println("Event To Delete is: ", eventName)

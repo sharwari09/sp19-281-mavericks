@@ -19,6 +19,6 @@ type ScheduledEvent struct{
 }
 
 type EventResponse struct{
-	Count	int
-	Events  []ScheduledEvent
+	Count	int		`json:"count"`
+	Events  []ScheduledEvent		`json:"events"`
 }
