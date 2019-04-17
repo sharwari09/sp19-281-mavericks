@@ -6,7 +6,7 @@ import (
 	"github.com/codegangsta/negroni"
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
-	_ "github.com/satori/go.uuid"
+	"github.com/satori/go.uuid"
 	_ "github.com/streadway/amqp"
 	"github.com/unrolled/render"
 	"gopkg.in/mgo.v2"
@@ -40,15 +40,15 @@ func initRoutes(mx *mux.Router, formatter *render.Render) {
 	mx.HandleFunc("/ping", pingHandler(formatter)).Methods("GET")
 	mx.HandleFunc("/events", postEventHandler(formatter)).Methods("POST")
 	mx.HandleFunc("/events", getAllEventsHandler(formatter)).Methods("GET")
-	mx.HandleFunc("/events/{eventName}", getEventHandler(formatter)).Methods("GET")
-	mx.HandleFunc("/events/{eventName}", deleteEventhandler(formatter)).Methods("DELETE")
+	mx.HandleFunc("/events/{eventId}", getEventHandler(formatter)).Methods("GET")
+	mx.HandleFunc("/events/{eventId}", deleteEventhandler(formatter)).Methods("DELETE")
 }
 
 /*TODO: Connect to MongoDb only when admin user is provided*/
 
 func postEventHandler(formatter *render.Render) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
-		var e Event
+		var e EventPayload
 		// Open MongoDB Session
 		_ = json.NewDecoder(req.Body).Decode(&e)
 		fmt.Println("Event: ", e)
@@ -59,21 +59,22 @@ func postEventHandler(formatter *render.Render) http.HandlerFunc {
 		defer session.Close()
         session.SetMode(mgo.Monotonic, true)
 		c := session.DB(mongodbDatabase).C(mongodbCollection)
-		var match Event
+		var match EventPayload
 
 		err = c.Find(bson.M{"date": time.Unix(e.Date, 0)}).One(&match)
 		fmt.Println("Match: ", match)
+		eventId, _ := uuid.NewV4()
 		if err == nil{
 			fmt.Printf("Event %s is already scheduled at the same time provided!", match.EventName)
 		} else {
-		event_entry := ScheduledEvent{
-			EventId: e.EventId,
+		eventEntry := ScheduledEvent{
+			EventId: eventId.String(),
 			EventName: e.EventName,
 			Organizer: e.Organizer,	
 			Date: time.Unix(e.Date, 0),
 			Location: e.Location}
 
-		err = c.Insert(event_entry)				
+		err = c.Insert(eventEntry)
 						
 		if err != nil {
 			fmt.Println("Error while adding Events: ", err)
@@ -84,6 +85,28 @@ func postEventHandler(formatter *render.Render) http.HandlerFunc {
 				struct{ Response string }{"Event successfully added"})}
 		
 		}
+	}
+}
+
+func updateEventHandler(formatter *render.Render) http.HandlerFunc {
+	return func(w http.ResponseWriter, req *http.Request) {
+		session, err := mgo.Dial(mongodbServer)
+		var eventToUpdate EventPayload
+		// Open MongoDB Session
+		_ = json.NewDecoder(req.Body).Decode(&eventToUpdate)
+		if err != nil {
+			panic(err)
+		}
+		if err != nil {
+			fmt.Println("Events API (Get) - Unable to connect to MongoDB during read operation")
+			panic(err)
+		}
+		defer session.Close()
+		session.SetMode(mgo.Monotonic, true)
+		c := session.DB(mongodbDatabase).C(mongodbCollection)
+		var eventMatch EventPayload
+		err = c.Find(bson.M{"eventId": eventToUpdate.EventId}).One(&eventMatch)
+
 	}
 }
 
@@ -106,9 +129,9 @@ func getEventHandler(formatter *render.Render) http.HandlerFunc {
 
 		var results []ScheduledEvent
 		params := mux.Vars(req)
-		var eventName string = params["eventName"]
-		fmt.Printf( "Event Name: %s", eventName )
-		err = c.Find(bson.M{"eventName": eventName}).All(&results)
+		var eventId string = params["eventId"]
+		fmt.Printf( "Event ID: %s", eventId)
+		err = c.Find(bson.M{"eventId": eventId}).All(&results)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -168,16 +191,16 @@ func deleteEventhandler(formatter *render.Render) http.HandlerFunc {
 		session.SetMode(mgo.Monotonic, true)
 		c := session.DB(mongodbDatabase).C(mongodbCollection)
 		params := mux.Vars(req)
-		var eventName string = params["eventName"]
-		fmt.Println("Event To Delete is: ", eventName)
-		err = c.Remove(bson.M{"eventName": eventName})
+		var eventId string = params["eventId"]
+		fmt.Println("Event To Delete is: ", eventId)
+		err = c.Remove(bson.M{"eventId": eventId})
 		if err!=nil{
-			fmt.Println("Event not found")
+			fmt.Printf("Event not found with ID: %s", eventId)
 			formatter.JSON(w, http.StatusNotFound, "Event Not Found")
 			return
 		}
 		formatter.JSON(w, http.StatusOK, "Event: " +
-			eventName + " Deleted")
+			eventId + " Deleted")
 	}
 }
 

@@ -2,7 +2,7 @@ package main
 
 import "time"
 
-type Event struct{
+type EventPayload struct{
 	EventId   string    `json:"eventId" bson:"eventId"`
 	EventName string	`json:"eventName" bson:"eventName"`
 	Organizer string	`json:"organizer" bson:"organizer"`
