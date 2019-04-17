@@ -21,7 +21,7 @@ Team members:
      event that they want to host. 
    - The service will contain API implementation of creating events and storing them into the MongoDB cluster.
 3. Browse Event - Thol
-4. Booking event - (Owner: Sayali)<br>
+4. Book event - (Owner: Sayali)<br>
    - This microservice handles booking of an event on our app.
    - The user can book the ticket and process it with payment
    - The service will contain API implementation of booking the events and storing them into the MongoDB cluster.
