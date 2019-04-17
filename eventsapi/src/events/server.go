@@ -42,9 +42,7 @@ func postEventHandler(formatter *render.Render) http.HandlerFunc {
 		var e Event
 		// Open MongoDB Session
 		_ = json.NewDecoder(req.Body).Decode(&e)
-		//fmt.Println("Request body: ", *req.Body)
 		fmt.Println("Event: ", e)
-		fmt.Println("Event Venue is: ", e.Location)
 		session, err := mgo.Dial(mongodb_server)
         if err != nil {
                 panic(err)
@@ -52,6 +50,11 @@ func postEventHandler(formatter *render.Render) http.HandlerFunc {
 		defer session.Close()
         session.SetMode(mgo.Monotonic, true)
 		c := session.DB(mongodb_database).C(mongodb_collection)
+		var match ScheduledEvent
+		err = c.Find(bson.M{"location": e.Location}).One(&match)
+		if err == nil{
+			fmt.Printf("Event with location %s already exists!", match.Location)
+		} else {
 		event_entry := ScheduledEvent{
 			EventId: e.EventId,
 			EventName: e.EventName,
@@ -67,7 +70,8 @@ func postEventHandler(formatter *render.Render) http.HandlerFunc {
 				struct{ Response error }{err})
 		} else {
 			formatter.JSON(w, http.StatusOK, 
-				struct{ Response string }{"Event successfully added"})
+				struct{ Response string }{"Event successfully added"})}
+		
 		}
 	}
 }
