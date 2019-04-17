@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"encoding/json"
+	"github.com/gorilla/handlers"
 	"github.com/codegangsta/negroni"
 	_ "github.com/streadway/amqp"
 	"github.com/gorilla/mux"
@@ -26,7 +27,10 @@ func NewServer() *negroni.Negroni {
 	n := negroni.Classic()
 	mx := mux.NewRouter()
 	initRoutes(mx, formatter)
-	n.UseHandler(mx)
+	allowedHeaders := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"})
+	allowedMethods := handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE", "HEAD",  "OPTIONS"})
+	allowedOrigins := handlers.AllowedOrigins([]string{"*"})
+	n.UseHandler(handlers.CORS(allowedHeaders,allowedMethods , allowedOrigins)(mx))
 	return n
 }
 
@@ -34,7 +38,8 @@ func initRoutes(mx *mux.Router, formatter *render.Render) {
 	mx.HandleFunc("/ping", pingHandler(formatter)).Methods("GET")
 	mx.HandleFunc("/events", postEventHandler(formatter)).Methods("POST")
 	mx.HandleFunc("/events", getAllEventsHandler(formatter)).Methods("GET")
-	mx.HandleFunc("/events/{eventname}", getEventHandler(formatter)).Methods("GET")
+	mx.HandleFunc("/events/{eventName}", getEventHandler(formatter)).Methods("GET")
+	mx.HandleFunc("/events/{eventName}", deleteEventhandler(formatter)).Methods("DELETE")
 }
 
 func postEventHandler(formatter *render.Render) http.HandlerFunc {
@@ -149,6 +154,27 @@ func getAllEventsHandler(formatter *render.Render) http.HandlerFunc {
 		}
 	}
 }
+
+func deleteEventhandler(formatter *render.Render) http.HandlerFunc {
+	return func(w http.ResponseWriter, req *http.Request) {
+		session, err := mgo.Dial(mongodb_server)
+		defer session.Close()
+		session.SetMode(mgo.Monotonic, true)
+		c := session.DB(mongodb_database).C(mongodb_collection)
+		params := mux.Vars(req)
+		var eventName string = params["eventName"]
+		fmt.Println("Event To Delete is: ", eventName)
+		err = c.Remove(bson.M{"eventName": eventName})
+		if err!=nil{
+			fmt.Println("Event not found")
+			formatter.JSON(w, http.StatusNotFound, "Event Not Found")
+			return
+		}
+		formatter.JSON(w, http.StatusOK, "Event: " +
+			eventName + " Deleted")
+	}
+}
+
 
 // Helper Functions
 func failOnError(err error, msg string) {
