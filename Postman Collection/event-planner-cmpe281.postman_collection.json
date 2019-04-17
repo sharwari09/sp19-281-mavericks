@@ -1,0 +1,43 @@
+{
+	"info": {
+		"_postman_id": "192c9456-6ae7-44c0-bb08-14e1d01edf68",
+		"name": "event-planner-cmpe281",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "First Lambda GO",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"What is your name?\": \"Arihant Sai\",\n    \"How old are you?\": 23\n} "
+				},
+				"url": {
+					"raw": "https://1q6n4cvoyk.execute-api.us-west-2.amazonaws.com/sample",
+					"protocol": "https",
+					"host": [
+						"1q6n4cvoyk",
+						"execute-api",
+						"us-west-2",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"sample"
+					]
+				},
+				"description": "To test lambda functions written in GO"
+			},
+			"response": []
+		}
+	]
+}
