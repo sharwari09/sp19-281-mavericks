@@ -6,6 +6,7 @@ clean:
 
 go-get:
 	rm -rf src/github.com
+	go get -v golang.org/x/crypto/bcrypt
 	go get -v github.com/codegangsta/negroni
 	go get -v github.com/gorilla/mux
 	go get -v github.com/unrolled/render
