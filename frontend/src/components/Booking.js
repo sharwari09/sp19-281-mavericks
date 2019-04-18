@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { goURL } from '../config/environment';
-
+var swal = require('sweetalert')
 class Booking extends Component {
     constructor(props){
        
@@ -41,7 +41,9 @@ ticketChangeHandler = (e) => {
         axios.defaults.withCredentials = true;
         axios.post(goURL + 'book', data, { headers: { 'Content-Type': 'application/json'}})
             .then(response => { 
-            console.log("response :", response)
+            console.log("response :", response.status)
+            if(response.status == 200)
+                swal("Event booked Successfully!", "", "success");
         })
         .catch(error => {
             console.log(error)

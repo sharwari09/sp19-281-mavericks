@@ -43,6 +43,36 @@
   height: 700px;
   margin-top : 5px;
 }
+.login-form {
+  text-align : center;
+  background-color: white;
+  height: 500px;
+  margin-top : 5px;
+}
+.login-form .form-control1 {
+  height: 45px;
+  width : 50%; 
+
+}
+.login-form .form-group {
+  margin-bottom:10px;
+  margin-top : 50px;
+}
+
+
+.login-form .btn.btn-primary1 {
+  background: #4e74f0 none repeat scroll 0 0;
+  border-color: #1417e6;
+  color: #ffffff;
+  font-size: 17px;
+  width: 40%;
+  height: 40px;
+  line-height: 50px;
+  padding: 0;
+  border-radius: 10px;
+  margin-top : 20px;
+  
+}
 .login-form1 .form-group1 {
   margin-bottom:10px;
   margin-top : 20px;
@@ -103,7 +133,13 @@
     word-break: break-word;
     font-style: italic;
 }
+.form-control9 {
+  height: 50px;
+  width : 50%; 
+  padding : 0px;
+  margin-left : 140px;
 
+}
 .title {
   text-align: left;
   margin-left: 50px;
@@ -112,9 +148,25 @@
   font-weight: 600;
   font-style: italic;
 }
-
+.title1 {
+  text-align: left;
+  margin-left: 50px;
+  margin-top : 10px;
+  margin-right : 180px;
+  font-weight: 600;
+  font-style: italic;
+ 
+}
 .content {
   margin-right : -20px;
   margin-top : -37px;
   
+}
+.events{
+margin-top: 40px;
+font-size:16px;
+margin-left : 90px;
+margin-right : 90px;
+box-shadow: 0 0 20px 0 rgba(0,0,0,.1);
+height: 180px;
 }

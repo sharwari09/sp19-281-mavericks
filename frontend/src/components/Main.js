@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {Route} from 'react-router-dom';
 import Booking from "./Booking";
+import User from "./User";
+import Listevents from './Listevents';
 
 class Main extends Component {
     state = {  }
@@ -11,6 +13,8 @@ class Main extends Component {
                
                 {/* <Route path="/home" component={Home}/> */}
                 <Route path="/book" component={Booking}/>
+                <Route path="/list" component={Listevents}/>
+                <Route path="/" component={User}/>
                 
             </div>
         )
