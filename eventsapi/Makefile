@@ -12,6 +12,7 @@ go-get:
 	go get -v github.com/satori/go.uuid
 	go get -v gopkg.in/mgo.v2
 	go get -v gopkg.in/mgo.v2/bson
+	go get -v github.com/gorilla/handlers
 
 go-format:
 	go fmt events

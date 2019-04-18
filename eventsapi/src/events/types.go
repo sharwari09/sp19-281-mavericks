@@ -2,7 +2,7 @@ package main
 
 import "time"
 
-type Event struct{
+type EventPayload struct{
 	EventId   string    `json:"eventId" bson:"eventId"`
 	EventName string	`json:"eventName" bson:"eventName"`
 	Organizer string	`json:"organizer" bson:"organizer"`
@@ -19,6 +19,6 @@ type ScheduledEvent struct{
 }
 
 type EventResponse struct{
-	Count	int
-	Events  []ScheduledEvent
+	Count	int		`json:"count"`
+	Events  []ScheduledEvent		`json:"events"`
 }

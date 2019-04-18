@@ -9,6 +9,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"os"
 
 	"github.com/codegangsta/negroni"
 	"github.com/gorilla/mux"
@@ -19,21 +20,21 @@ import (
 	"gopkg.in/mgo.v2/bson"
 
 	"golang.org/x/crypto/bcrypt"
-	// "net"
-	// "os"
-	// "strings"
 )
 
-/*var mongodb_server = os.Getenv("MONGO_SERVER")
+var mongodb_server = os.Getenv("MONGO_SERVER")
 var mongodb_database = os.Getenv("MONGO_DATABASE")
 var mongodb_collection = os.Getenv("MONGO_COLLECTION")
-var mongo_admin_database = os.Getenv("MONGO_ADMIN_DATABASE")
+
+/*var mongo_admin_database = os.Getenv("MONGO_ADMIN_DATABASE")
 var mongo_username = os.Getenv("MONGO_USERNAME")
 var mongo_password = os.Getenv("MONGO_PASS")*/
 
+/* testing:
 var mongodb_server = "localhost"
 var mongodb_database = "userdb"
 var mongodb_collection = "users"
+*/
 
 func newUserServer() *negroni.Negroni {
 	formatter := render.New(render.Options{
@@ -48,14 +49,13 @@ func newUserServer() *negroni.Negroni {
 
 /* Initializing resource URI */
 func initRoutes(router *mux.Router, formatter *render.Render) {
-	router.HandleFunc("/users", getAllUsers).Methods("GET") // Get all users OR a single user with given email ID
-	router.HandleFunc("/users/{id}", getUserById).Methods("GET") // Get user with given ID
-	router.HandleFunc("/users/signup", createUser).Methods("POST")	// Create new user
-	router.HandleFunc("/users/signin", userSignIn).Methods("POST") // User login
-	//router.HandleFunc("/users", deleteUser).Methods("DELETE") // Delete user with given email ID
+	router.HandleFunc("/users", getAllUsers).Methods("GET")            // Get all users OR a single user with given email ID
+	router.HandleFunc("/users/{id}", getUserById).Methods("GET")       // Get user with given ID
+	router.HandleFunc("/users/signup", createUser).Methods("POST")     // Create new user
+	router.HandleFunc("/users/signin", userSignIn).Methods("POST")     // User login
+	router.HandleFunc("/users", deleteUserByEmail).Methods("DELETE")   // Delete user with given email ID
 	router.HandleFunc("/users/{id}", deleteUserById).Methods("DELETE") // Delete user with given user ID
-	// router.HandleFunc("/users/{id}", updateUser).Methods("PUT")
-	router.HandleFunc("/ping", checkPing(formatter)).Methods("GET") // Ping-pong test API
+	router.HandleFunc("/ping", checkPing(formatter)).Methods("GET")    // Ping-pong test API
 }
 
 /* Setup response headers */
@@ -65,7 +65,7 @@ func setupResponse(w *http.ResponseWriter, req *http.Request) {
 	(*w).Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
 }
 
-/* Handler for /ping */
+/* Handler for /ping GET */
 func checkPing(formatter *render.Render) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
 		message := "User API is alive!"
@@ -89,9 +89,9 @@ func logger(message string) {
 	fmt.Println(message)
 }
 
-/* 
- * Handler for /user. Fetch all users 
- * OR 
+/*
+ * Handler for /user. Fetch all users
+ * OR
  * returns matching user record if "email" URL param is provided
  */
 func getAllUsers(w http.ResponseWriter, req *http.Request) {
@@ -116,18 +116,43 @@ func getAllUsers(w http.ResponseWriter, req *http.Request) {
 	/* Open DB connection*/
 	c := session.DB(mongodb_database).C(mongodb_collection)
 
-	query := bson.M{} // Empty query to fetch all records
-
 	keys, _ := req.URL.Query()["email"] // Get 'email' URL param, if present any
 	if len(keys) >= 1 {
-		query = bson.M{"email": string(keys[0])}
+		query := bson.M{"email": string(keys[0])}
+		var r User
+		err = c.Find(query).One(&r) // Fetch only one users
+		if err != nil && err != mgo.ErrNotFound {
+			message := "Error while fetching users"
+			w.WriteHeader(http.StatusInternalServerError)
+			json.NewEncoder(w).Encode(message)
+			return
+		}
+
+		if err != nil && err == mgo.ErrNotFound {
+			message := "No user found"
+			w.WriteHeader(http.StatusNotFound)
+			json.NewEncoder(w).Encode(message)
+			return
+		}
+
+		json.NewEncoder(w).Encode(r)
+		return
 	}
 
+	/* Return all records */
+	query := bson.M{}                // Empty query to fetch all records
 	err = c.Find(query).All(&result) // Fetch all users
 
-	if err != nil {
-		message := struct{ Message string }{"Error while fetching users"}
+	if err != nil && err != mgo.ErrNotFound {
+		message := "Error while fetching users"
 		w.WriteHeader(http.StatusInternalServerError)
+		json.NewEncoder(w).Encode(message)
+		return
+	}
+
+	if err != nil && err == mgo.ErrNotFound {
+		message := "No user found"
+		w.WriteHeader(http.StatusNotFound)
 		json.NewEncoder(w).Encode(message)
 		return
 	}
@@ -272,10 +297,17 @@ func createUser(w http.ResponseWriter, req *http.Request) {
 
 	/* Return newly created user */
 	w.WriteHeader(http.StatusCreated)
-	json.NewEncoder(w).Encode(user)
+	userData := bson.M{
+		"email": user.Email,
+		"id":    user.Id}
+	json.NewEncoder(w).Encode(userData)
 }
 
-func deleteUserById(w http.ResponseWriter, req *http.Request) {
+/*
+ * Deletes user with given email ID. Email ID is provided as URL param
+ * Handler of /user DELETE
+ */
+func deleteUserByEmail(w http.ResponseWriter, req *http.Request) {
 	setupResponse(&w, req)
 	w.Header().Set("Content-Type", "application/json")
 
@@ -295,18 +327,16 @@ func deleteUserById(w http.ResponseWriter, req *http.Request) {
 	/* Obtain DB connection */
 	c := session.DB(mongodb_database).C(mongodb_collection)
 
-	params := mux.Vars(req)
-
-	if len(params) == 0 {
+	keys, _ := req.URL.Query()["email"] // Get 'email' URL param, if present any
+	if len(keys) < 1 {
 		message := "Email ID not provided"
 		w.WriteHeader(http.StatusBadRequest)
 		json.NewEncoder(w).Encode(message)
 		return
 	}
 
-	email:= params["email"]
-
-	query := bson.M{"email": params["email"]}
+	/* Get email ID */
+	query := bson.M{"email": string(keys[0])}
 
 	/* First, fetch the record with given email ID */
 	var user User
@@ -336,50 +366,67 @@ func deleteUserById(w http.ResponseWriter, req *http.Request) {
 	json.NewEncoder(w).Encode(user)
 }
 
-/*
-func updateUser(w http.ResponseWriter, req *http.Request) {
+/**
+ * Delete user with given user ID
+ * Handler of /user/{id} DELETE
+ */
+func deleteUserById(w http.ResponseWriter, req *http.Request) {
+	setupResponse(&w, req)
 	w.Header().Set("Content-Type", "application/json")
-	var person User
-	_ = json.NewDecoder(req.Body).Decode(&person)
-	params := mux.Vars(req)
+
+	/* Open DB session */
 	session, err := mgo.Dial(mongodb_server)
 	if err != nil {
-		message := struct{ Message string }{"Some error occured while connecting to database!!"}
+		message := "Error while connecting to database"
 		w.WriteHeader(http.StatusInternalServerError)
 		json.NewEncoder(w).Encode(message)
 		return
 	}
-	err = session.DB(mongo_admin_database).Login(mongo_username, mongo_password)
-	if err != nil {
-		message := struct{ Message string }{"Some error occured while login to database!!"}
-		w.WriteHeader(http.StatusInternalServerError)
-		json.NewEncoder(w).Encode(message)
-		return
-	}
+
 	defer session.Close()
+
 	session.SetMode(mgo.Monotonic, true)
+
+	/* Obtain DB connection */
 	c := session.DB(mongodb_database).C(mongodb_collection)
+
+	params := mux.Vars(req)
+	if len(params) == 0 {
+		message := "User ID not provided"
+		w.WriteHeader(http.StatusBadRequest)
+		json.NewEncoder(w).Encode(message)
+		return
+	}
+
 	query := bson.M{"id": params["id"]}
-	updator := bson.M{
-		"$set": bson.M{
-			"firstname": person.Firstname,
-			"lastname":  person.Lastname,
-			"address":   person.Address,
-			"password":  person.Password}}
-	err = c.Update(query, updator)
+
+	/* First, fetch the record with given user ID */
+	var user User
+	err = c.Find(query).One(&user)
 	if err != nil && err != mgo.ErrNotFound {
-		message := struct{ Message string }{"Some error occured while querying to database!!"}
+		message := "Error while fetching the record from database"
 		w.WriteHeader(http.StatusInternalServerError)
 		json.NewEncoder(w).Encode(message)
 		return
 	} else if err == mgo.ErrNotFound {
-		message := struct{ Message string }{"User not found!!"}
+		message := "User not found"
 		w.WriteHeader(http.StatusNotFound)
 		json.NewEncoder(w).Encode(message)
 		return
 	}
-	json.NewEncoder(w).Encode(struct{ Message string }{"user with id:" + params["id"] + " was Updated"})
-}*/
+
+	/* Now, remove the record from database */
+	err = c.Remove(query)
+	if err != nil && err != mgo.ErrNotFound {
+		message := "Error while deleting the record from database"
+		w.WriteHeader(http.StatusInternalServerError)
+		json.NewEncoder(w).Encode(message)
+		return
+	}
+
+	/* Return the deleted record */
+	json.NewEncoder(w).Encode(user)
+}
 
 /* Handler for /users/signin resource */
 func userSignIn(w http.ResponseWriter, req *http.Request) {
@@ -422,7 +469,7 @@ func userSignIn(w http.ResponseWriter, req *http.Request) {
 	/* User not found in database */
 	if err == mgo.ErrNotFound {
 		message := "User not found"
-		w.WriteHeader(http.StatusUnauthorized)
+		w.WriteHeader(http.StatusNotFound)
 		json.NewEncoder(w).Encode(message)
 		return
 	}
@@ -439,11 +486,8 @@ func userSignIn(w http.ResponseWriter, req *http.Request) {
 
 	/* User verified */
 	userData := bson.M{
-		"email":     result.Email,
-		"firstName": result.Firstname,
-		"lastName":  result.Lastname,
-		"address":   result.Address,
-		"id":        result.Id}
+		"email": result.Email,
+		"id":    result.Id}
 
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(userData)
