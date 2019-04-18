@@ -1,0 +1,157 @@
+{
+	"info": {
+		"_postman_id": "dec8a0a9-2a3e-4a56-b34a-a916c4d7feed",
+		"name": "CMPE281-team-project-userapi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User signup (Modify request body accordingly)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"firstname\": \"dev\",\n\t\"lastname\": \"vyas\",\n\t\"password\": \"welcome123\",\n\t\"address\": {\n\t\t\"city\": \"udaypur\",\n\t\t\"state\": \"RJ\",\n\t\t\"street\": \"221B\",\n\t\t\"zip\": \"95000\"\n\t},\n\t\"email\": \"devv@gmail.com\"\n}"
+				},
+				"url": "{{api-host}}:3000/users/signup"
+			},
+			"response": []
+		},
+		{
+			"name": "User login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"devv@gmail.com\",\n\t\"password\": \"welcome123\"\n}"
+				},
+				"url": "{{api-host}}:3000/users/signin"
+			},
+			"response": []
+		},
+		{
+			"name": "Ping",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": "{{api-host}}:3000/ping"
+			},
+			"response": []
+		},
+		{
+			"name": "Get user by ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": "http://{{api-host}}:3000/users/a000c831-1516-4cfb-8190-1666b117f719"
+			},
+			"response": []
+		},
+		{
+			"name": "Get all users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": "{{api-host}}:3000/users"
+			},
+			"response": []
+		},
+		{
+			"name": "Get user by email",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{api-host}}:3000/users?email=devv@gmail.com",
+					"host": [
+						"{{api-host}}"
+					],
+					"port": "3000",
+					"path": [
+						"users"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "devv@gmail.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete by user ID",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": "{{api-host}}:3000/users/a000c831-1516-4cfb-8190-1666b117f719"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete by email ID",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{api-host}}:3000/users?email=devv@gmail.com",
+					"host": [
+						"{{api-host}}"
+					],
+					"port": "3000",
+					"path": [
+						"users"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "devv@gmail.com"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
