@@ -34,12 +34,19 @@ class User extends Component {
             Password : this.state.password
         }
         console.log("data : ",  data);
-        // axios.defaults.withCredentials = true;
+        //axios.defaults.withCredentials = true;
         axios.post(userURL + 'users/signin', data, { headers: { 'Content-Type': 'application/json'}})
             .then(response => { 
             console.log("response :", response)
             if(response.status == 200)
-                swal("User logged in Successfully!", "", "success");
+            {
+                localStorage.setItem("firstname", response.data.firstname)
+                localStorage.setItem("id", response.data.id)
+                this.props.history.push("/list");
+            }
+                
+                
+                //swal("User logged in Successfully!", "", "success");
         })
         .catch(error => {
             console.log(error)

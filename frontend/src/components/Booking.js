@@ -2,7 +2,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { goURL } from '../config/environment';
+import {Link} from 'react-router-dom';
 var swal = require('sweetalert')
+
 class Booking extends Component {
     constructor(props){
        
@@ -15,6 +17,11 @@ class Booking extends Component {
 this.ticketChangeHandler = this.ticketChangeHandler.bind(this);
 this.submitBooking = this.submitBooking.bind(this);
 
+}
+handleSignout = () => {
+       
+    localStorage.removeItem('firstname');
+    localStorage.removeItem('id');
 }
 ticketChangeHandler = (e) => {
     this.setState({
@@ -34,7 +41,7 @@ ticketChangeHandler = (e) => {
             EventName : "San Jose Career Fair",
             Price : price,
             EventID: "0123012218",
-            UserID: "1923840290"
+            UserID: localStorage.getItem("id")
         }
         console.log("data : ",  data);
         //set the with credentials to true
@@ -50,16 +57,35 @@ ticketChangeHandler = (e) => {
         });
     }
     render() { 
+        var firstname = localStorage.getItem("firstname")
         return ( 
             <div>
 
-            <div className="nav-height">
+            {/* <div className="nav-height">
              {/* <div class="container-fluid"> */}
-            <div class="navbar-header">
+            {/* <div class="navbar-header">
             <h1 style={{'margin-left':'20px', color:'rgb(27, 167, 231)'}}>eventbrite</h1>
             </div>
             <nav class="navbar nav"> </nav>
+            </div> */} */}
+            <div className=" ht nav-height">
+            <div class="navbar-header">
+            <Link to="/">
+            <h1 style={{'margin-left':'20px', color:'rgb(27, 167, 231)'}}>eventbrite</h1></Link>
             </div>
+            <nav class="navbar nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        
+            <ul class="nav navbar-nav mr-4">
+                
+                <Link to="#" class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true">
+                <h3><span class="glyphicon glyphicon-user"></span><font color="black">{firstname}</font></h3>    
+                </Link>
+                <div className=" dropdown-menu item" aria-labelledby="navbarDropdownMenuLink" >
+                <li><Link to="/home" class="head1" onClick = {this.handleSignout}><span class="glyphicon glyphicon-log-out"></span>Sign out</Link></li>
+                </div>
+                </ul>
+                </nav>
+                </div>
             
             <div className="back">
             <div className="main_cont">
