@@ -39,4 +39,8 @@ docker-clean:
 	docker stop $(name)
 	docker rm $(name)
 
-
+docker-run-events:
+	docker build -t events .
+	docker tag events $(dockerid)/events:$(v)
+	docker push $(dockerid)/events:$(v)
+	docker run --network $(network) --name events -e SERVER=$(mongodb) -e DATABASE=$(db) -e COLLECTION=$(collection) -p 3000:3000 -td $(dockerid)/events:$(v)

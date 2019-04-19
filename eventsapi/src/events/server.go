@@ -13,14 +13,16 @@ import (
 	"gopkg.in/mgo.v2/bson"
 	"log"
 	"net/http"
+	"os"
 	"time"
 )
 
 /*TODO: Support environment variables for Mongo Config*/
 
-var mongodbServer = "localhost:27017"
-var mongodbDatabase = "eventbrite"
-var mongodbCollection = "events"
+var mongodbServer = os.Getenv("SERVER") + ":27017"
+var mongodbDatabase = os.Getenv("DATABASE")
+var mongodbCollection = os.Getenv("COLLECTION")
+
 
 func NewServer() *negroni.Negroni {
 	formatter := render.New(render.Options{
@@ -42,6 +44,7 @@ func initRoutes(mx *mux.Router, formatter *render.Render) {
 	mx.HandleFunc("/events", getAllEventsHandler(formatter)).Methods("GET")
 	mx.HandleFunc("/events/{eventId}", getEventHandler(formatter)).Methods("GET")
 	mx.HandleFunc("/events/{eventId}", deleteEventhandler(formatter)).Methods("DELETE")
+	mx.HandleFunc("/events", optionsHandler(formatter)).Methods("OPTIONS")
 }
 
 /*TODO: Connect to MongoDb only when admin user is provided*/
@@ -88,32 +91,28 @@ func postEventHandler(formatter *render.Render) http.HandlerFunc {
 	}
 }
 
-func updateEventHandler(formatter *render.Render) http.HandlerFunc {
+func optionsHandler(formatter *render.Render) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
-		session, err := mgo.Dial(mongodbServer)
-		var eventToUpdate EventPayload
-		// Open MongoDB Session
-		_ = json.NewDecoder(req.Body).Decode(&eventToUpdate)
-		if err != nil {
-			panic(err)
-		}
-		if err != nil {
-			fmt.Println("Events API (Get) - Unable to connect to MongoDB during read operation")
-			panic(err)
-		}
-		defer session.Close()
-		session.SetMode(mgo.Monotonic, true)
-		c := session.DB(mongodbDatabase).C(mongodbCollection)
-		var eventMatch EventPayload
-		err = c.Find(bson.M{"eventId": eventToUpdate.EventId}).One(&eventMatch)
-
+		setupResponse(&w, req)
+		fmt.Println("options handler PREFLIGHT Request")
+		return
 	}
 }
+
+
+func setupResponse(w *http.ResponseWriter, req *http.Request) {
+	(*w).Header().Set("Access-Control-Allow-Origin", "http://10.250.184.217:3001")
+	(*w).Header().Set("Access-Control-Allow-Credentials", "true")
+	(*w).Header().Set("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS")
+	(*w).Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
+}
+
 
 // API Get All Events Handler
 func getEventHandler(formatter *render.Render) http.HandlerFunc {
 
 	return func(w http.ResponseWriter, req *http.Request) {
+		setupResponse(&w, req)
 		session, err := mgo.Dial(mongodbServer)
 		if err != nil {
 			panic(err)
@@ -141,6 +140,7 @@ func getEventHandler(formatter *render.Render) http.HandlerFunc {
 			Events: results}
 		
 		if len(results) > 0 {
+			//formatter.JSON(w, http.StatusOK, response)
 			formatter.JSON(w, http.StatusOK, response)
 		}else{
 			formatter.JSON(w, http.StatusNoContent, 
@@ -153,6 +153,8 @@ func getEventHandler(formatter *render.Render) http.HandlerFunc {
 func getAllEventsHandler(formatter *render.Render) http.HandlerFunc {
 
 	return func(w http.ResponseWriter, req *http.Request) {
+		setupResponse(&w, req)
+		fmt.Printf("Server is : %s", mongodbServer)
 		session, err := mgo.Dial(mongodbServer)
 		if err != nil {
 			panic(err)
@@ -216,6 +218,7 @@ func failOnError(err error, msg string) {
 // API Ping Handler
 func pingHandler(formatter *render.Render) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
+		fmt.Printf("Server is : %s", mongodbServer)
 		formatter.JSON(w, http.StatusOK, struct{ Test string }{"API version 1.0 alive!"})
 	}
 }
