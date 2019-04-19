@@ -13,7 +13,7 @@ import (
 
 type MyRequest struct {
 	Bucket string `json:"bucket"`
-	key    string `json:"userid"`
+	Key    string `json:"userid"`
 }
 
 type PostedEvent struct {
@@ -34,18 +34,18 @@ type MyResponse struct {
 }
 
 func dashboard(request MyRequest) (MyResponse, error) {
-	/* http://{{riak-cluster-nlb}}:{{riak-cluster-nlb-port}}/buckets/{{bucket-name}}}/keys/{{key}} */
-	var nlb = os.Getenv("riak-cluster-nlb")
-	var port = os.Getenv("nlb-port")
+
+	var nlb = os.Getenv("riak_cluster_nlb")
+	var port = os.Getenv("nlb_port")
 	var bucket = request.Bucket
-	var key = request.key
+	var key = request.Key
 
 	fmt.Println("nlb %s, port, %s, bucket %s, key %s", nlb, port, bucket, key)
 	var url = fmt.Sprintf("http://%s:%s/buckets/%s/keys/%s", nlb, port, bucket, key)
 	response, err := http.Get(url)
 	if err != nil {
 		log.Fatalf("ERROR: %s", err)
-		return nil, err
+		return MyResponse{}, err
 	} else {
 		defer response.Body.Close()
 		body, _ := ioutil.ReadAll(response.Body)
@@ -53,7 +53,7 @@ func dashboard(request MyRequest) (MyResponse, error) {
 		err := json.Unmarshal(body, &data)
 		if err != nil {
 			fmt.Println("whoops:", err)
-			return nil, err
+			return MyResponse{}, err
 		} else {
 			fmt.Printf("Results: %v\n", data)
 			return data, nil
@@ -65,6 +65,7 @@ func dashboard(request MyRequest) (MyResponse, error) {
 
 func main() {
 	lambda.Start(dashboard)
+
 }
 
 /*
@@ -73,7 +74,7 @@ API Gateway URL:
 # request
 {
     "bucket": "eventbrite",
-    "key": "asp"
+    "userid": "asp"
 }
 
 {"events":[{"1235":12},{"12456":12}]}
