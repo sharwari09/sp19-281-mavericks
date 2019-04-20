@@ -1,0 +1,32 @@
+[
+  {
+    "eventName": "IOT Challenge 2019",
+    "organizer": "Sharwari Phadnis",
+    "location": "San Jose, CA",
+    "date": 1558316500
+  },
+  {
+    "eventName": "GHack Challenge 2019",
+    "organizer": "Sayali Patil",
+    "location": "San Mateo, CA",
+    "date": 1558316600
+  },
+  {
+    "eventName": "AI Challenge 2019",
+    "organizer": "Arihant Sai",
+    "location": "San Franciso, CA",
+    "date": 1558316700
+  },
+  {
+    "eventName": "Tech Meet 2019",
+    "organizer": "Pratik Bhandarkar",
+    "location": "Pasadena, CA",
+    "date": 1558316999
+  },
+  {
+    "eventName": "Hackathon 2019",
+    "organizer": "Thol",
+    "location": "Cupertino, CA",
+    "date": 1558316450
+  }
+]

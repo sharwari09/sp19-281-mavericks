@@ -1,0 +1,126 @@
+{
+	"info": {
+		"_postman_id": "1ece1414-5b7e-0000-2327-3f34b9a52591",
+		"name": "eventsapi",
+		"description": "eventsapi collection contains POST, GET, and DELETE requests for /events api service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Event",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "638d4472-4f8c-4fa5-9c84-9276bbd9cd6f",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"eventName\": \"Diwali Challenge 2019\",\n    \"organizer\": \"Sharwari Phadnis\",\n    \"location\": \"San Jose, CA\",\n    \"date\": 1558316378\n  }"
+				},
+				"url": {
+					"raw": "http://{{server}}:{{port}}/events",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"events"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all events",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{server}}:{{3000}}/events",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"port": "{{3000}}",
+					"path": [
+						"events"
+					]
+				},
+				"description": "This GET request gets all the create events"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Event",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{server}}:{{port}}/events/{{eventId}}",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"events",
+						"{{eventId}}"
+					]
+				},
+				"description": "Deletes an event using its ID"
+			},
+			"response": []
+		},
+		{
+			"name": "Get event",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{server}}:{{port}}/events/{{eventId}}",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"events",
+						"{{eventId}}"
+					]
+				},
+				"description": "Gets a specific event according to its ID"
+			},
+			"response": []
+		}
+	]
+}
