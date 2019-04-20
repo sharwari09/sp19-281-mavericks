@@ -99,7 +99,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"posted_events\" : [\n    \t{\n\t\t\t\"event_id\" : \"12345\",\n\t\t\t\"number_of_views\" : 20,\n\t\t\t\"number_of_bookings\" : 30,\n\t\t\t\"time_of_posting\" : 123894943444\n\t\t},\n        {\n    \t\t\"event_id\" : \"12385\",\n\t\t\t\"number_of_views\" : 20,\n\t\t\t\"number_of_bookings\" : 30,\n\t\t\t\"time_of_posting\" : 123894943444\n\t\t}\n\t],\n\n\t\"booked_events\" : [\n\t\t{\n\t\t\t\"event_id\" : \"12344\",\n\t\t\t\"time_of_booking\" : 123894923334\n\t\t},\n        {\n    \t\t\"event_id\" : \"12346\",\n\t\t\t\"time_of_booking\" : 123894923334\n\t\t},\n        {\n    \t\t\"event_id\" : \"18344\",\n\t\t\t\"time_of_booking\" : 123894923334\n\t\t}\n\t]\n}"
+					"raw": "{\"posted_events\" : [],\"booked_events\" : []}"
 				},
 				"url": {
 					"raw": "http://{{riak-cluster-nlb}}:{{riak-cluster-nlb-port}}/buckets/{{bucket-name}}/keys/{{key}}?returnbody=true",
@@ -138,7 +138,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"bucket\": \"eventbrite\",\n    \"userid\": \"asp\"\n}"
+					"raw": "{\n    \"bucket\": \"eventbrite\",\n    \"userid\": \"aspinformatica\"\n}"
 				},
 				"url": {
 					"raw": "https://lho0n8hxa3.execute-api.us-west-2.amazonaws.com/getUserEventDetails",
@@ -155,6 +155,43 @@
 					]
 				},
 				"description": "Fetching user event details for dashboard"
+			},
+			"response": []
+		},
+		{
+			"name": "https://lho0n8hxa3.execute-api.us-west-2.amazonaws.com/putUserDetails?bucket=eventbrite&username=aspinformatica",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://lho0n8hxa3.execute-api.us-west-2.amazonaws.com/putUserDetails?bucket=eventbrite&username=aspinformatica",
+					"protocol": "https",
+					"host": [
+						"lho0n8hxa3",
+						"execute-api",
+						"us-west-2",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"putUserDetails"
+					],
+					"query": [
+						{
+							"key": "bucket",
+							"value": "eventbrite"
+						},
+						{
+							"key": "username",
+							"value": "aspinformatica"
+						}
+					]
+				},
+				"description": "This puts new user details into riak DB whenever new user enter registers into the system."
 			},
 			"response": []
 		}
