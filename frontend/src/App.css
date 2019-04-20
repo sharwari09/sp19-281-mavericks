@@ -77,7 +77,12 @@
   margin-bottom:10px;
   margin-top : 20px;
 }
-
+.ht {
+  height: 80px;
+}
+.item {
+  width : 150px;
+}
 .login-form1 .field-label {
   padding-top: 0.5em;
   vertical-align: top;
