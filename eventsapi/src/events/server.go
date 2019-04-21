@@ -73,10 +73,12 @@ func postEventHandler(formatter *render.Render) http.HandlerFunc {
 		} else {
 		eventEntry := ScheduledEvent{
 			EventId: eventId.String(),
-			EventName: e.EventName,
-			Organizer: e.Organizer,	
+			EventName: e.EventName,	
 			Date: time.Unix(e.Date, 0),
-			Location: e.Location}
+			Location: e.Location, 
+			Id : e.Id,
+			Firstname: e.Firstname,
+			Lastname: e.Lastname}
 
 		err = c.Insert(eventEntry)
 						
