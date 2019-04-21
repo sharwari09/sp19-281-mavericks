@@ -25,6 +25,7 @@ import (
 var mongodb_server = os.Getenv("MONGO_SERVER")
 var mongodb_database = os.Getenv("MONGO_DATABASE")
 var mongodb_collection = os.Getenv("MONGO_COLLECTION")
+var allowed_origin = os.Getenv("ALLOWED_ORIGIN")
 
 /*var mongo_admin_database = os.Getenv("MONGO_ADMIN_DATABASE")
 var mongo_username = os.Getenv("MONGO_USERNAME")
@@ -56,11 +57,13 @@ func initRoutes(router *mux.Router, formatter *render.Render) {
 	router.HandleFunc("/users", deleteUserByEmail).Methods("DELETE")   // Delete user with given email ID
 	router.HandleFunc("/users/{id}", deleteUserById).Methods("DELETE") // Delete user with given user ID
 	router.HandleFunc("/ping", checkPing(formatter)).Methods("GET")    // Ping-pong test API
+	router.HandleFunc("/users/signin", optionsHandler(formatter)).Methods("OPTIONS")
 }
 
 /* Setup response headers */
 func setupResponse(w *http.ResponseWriter, req *http.Request) {
-	(*w).Header().Set("Access-Control-Allow-Origin", "*")
+	(*w).Header().Set("Access-Control-Allow-Origin", allowed_origin)
+	(*w).Header().Set("Access-Control-Allow-Credentials", "true")
 	(*w).Header().Set("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS")
 	(*w).Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
 }
@@ -70,6 +73,15 @@ func checkPing(formatter *render.Render) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
 		message := "User API is alive!"
 		formatter.JSON(w, http.StatusOK, struct{ Test string }{message})
+	}
+}
+
+//API Options Handler
+func optionsHandler(formatter *render.Render) http.HandlerFunc {
+	return func(w http.ResponseWriter, req *http.Request) {
+		setupResponse(&w, req)
+		fmt.Println("options handler PREFLIGHT Request")
+		return
 	}
 }
 
@@ -97,6 +109,11 @@ func logger(message string) {
 func getAllUsers(w http.ResponseWriter, req *http.Request) {
 	setupResponse(&w, req)
 	w.Header().Set("Content-Type", "application/json")
+
+	if (*req).Method == "OPTIONS" {
+		fmt.Println("PREFLIGHT Request")
+		return
+	}
 
 	/* Open DB session */
 	session, err := mgo.Dial(mongodb_server)
@@ -168,6 +185,11 @@ func getUserById(w http.ResponseWriter, req *http.Request) {
 	setupResponse(&w, req)
 	w.Header().Set("Content-Type", "application/json")
 
+	if (*req).Method == "OPTIONS" {
+		fmt.Println("PREFLIGHT Request")
+		return
+	}
+
 	/* Open DB session */
 	session, err := mgo.Dial(mongodb_server)
 	if err != nil {
@@ -226,6 +248,11 @@ func getUserById(w http.ResponseWriter, req *http.Request) {
 func createUser(w http.ResponseWriter, req *http.Request) {
 	setupResponse(&w, req)
 	w.Header().Set("Content-Type", "application/json")
+
+	if (*req).Method == "OPTIONS" {
+		fmt.Println("PREFLIGHT Request")
+		return
+	}
 
 	var user User
 	_ = json.NewDecoder(req.Body).Decode(&user)
@@ -311,6 +338,11 @@ func deleteUserByEmail(w http.ResponseWriter, req *http.Request) {
 	setupResponse(&w, req)
 	w.Header().Set("Content-Type", "application/json")
 
+	if (*req).Method == "OPTIONS" {
+		fmt.Println("PREFLIGHT Request")
+		return
+	}
+
 	/* Open DB session */
 	session, err := mgo.Dial(mongodb_server)
 	if err != nil {
@@ -374,6 +406,11 @@ func deleteUserById(w http.ResponseWriter, req *http.Request) {
 	setupResponse(&w, req)
 	w.Header().Set("Content-Type", "application/json")
 
+	if (*req).Method == "OPTIONS" {
+		fmt.Println("PREFLIGHT Request")
+		return
+	}
+
 	/* Open DB session */
 	session, err := mgo.Dial(mongodb_server)
 	if err != nil {
@@ -433,6 +470,11 @@ func userSignIn(w http.ResponseWriter, req *http.Request) {
 	setupResponse(&w, req)
 	w.Header().Set("Content-Type", "application/json")
 
+	if (*req).Method == "OPTIONS" {
+		fmt.Println("PREFLIGHT Request")
+		return
+	}
+
 	var user User
 	_ = json.NewDecoder(req.Body).Decode(&user)
 
@@ -486,8 +528,9 @@ func userSignIn(w http.ResponseWriter, req *http.Request) {
 
 	/* User verified */
 	userData := bson.M{
-		"email": result.Email,
-		"id":    result.Id}
+		"id":        result.Id,
+		"email":     result.Email,
+		"firstname": result.Firstname}
 
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(userData)
