@@ -59,7 +59,12 @@
   margin-top : 50px;
 }
 
-
+.buttons {
+  font-size: 18px;
+  width: 50%;
+  height: 200px;
+  line-height: 50px;
+}
 .login-form .btn.btn-primary1 {
   background: #4e74f0 none repeat scroll 0 0;
   border-color: #1417e6;

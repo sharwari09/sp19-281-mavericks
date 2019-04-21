@@ -60,21 +60,13 @@ ticketChangeHandler = (e) => {
         var firstname = localStorage.getItem("firstname")
         return ( 
             <div>
-
-            {/* <div className="nav-height">
-             {/* <div class="container-fluid"> */}
-            {/* <div class="navbar-header">
-            <h1 style={{'margin-left':'20px', color:'rgb(27, 167, 231)'}}>eventbrite</h1>
-            </div>
-            <nav class="navbar nav"> </nav>
-            </div> */} */}
             <div className=" ht nav-height">
             <div class="navbar-header">
             <Link to="/">
             <h1 style={{'margin-left':'20px', color:'rgb(27, 167, 231)'}}>eventbrite</h1></Link>
             </div>
             <nav class="navbar nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        
+            <ul><a href="/create" className="buttons">Create Event</a></ul>
             <ul class="nav navbar-nav mr-4">
                 
                 <Link to="#" class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true">
@@ -83,9 +75,9 @@ ticketChangeHandler = (e) => {
                 <div className=" dropdown-menu item" aria-labelledby="navbarDropdownMenuLink" >
                 <li><Link to="/home" class="head1" onClick = {this.handleSignout}><span class="glyphicon glyphicon-log-out"></span>Sign out</Link></li>
                 </div>
-                </ul>
-                </nav>
-                </div>
+            </ul>
+            </nav>
+            </div>
             
             <div className="back">
             <div className="main_cont">
