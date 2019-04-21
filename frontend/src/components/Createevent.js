@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { eventURL } from '../config/environment';
 import {Link} from 'react-router-dom';
+import {Redirect} from 'react-router';
 var swal = require('sweetalert')
 
 class Createevent extends Component {
@@ -12,7 +13,8 @@ class Createevent extends Component {
         this.state = {
             eventName : "",
             location : "",
-            date : ""
+            date : "",
+            redirectVar : null
         }
     
     this.submitEvent = this.submitEvent.bind(this);
@@ -22,17 +24,17 @@ class Createevent extends Component {
     }
     eventNameHandler = (e) => {
         this.setState({
-            email : e.target.value
+            eventName : e.target.value
         })
     }
     locationChangeHandler = (e) => {
         this.setState({
-            email : e.target.value
+            location : e.target.value
         })
     }
     DateHandler = (e) => {
         this.setState({
-            email : e.target.value
+            date : e.target.value
         })
     }
     handleSignout = () => {
@@ -66,8 +68,15 @@ class Createevent extends Component {
     }
     render() { 
         var firstname = localStorage.getItem("firstname")
+        if (!localStorage.getItem("id")) {
+            this.setState({
+                redirectVar : <Redirect to="/home" />
+            })
+            
+        }
         return (
             <div>
+            {this.state.redirectVar}
             <div className=" ht nav-height">
             <div class="navbar-header">
             <Link to="/">

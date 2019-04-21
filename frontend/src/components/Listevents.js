@@ -58,6 +58,12 @@ class Listevents extends Component {
     }
     render() { 
         var firstname = localStorage.getItem("firstname")
+        if (!localStorage.getItem("id")) {
+            this.setState({
+                redirectVar : <Redirect to="/home" />
+            })
+            
+        }
         let event = this.state.results.map(item =>{
             return(
                 <div className="row events">

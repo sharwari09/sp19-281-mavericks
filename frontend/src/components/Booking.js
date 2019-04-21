@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { goURL } from '../config/environment';
 import {Link} from 'react-router-dom';
+import {Redirect} from 'react-router';
 var swal = require('sweetalert')
 
 class Booking extends Component {
@@ -58,8 +59,15 @@ ticketChangeHandler = (e) => {
     }
     render() { 
         var firstname = localStorage.getItem("firstname")
+        if (!localStorage.getItem("id")) {
+            this.setState({
+                redirectVar : <Redirect to="/home" />
+            })
+            
+        }
         return ( 
             <div>
+            {this.state.redirectVar}
             <div className=" ht nav-height">
             <div class="navbar-header">
             <Link to="/">
