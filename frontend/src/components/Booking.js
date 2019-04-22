@@ -4,6 +4,7 @@ import axios from 'axios';
 import { goURL } from '../config/environment';
 import {Link} from 'react-router-dom';
 import {Redirect} from 'react-router';
+import { eventURL } from '../config/environment';
 var swal = require('sweetalert')
 
 class Booking extends Component {
@@ -13,7 +14,8 @@ class Booking extends Component {
       
     this.state = {
         price : "",
-        quantity : ""
+        quantity : "",
+        results:[]
     }
 this.ticketChangeHandler = this.ticketChangeHandler.bind(this);
 this.submitBooking = this.submitBooking.bind(this);
@@ -28,6 +30,22 @@ ticketChangeHandler = (e) => {
     this.setState({
         quantity : e.target.value
     })
+}
+componentWillMount(){
+    console.log("inside componentdidmount of bookevent")
+    var firstname = localStorage.getItem("firstname")
+    var ID = localStorage.getItem("eid")
+    //axios.defaults.withCredentials = true;
+     axios.get(eventURL + 'events/' + ID)
+         .then((response) => {
+            console.log("response", response)
+            // if(response.status == 200)
+            // {
+            //     this.setState({
+            //         results : this.state.results.concat(response.data.events)
+            //     });
+            // }
+    });
 }
 
     submitBooking = (e) => {
@@ -74,6 +92,7 @@ ticketChangeHandler = (e) => {
             <h1 style={{'margin-left':'20px', color:'rgb(27, 167, 231)'}}>eventbrite</h1></Link>
             </div>
             <nav class="navbar nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <ul><a href="/list" className="buttons">List Events</a></ul>
             <ul><a href="/create" className="buttons">Create Event</a></ul>
             <ul class="nav navbar-nav mr-4">
                 
