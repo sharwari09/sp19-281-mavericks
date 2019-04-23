@@ -12,17 +12,17 @@ import (
 	"github.com/aws/aws-lambda-go/lambda"
 )
 
-// AWS API Gateway request
+// AWS lambda request
 type MyRequest struct {
 	Bucket    string `json:"bucket"`
 	Key       string `json:"user_uuid"`
+	OrgID     string `json:"orgId"`
+	EventName string `json:"eventName"`
 	Location  string `json:"location"`
-	Schedule  string `json:"schedule"`
-	Organizer string `json:"organizer"`
-	EventID   string `json:"event_id"`
+	Date      string `json:"date"`
 }
 
-// AWS API GATEWAY response
+// AWS lambda response
 type MyResponse struct {
 	Status bool `json:"status"`
 }
@@ -30,37 +30,38 @@ type MyResponse struct {
 // RIAK Network Load Balancer Reesponse
 
 type Dashboard struct {
-	PostedEvents []PostedEvent `json:"posted_events"`
-	BookedEvents []BookedEvent `json:"booked_events"`
+	PostedEvents []PostedEvent `json:"postedEvents"`
+	BookedEvents []BookedEvent `json:"bookedEvents"`
 }
 
 type PostedEvent struct {
-	EventID          string `json:"event_id"`
-	NumberOfViews    int    `json:"number_of_views"`
-	NumberOfBookings int    `json:"number_of_bookings"`
+	OrgID            string `json:"orgId"`
+	EventName        string `json:"eventName"`
 	Location         string `json:"location"`
-	Schedule         string `json:"schedule"`
-	Organizer        string `json:"organizer"`
+	Date             string `json:"date"`
+	NumberOfViews    int    `json:"numberOfviews"`
+	NumberOfBookings int    `json:"numberOfBookings"`
 }
 
 type BookedEvent struct {
-	EventID       string `json:"event_id"`
-	TimeOfBooking uint64 `json:"time_of_booking"`
+	OrgID         string `json:"orgId"`
+	EventName     string `json:"eventName"`
+	Date          string `json:"date"`
+	TimeOfBooking uint64 `json:"timeOfBooking"`
 }
 
-func putUser(request MyRequest) (MyResponse, error) {
+func createUserEvent(request MyRequest) (MyResponse, error) {
 
 	var nlb = os.Getenv("riak_cluster_nlb")
 	var port = os.Getenv("nlb_port")
 	var bucket = request.Bucket
 	var key = request.Key
 	var location = request.Location
-	var schedule = request.Schedule
-	var organizer = request.Organizer
-	var eventID = request.EventID
+	var orgID = request.OrgID
+	var date = request.Date
 
 	// Getting the details of the user from RIAK
-	var url = fmt.Sprintf("http://%s:%s/buckets/%s/keys/%s?returnbody=true", nlb, port, bucket, key)
+	var url = fmt.Sprintf("http://%s:%s/buckets/%s/keys/%s", nlb, port, bucket, key)
 	responseUserDetails, err := http.Get(url)
 	if err != nil {
 		log.Fatalf("ERROR: %s", err)
@@ -75,22 +76,19 @@ func putUser(request MyRequest) (MyResponse, error) {
 		return MyResponse{Status: false}, errResponseUserDetailsBody
 	}
 
-	//payload := strings.NewReader("{\"posted_events\" : [],\"booked_events\" : []}")
 	createEvent := PostedEvent{
-		EventID:          eventID,
+		OrgID:            orgID,
 		NumberOfViews:    0,
 		NumberOfBookings: 0,
 		Location:         location,
-		Schedule:         schedule,
-		Organizer:        organizer,
+		Date:             date,
 	}
 
 	dashboard.PostedEvents = append(dashboard.PostedEvents, createEvent)
 	dashboardString, _ := json.Marshal(dashboard)
-	//b := bytes.NewBuffer(dashboardString)
-	//payload := strings.NewReader(dashboardString)
+
 	payload := bytes.NewBuffer(dashboardString)
-	req, _ := http.NewRequest("PUT", url, payload)
+	req, _ := http.NewRequest("PUT", url+"?returnbody=true", payload)
 	req.Header.Add("Content-Type", "application/json")
 	responsePostingEvent, errPostingEvent := http.DefaultClient.Do(req)
 
@@ -109,7 +107,7 @@ func putUser(request MyRequest) (MyResponse, error) {
 }
 
 func main() {
-	lambda.Start(putUser)
+	lambda.Start(createUserEvent)
 }
 
 /*
@@ -119,10 +117,10 @@ API Gateway URL:
 {
 	Bucket    string `json:"bucket"`
 	Key       string `json:"user_uuid"`
+	OrgID     string `json:"orgId"`
+	EventName string `json:"eventName"`
 	Location  string `json:"location"`
-	Schedule  string `json:"schedule"`
-	Organizer string `json:"organizer"`
-	EventID   string `json:"event_id"`
+	Date      string `json:"date"`
 }
 
 
@@ -131,3 +129,5 @@ API Gateway URL:
 	"status" : bool
 }
 */
+
+
