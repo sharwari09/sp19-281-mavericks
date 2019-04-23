@@ -18,18 +18,6 @@ import (
 var mongodb_server = "127.0.0.1:27017"
 var mongodb_database = "cmpe281"
 var mongodb_collection = "bookings"
-// type bookings struct {
-// 	Id             	bson.ObjectId `json:"id" bson:"_id"`	
-// 	eventName	 	string		  `json:"eventName" bson:"eventName"`
-// 	eventID			string        `json:"eventID" bson:"eventID"`
-// 	userID			string	      `json:"userID" bson:"userID"`
-// }
-// RabbitMQ Config
-//var rabbitmq_server = "rabbitmq"
-//var rabbitmq_port = "5672"
-//var rabbitmq_queue = "gumball"
-//var rabbitmq_user = "guest"
-//var rabbitmq_pass = "guest"
 
 // NewServer configures and returns a Server.
 func NewServer() *negroni.Negroni {
@@ -48,11 +36,7 @@ func initRoutes(mx *mux.Router, formatter *render.Render) {
 	mx.HandleFunc("/ping", pingHandler(formatter)).Methods("GET")
 	mx.HandleFunc("/book", bookHandler(formatter)).Methods("POST")
 	mx.HandleFunc("/book", optionsHandler(formatter)).Methods("OPTIONS")
-	// mx.HandleFunc("/gumball", gumballUpdateHandler(formatter)).Methods("PUT")
-	// mx.HandleFunc("/order", gumballNewOrderHandler(formatter)).Methods("POST")
-	// mx.HandleFunc("/order/{id}", gumballOrderStatusHandler(formatter)).Methods("GET")
-	// mx.HandleFunc("/order", gumballOrderStatusHandler(formatter)).Methods("GET")
-	// mx.HandleFunc("/orders", gumballProcessOrdersHandler(formatter)).Methods("POST")
+	mx.HandleFunc("/booking", bookingsHandler(formatter)).Methods("GET")
 }
 
 // Helper Functions
@@ -79,40 +63,11 @@ func optionsHandler(formatter *render.Render) http.HandlerFunc {
 }
 
 func setupResponse(w *http.ResponseWriter, req *http.Request) {
-	(*w).Header().Set("Access-Control-Allow-Origin", "http://localhost:3001")
+	(*w).Header().Set("Access-Control-Allow-Origin", "*")
 	(*w).Header().Set("Access-Control-Allow-Credentials", "true")
     (*w).Header().Set("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS")
     (*w).Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
 }
-
-// // API Update Gumball Inventory
-// func gumballUpdateHandler(formatter *render.Render) http.HandlerFunc {
-// 	return func(w http.ResponseWriter, req *http.Request) {
-//     	var m gumballMachine
-//     	_ = json.NewDecoder(req.Body).Decode(&m)		
-//     	fmt.Println("Update Gumball Inventory To: ", m.CountGumballs)
-// 		session, err := mgo.Dial(mongodb_server)
-//         if err != nil {
-//                 panic(err)
-//         }
-//         defer session.Close()
-//         session.SetMode(mgo.Monotonic, true)
-//         c := session.DB(mongodb_database).C(mongodb_collection)
-//         query := bson.M{"SerialNumber" : "1234998871109"}
-//         change := bson.M{"$set": bson.M{ "CountGumballs" : m.CountGumballs}}
-//         err = c.Update(query, change)
-//         if err != nil {
-//                 log.Fatal(err)
-//         }
-//        	var result bson.M
-//         err = c.Find(bson.M{"SerialNumber" : "1234998871109"}).One(&result)
-//         if err != nil {
-//                 log.Fatal(err)
-//         }        
-//         fmt.Println("Gumball Machine:", result )
-// 		formatter.JSON(w, http.StatusOK, result)
-// 	}
-// }
 
 // API Process Orders 
 func bookHandler(formatter *render.Render) http.HandlerFunc {
@@ -149,6 +104,44 @@ func bookHandler(formatter *render.Render) http.HandlerFunc {
 
 		// Return booking Status
 		formatter.JSON(w, http.StatusOK, struct{ Response string }{"Event successfully booked"})
+	}
+}
+func bookingsHandler(formatter *render.Render) http.HandlerFunc {
+	return func(w http.ResponseWriter, req *http.Request) {
+		formatter.JSON(w, http.StatusOK, struct{ Test string }{"get bookings API alive!"})
+		setupResponse(&w, req)
+		fmt.Println("inside getbookingsHandler")
+		
+		session, err := mgo.Dial(mongodb_server)
+        if err != nil {
+                panic(err)
+        }
+        defer session.Close()
+        session.SetMode(mgo.Monotonic, true)
+        c := session.DB(mongodb_database).C(mongodb_collection)
+
+        var results []Bookings
+        // params := mux.Vars(req)
+        // var userID string = params["userID"]
+        // fmt.Printf( "User ID: %s", userID)
+        // err = c.Find(bson.M{"userID": userID}).All(&results)
+        err = c.Find(nil).All(&results)
+        if err != nil {
+        		fmt.Println("Error while getting booked events: ", err)
+                log.Fatal(err)
+                formatter.JSON(w, http.StatusInternalServerError, 
+				struct{ Response error }{err})
+        }
+        fmt.Println(results)
+        response := EventResponse{
+			Count: len(results),
+			BookedEvents: results}
+		if len(results) > 0 {
+			formatter.JSON(w, http.StatusOK, response)
+		}else{
+			formatter.JSON(w, http.StatusNoContent,
+				struct{ Response string }{"No booked Events found"})
+		}
 	}
 }
 
