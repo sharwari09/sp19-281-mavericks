@@ -125,7 +125,7 @@
 			"response": []
 		},
 		{
-			"name": "https://lho0n8hxa3.execute-api.us-west-2.amazonaws.com/getUserEventDetails",
+			"name": "Get all events from RIAK for user key",
 			"request": {
 				"method": "POST",
 				"header": [
@@ -138,7 +138,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"bucket\": \"eventbrite\",\n    \"userid\": \"aspinformatica\"\n}"
+					"raw": "{\n    \"bucket\": \"eventbrite\",\n    \"user_uuid\": \"4a6bd3f7-9fa9-44e7-a79c-2258594fe0c6\"\n}"
 				},
 				"url": {
 					"raw": "https://lho0n8hxa3.execute-api.us-west-2.amazonaws.com/getUserEventDetails",
@@ -156,10 +156,78 @@
 				},
 				"description": "Fetching user event details for dashboard"
 			},
-			"response": []
+			"response": [
+				{
+					"name": "Get all events from RIAK for user key",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"bucket\": \"eventbrite\",\n    \"user_uuid\": \"4a6bd3f7-9fa9-44e7-a79c-2258594fe0c6\"\n}"
+						},
+						"url": {
+							"raw": "https://lho0n8hxa3.execute-api.us-west-2.amazonaws.com/getUserEventDetails",
+							"protocol": "https",
+							"host": [
+								"lho0n8hxa3",
+								"execute-api",
+								"us-west-2",
+								"amazonaws",
+								"com"
+							],
+							"path": [
+								"getUserEventDetails"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Tue, 23 Apr 2019 07:39:35 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "200"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "x-amzn-RequestId",
+							"value": "f1496a06-659a-11e9-b032-db4ceb9903a1"
+						},
+						{
+							"key": "x-amz-apigw-id",
+							"value": "YlMgvEvpvHcFfZA="
+						},
+						{
+							"key": "X-Amzn-Trace-Id",
+							"value": "Root=1-5cbec137-b63c100077faffc0c233d700;Sampled=0"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"postedEvents\": [\n        {\n            \"orgId\": \"8ff53536-95df-42c5-8f31-8bf7733f2f7e\",\n            \"eventName\": \"Diwali Bash\",\n            \"location\": \"Cleveland,Ohio\",\n            \"date\": \"22-10-2019\",\n            \"numberOfviews\": 0,\n            \"numberOfBookings\": 0\n        }\n    ],\n    \"bookedEvents\": null\n}"
+				}
+			]
 		},
 		{
-			"name": "https://lho0n8hxa3.execute-api.us-west-2.amazonaws.com/putUserDetails?bucket=eventbrite&username=aspinformatica",
+			"name": "Creating a new key in RIAK",
 			"request": {
 				"method": "GET",
 				"header": [],
@@ -168,7 +236,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "https://lho0n8hxa3.execute-api.us-west-2.amazonaws.com/putUserDetails?bucket=eventbrite&username=aspinformatica",
+					"raw": "https://lho0n8hxa3.execute-api.us-west-2.amazonaws.com/putUserDetails?bucket=eventbrite&username=4a6bd3f7-9fa9-44e7-a79c-2258594fe0c6",
 					"protocol": "https",
 					"host": [
 						"lho0n8hxa3",
@@ -187,11 +255,45 @@
 						},
 						{
 							"key": "username",
-							"value": "aspinformatica"
+							"value": "4a6bd3f7-9fa9-44e7-a79c-2258594fe0c6"
 						}
 					]
 				},
 				"description": "This puts new user details into riak DB whenever new user enter registers into the system."
+			},
+			"response": []
+		},
+		{
+			"name": "Creating User Event in RIAK DB",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"bucket\": \"eventbrite\",\n  \"user_uuid\": \"4a6bd3f7-9fa9-44e7-a79c-2258594fe0c6\",\n  \"orgId\": \"8ff53536-95df-42c5-8f31-8bf7733f2f7e\",\n  \"eventName\" : \"Diwali Bash\",\n  \"location\" : \"Cleveland,Ohio\",\n  \"date\" : \"22-10-2019\"\n}"
+				},
+				"url": {
+					"raw": "https://k3gku1lix8.execute-api.us-west-2.amazonaws.com/createUserEvent",
+					"protocol": "https",
+					"host": [
+						"k3gku1lix8",
+						"execute-api",
+						"us-west-2",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"createUserEvent"
+					]
+				},
+				"description": "Creates the user event in the RIAK DB"
 			},
 			"response": []
 		}

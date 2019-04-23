@@ -47,7 +47,8 @@ type BookedEvent struct {
 	OrgID         string `json:"orgId"`
 	EventName     string `json:"eventName"`
 	Date          string `json:"date"`
-	TimeOfBooking uint64 `json:"timeOfBooking"`
+	TimeOfBooking string `json:"timeOfBooking"`
+	Location      string `json:"location"`
 }
 
 func createUserEvent(request MyRequest) (MyResponse, error) {
@@ -59,6 +60,7 @@ func createUserEvent(request MyRequest) (MyResponse, error) {
 	var location = request.Location
 	var orgID = request.OrgID
 	var date = request.Date
+	var eventName = request.EventName
 
 	// Getting the details of the user from RIAK
 	var url = fmt.Sprintf("http://%s:%s/buckets/%s/keys/%s", nlb, port, bucket, key)
@@ -82,6 +84,7 @@ func createUserEvent(request MyRequest) (MyResponse, error) {
 		NumberOfBookings: 0,
 		Location:         location,
 		Date:             date,
+		EventName:        eventName,
 	}
 
 	dashboard.PostedEvents = append(dashboard.PostedEvents, createEvent)
@@ -130,4 +133,7 @@ API Gateway URL:
 }
 */
 
-
+/*
+nlb_port 80
+riak_cluster_nlb riak-cluster-network-lb-d90a8ac266b9ee92.elb.us-west-2.amazonaws.com
+*/
