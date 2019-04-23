@@ -42,19 +42,23 @@ class Listevents extends Component {
     showBooking = (ID ,e) => {
         var headers = new Headers();
         e.preventDefault();
-        
+        localStorage.setItem("eid", ID)
+        this.setState({
+            redirectVar : <Redirect to= "/book"/>
+        })
+
         //axios.defaults.withCredentials = true;
-        axios.get(eventURL + 'events/' + ID)
-            .then(response => {
-                console.log("Response :",response);
-                if(response.status === 200){
-                    console.log("successfully rendered to booking page");
-                    this.setState({
-                        redirectVar : <Redirect to= "/book"/>
-                })
+        // axios.get(eventURL + 'events/' + ID)
+        //     .then(response => {
+        //         console.log("Response :",response);
+        //         if(response.status === 200){
+        //             console.log("successfully rendered to booking page");
+        //             this.setState({
+        //                 redirectVar : <Redirect to= "/book"/>
+        //         })
                     
-                }
-            });
+        //         }
+        //     });
     }
     render() { 
         var firstname = localStorage.getItem("firstname")
@@ -73,7 +77,6 @@ class Listevents extends Component {
                      </div>
                      <div className="col-md-11" >
                      <h3 className="title1"><Link to="/book" onClick = {this.showBooking.bind(this, item.eventId)}>{item.eventName}</Link></h3>
-                    <h4 className="title1">Organizer:{item.organizer}</h4>
                     <h4 className="title1">Location:{item.location}</h4>
                     <h4 className="title1">Date: {new Date(item.date).toDateString()}</h4>
         
@@ -109,6 +112,7 @@ class Listevents extends Component {
             <h1 style={{'margin-left':'20px', color:'rgb(27, 167, 231)'}}>eventbrite</h1></Link>
             </div>
             <nav class="navbar nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <ul><a href="/list" className="buttons">List Events</a></ul>
             <ul><a href="/create" className="buttons">Create Event</a></ul>
             <ul class="nav navbar-nav mr-4">
                 

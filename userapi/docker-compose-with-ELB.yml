@@ -1,0 +1,38 @@
+version: "3"
+
+services:
+  userapi:
+    image: pratikb25/userapi:v1.2
+    volumes:
+      - /tmp:/tmp
+    networks:
+      - network
+    restart: always
+    environment:
+      MONGO_SERVER: "mongo"
+      MONGO_DATABASE: "userdb"
+      MONGO_COLLECTION: "users"
+      ALLOWED_ORIGIN: "http://10.9.0.10:3000"
+      PORT: "3000"
+  proxy:
+    image: eeacms/haproxy
+    depends_on:
+    - userapi
+    ports:
+    - "3000:5000"
+    environment:
+      FRONTEND_PORT: "5000"
+      BACKENDS: "userapi"
+      BACKENDS_PORT: "3000"
+      DNS_ENABLED: "true"
+      LOG_LEVEL: "info"
+      HTTPCHK: "GET /ping"
+    networks:
+      - network
+volumes:
+  schemas:
+    external: false
+
+networks:
+  network:
+    driver: bridge

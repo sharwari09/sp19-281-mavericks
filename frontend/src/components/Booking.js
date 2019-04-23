@@ -1,9 +1,11 @@
 
 import React, { Component } from 'react';
 import axios from 'axios';
-import { goURL } from '../config/environment';
+import { bookURL } from '../config/environment';
 import {Link} from 'react-router-dom';
 import {Redirect} from 'react-router';
+import { eventURL } from '../config/environment';
+
 var swal = require('sweetalert')
 
 class Booking extends Component {
@@ -13,7 +15,8 @@ class Booking extends Component {
       
     this.state = {
         price : "",
-        quantity : ""
+        quantity : "",
+        results:[]
     }
 this.ticketChangeHandler = this.ticketChangeHandler.bind(this);
 this.submitBooking = this.submitBooking.bind(this);
@@ -29,6 +32,39 @@ ticketChangeHandler = (e) => {
         quantity : e.target.value
     })
 }
+componentWillMount(){
+    console.log("inside componentdidmount of bookevent")
+    var firstname = localStorage.getItem("firstname")
+    var ID = localStorage.getItem("eid")
+    //axios.defaults.withCredentials = true;
+     axios.get(eventURL + 'events/' + ID)
+         .then((response) => {
+            console.log("response", response)
+            if(response.status == 200)
+            {
+                this.setState({
+                    results : this.state.results.concat(response.data.events)
+                });
+            }
+            this.state.results.map(Item => {
+                this.setState({
+                    eventName : Item.eventName,
+                });
+                this.setState({
+                    eventId : Item.eventId,
+                });
+                this.setState({
+                    orgId : Item.orgId,
+                });
+                this.setState({
+                    location : Item.location,
+                });
+                this.setState({
+                    date : Item.date,
+                });
+            })
+    });
+}
 
     submitBooking = (e) => {
         var headers = new Headers();
@@ -39,15 +75,17 @@ ticketChangeHandler = (e) => {
         //     price : price,
         // });
         var data = {
-            EventName : "San Jose Career Fair",
+            bucketName : "eventbrite",
+            EventName : this.state.eventName,
             Price : price,
-            EventID: "0123012218",
-            UserID: localStorage.getItem("id")
+            EventID: this.state.eventId,
+            UserID: localStorage.getItem("id"),
+            OrgID : this.state.orgId
         }
         console.log("data : ",  data);
         //set the with credentials to true
-        axios.defaults.withCredentials = true;
-        axios.post(goURL + 'book', data, { headers: { 'Content-Type': 'application/json'}})
+        //axios.defaults.withCredentials = true;
+        axios.post(bookURL + 'book', data, { headers: { 'Content-Type': 'application/json'}})
             .then(response => { 
             console.log("response :", response.status)
             if(response.status == 200)
@@ -74,6 +112,7 @@ ticketChangeHandler = (e) => {
             <h1 style={{'margin-left':'20px', color:'rgb(27, 167, 231)'}}>eventbrite</h1></Link>
             </div>
             <nav class="navbar nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <ul><a href="/list" className="buttons">List Events</a></ul>
             <ul><a href="/create" className="buttons">Create Event</a></ul>
             <ul class="nav navbar-nav mr-4">
                 
@@ -93,17 +132,15 @@ ticketChangeHandler = (e) => {
             <div class="login-form1 signupform">
             <div className="headerback"></div>
             <div>
-                <h1 className="header">Career Fair</h1>
-                <h3 className="title">Organizer     :</h3>
-                <p style={{'margin-right':'-20px','margin-top' : '-37px'}}>San Jose State University</p>
+                <h1 className="header">{this.state.eventName}</h1>
                 <h3 className="title">Location :</h3>
-                <p style={{'margin-left':'-70px','margin-top' : '-37px'}}>San Jose, CA</p>
+                <p style={{'margin-right':'30px','margin-top' : '-37px'}}>{this.state.location}</p>
                 <h3 className="title">Date and Time :</h3>
-                <p style={{'margin-left':'90px','margin-top' : '-37px'}}> July 27, 2019, 9:00 AM – 7:00 PM PDT</p>
+                <p style={{'margin-left':'90px','margin-top' : '-37px'}}>{this.state.date}</p>
                 <h3 className="title">Price :</h3>
-                <p style={{'margin-left':'-150px','margin-top' : '-37px'}}>$40</p>
+                <p style={{'margin-right':'40px','margin-top' : '-37px'}}>$40</p>
                 <h3 className="title">Quantity   :</h3>
-                <div style={{'margin-left':'-115px','margin-top' : '-37px'}}>
+                <div style={{'margin-right':'30px','margin-top' : '-37px'}}>
                         <select class="form-control1"  onChange = {this.ticketChangeHandler} required>
                         <option value="Select">Select</option>
                             <option value="1">1</option>
