@@ -19,7 +19,7 @@ import (
 
 /*TODO: Support environment variables for Mongo Config*/
 
-var mongodbServer = os.Getenv("SERVER") + ":27017"
+var mongodbServer = os.Getenv("MONGO_SERVER") + ":27017"
 var mongodbDatabase = os.Getenv("DATABASE")
 var mongodbCollection = os.Getenv("COLLECTION")
 
