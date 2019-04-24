@@ -8,6 +8,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"os"
 
@@ -26,10 +27,7 @@ var mongodb_server = os.Getenv("MONGO_SERVER")
 var mongodb_database = os.Getenv("MONGO_DATABASE")
 var mongodb_collection = os.Getenv("MONGO_COLLECTION")
 var allowed_origin = os.Getenv("ALLOWED_ORIGIN")
-
-/*var mongo_admin_database = os.Getenv("MONGO_ADMIN_DATABASE")
-var mongo_username = os.Getenv("MONGO_USERNAME")
-var mongo_password = os.Getenv("MONGO_PASS")*/
+var dashboard_url = os.Getenv("DASHBOARD_URL")
 
 /* testing:
 var mongodb_server = "localhost"
@@ -95,6 +93,23 @@ func hashPassword(password string) (string, error) {
 func verifyPasswordHash(password, hash string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
 	return err == nil
+}
+
+/* Send new user ID to dashboard API */
+func makeRequest(uid string) {
+	url := dashboard_url + "bucket=eventbrite&username=" + uid
+
+	resp, err := http.Get(url)
+	if err != nil {
+		logger("Error while posting to dashboard")
+		return
+	}
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		logger("Failed to post to dashboard")
+		logger(string(body))
+	}
 }
 
 func logger(message string) {
@@ -321,6 +336,9 @@ func createUser(w http.ResponseWriter, req *http.Request) {
 		json.NewEncoder(w).Encode(message)
 		return
 	}
+
+	/* Send new user ID to dashboard API */
+	makeRequest(uniqueId.String())
 
 	/* Return newly created user */
 	w.WriteHeader(http.StatusCreated)
