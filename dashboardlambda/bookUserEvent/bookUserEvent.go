@@ -14,12 +14,13 @@ import (
 
 // AWS lambda request
 type MyRequest struct {
-	Bucket    string `json:"bucket"`
-	Key       string `json:"user_uuid"`
-	OrgID     string `json:"orgId"`
-	EventName string `json:"eventName"`
-	Location  string `json:"location"`
-	Date      string `json:"date"`
+	Bucket        string `json:"bucket"`
+	Key           string `json:"user_uuid"` // The one who is booking the event
+	OrgID         string `json:"orgId"`     // Organizer of the event
+	EventName     string `json:"eventName"`
+	Date          string `json:"date"`
+	TimeOfBooking string `json:"timeOfBooking"`
+	Location      string `json:"location"`
 }
 
 // AWS lambda response
@@ -51,16 +52,18 @@ type BookedEvent struct {
 	Location      string `json:"location"`
 }
 
-func createUserEvent(request MyRequest) (MyResponse, error) {
+func bookUserEvent(request MyRequest) (MyResponse, error) {
 
 	var nlb = os.Getenv("riak_cluster_nlb")
 	var port = os.Getenv("nlb_port")
+	// Unboxing Request
 	var bucket = request.Bucket
 	var key = request.Key
-	var location = request.Location
 	var orgID = request.OrgID
-	var date = request.Date
 	var eventName = request.EventName
+	var date = request.Date
+	var timeOfBooking = request.TimeOfBooking
+	var location = request.Location
 
 	// Getting the details of the user from RIAK
 	var url = fmt.Sprintf("http://%s:%s/buckets/%s/keys/%s", nlb, port, bucket, key)
@@ -78,16 +81,15 @@ func createUserEvent(request MyRequest) (MyResponse, error) {
 		return MyResponse{Status: false}, errResponseUserDetailsBody
 	}
 
-	createEvent := PostedEvent{
-		OrgID:            orgID,
-		NumberOfViews:    0,
-		NumberOfBookings: 0,
-		Location:         location,
-		Date:             date,
-		EventName:        eventName,
+	bookEvent := BookedEvent{
+		OrgID:         orgID,
+		EventName:     eventName,
+		Date:          date,
+		TimeOfBooking: timeOfBooking,
+		Location:      location,
 	}
 
-	dashboard.PostedEvents = append(dashboard.PostedEvents, createEvent)
+	dashboard.BookedEvents = append(dashboard.BookedEvents, bookEvent)
 	dashboardString, _ := json.Marshal(dashboard)
 
 	payload := bytes.NewBuffer(dashboardString)
@@ -110,7 +112,7 @@ func createUserEvent(request MyRequest) (MyResponse, error) {
 }
 
 func main() {
-	lambda.Start(createUserEvent)
+	lambda.Start(bookUserEvent)
 }
 
 /*
@@ -118,12 +120,13 @@ func main() {
 API Gateway URL:
 # request
 {
-	Bucket    string `json:"bucket"`
-	Key       string `json:"user_uuid"`
-	OrgID     string `json:"orgId"`
-	EventName string `json:"eventName"`
-	Location  string `json:"location"`
-	Date      string `json:"date"`
+	Bucket        string `json:"bucket"`
+	Key           string `json:"user_uuid"` // The one who is booking the event
+	OrgID         string `json:"orgId"`     // Organizer of the event
+	EventName     string `json:"eventName"`
+	Date          string `json:"date"`
+	TimeOfBooking string `json:"timeOfBooking"`
+	Location      string `json:"location"`
 }
 
 

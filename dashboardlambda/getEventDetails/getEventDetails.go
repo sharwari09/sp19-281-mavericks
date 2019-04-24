@@ -13,28 +13,33 @@ import (
 
 type MyRequest struct {
 	Bucket string `json:"bucket"`
-	Key    string `json:"userid"`
-}
-
-type PostedEvent struct {
-	EventID          string `json:"event_id"`
-	NumberOfViews    int    `json:"number_of_views"`
-	NumberOfBookings int    `json:"number_of_bookings"`
-	TimeOfPosting    uint64 `json:"time_of_posting"`
-}
-
-type BookedEvent struct {
-	EventID       string `json:"event_id"`
-	TimeOfBooking uint64 `json:"time_of_booking"`
+	Key    string `json:"user_uuid"`
 }
 
 type MyResponse struct {
-	PostedEvents []PostedEvent `json:"posted_events"`
-	BookedEvents []BookedEvent `json:"booked_events"`
+	PostedEvents []PostedEvent `json:"postedEvents"`
+	BookedEvents []BookedEvent `json:"bookedEvents"`
 }
 
-func dashboard(request MyRequest) (MyResponse, error) {
+type PostedEvent struct {
+	OrgID            string `json:"orgId"`
+	EventName        string `json:"eventName"`
+	Location         string `json:"location"`
+	Date             string `json:"date"`
+	NumberOfViews    int    `json:"numberOfviews"`
+	NumberOfBookings int    `json:"numberOfBookings"`
+}
 
+type BookedEvent struct {
+	OrgID         string `json:"orgId"`
+	EventName     string `json:"eventName"`
+	Date          string `json:"date"`
+	TimeOfBooking string `json:"timeOfBooking"`
+	Location      string `json:"location"`
+}
+
+func getUserEvents(request MyRequest) (MyResponse, error) {
+	/* http://{{riak-cluster-nlb}}:{{riak-cluster-nlb-port}}/buckets/{{bucket-name}}}/keys/{{key}} */
 	var nlb = os.Getenv("riak_cluster_nlb")
 	var port = os.Getenv("nlb_port")
 	var bucket = request.Bucket
@@ -64,7 +69,7 @@ func dashboard(request MyRequest) (MyResponse, error) {
 }
 
 func main() {
-	lambda.Start(dashboard)
+	lambda.Start(getUserEvents)
 
 }
 
