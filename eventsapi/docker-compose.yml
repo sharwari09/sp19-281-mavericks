@@ -1,0 +1,36 @@
+version: "3"
+
+services:
+  events:
+    image: sphadnis09/events:v8
+    volumes:
+      - /tmp:/tmp
+    networks:
+      - network
+    restart: always
+    environment:
+      SERVER: "mongodb"
+      DATABASE: "eventbrite"
+      COLLECTION: "events"
+  proxy:
+    image: eeacms/haproxy
+    depends_on:
+    - events
+    ports:
+    - "3000:5000"
+    environment:
+      FRONTEND_PORT: "5000"
+      BACKENDS: "events"
+      BACKENDS_PORT: "3000"
+      DNS_ENABLED: "true"
+      LOG_LEVEL: "info"
+      HTTPCHK: "GET /ping"
+    networks:
+      - network
+volumes:
+  schemas:
+    external: false
+
+networks:
+  network:
+    driver: bridge

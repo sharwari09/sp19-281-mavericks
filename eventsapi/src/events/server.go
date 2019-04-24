@@ -64,21 +64,24 @@ func postEventHandler(formatter *render.Render) http.HandlerFunc {
         session.SetMode(mgo.Monotonic, true)
 		c := session.DB(mongodbDatabase).C(mongodbCollection)
 		var match EventPayload
-
-		err = c.Find(bson.M{"date": time.Unix(e.Date, 0)}).One(&match)
+		// TODO: Revisit correct format for sending date
+		//localDate, err := time.Parse("2006-01-02", e.Date)
+		localDate, err := time.Parse("01-02-2006", e.Date)
+		err = c.Find(bson.M{"eventName": e.EventName}).One(&match)
 		fmt.Println("Match: ", match)
 		eventId, _ := uuid.NewV4()
+		
 		if err == nil{
-			fmt.Printf("Event %s is already scheduled at the same time provided!", match.EventName)
+			fmt.Printf("Event %s is already scheduled with the same name provided!", match.EventName)
 		} else {
 		eventEntry := ScheduledEvent{
 			EventId: eventId.String(),
 			EventName: e.EventName,	
-			Date: time.Unix(e.Date, 0),
+			Date: localDate,
 			Location: e.Location, 
-			Id : e.Id,
-			Firstname: e.Firstname,
-			Lastname: e.Lastname}
+			OrgId : e.OrgId, 
+			BucketName: e.BucketName,
+			Price: e.Price}
 
 		err = c.Insert(eventEntry)
 						

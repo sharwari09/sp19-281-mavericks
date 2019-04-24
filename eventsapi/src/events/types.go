@@ -3,23 +3,23 @@ package main
 import "time"
 
 type EventPayload struct{
-	Id        string   `json:"id"`
-	Firstname string   `json:"firstname,omitempty"`
-	Lastname  string   `json:"lastname,omitempty"`
+	OrgId        string   `json:"orgId" bson:"orgId"`
 	EventId   string    `json:"eventId" bson:"eventId"`
 	EventName string	`json:"eventName" bson:"eventName"`
 	Location string		`json:"location" bson:"location"`
-	Date int64		`json:"date" bson:"date"`
+	Date string		`json:"date" bson:"date"`
+	BucketName string 	`json:"bucketname" bson:"bucketname"`
+	Price float32 		`json:"price"`
 }
 
 type ScheduledEvent struct{
-	Id        string   `json:"id"`
-	Firstname string   `json:"firstname,omitempty"`
-	Lastname  string   `json:"lastname,omitempty"`
+	OrgId        string   `json:"orgId"`
 	EventId   string    `json:"eventId" bson:"eventId"`
 	EventName string	`json:"eventName" bson:"eventName"`
 	Location string		`json:"location" bson:"location"`
 	Date time.Time		`json:"date" bson:"date"`
+	BucketName string 	`json:"bucketname" bson:"bucketname"`
+	Price float32 		`json:"price"`
 }
 
 type EventResponse struct{
