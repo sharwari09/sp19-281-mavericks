@@ -1,17 +1,33 @@
 version: "3"
 
+networks:
+  network:
+    driver: bridge
 services:
   events:
-    image: sphadnis09/events:v8
+    image: sphadnis09/events:latest
     volumes:
       - /tmp:/tmp
     networks:
       - network
     restart: always
     environment:
-      SERVER: "mongodb"
+      MONGO_SERVER: "mongodb"
       DATABASE: "eventbrite"
       COLLECTION: "events"
+    ports:
+      - 3000
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    hostname: mongodb
+    networks:
+      - network
+    environment:
+      MONGODB_DATABASE: eventbrite   
+    ports:
+      - 27017:27017
+    restart: always
   proxy:
     image: eeacms/haproxy
     depends_on:
@@ -31,6 +47,4 @@ volumes:
   schemas:
     external: false
 
-networks:
-  network:
-    driver: bridge
+
