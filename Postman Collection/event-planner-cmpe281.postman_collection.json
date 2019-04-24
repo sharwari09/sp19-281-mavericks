@@ -296,6 +296,40 @@
 				"description": "Creates the user event in the RIAK DB"
 			},
 			"response": []
+		},
+		{
+			"name": "Book User event",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"bucket\": \"eventbrite\",\n  \"user_uuid\": \"4a6bd3f7-9fa9-44e7-a79c-2258594fe0c\",\n  \"orgId\": \"4a6bd3f7-9fa9-44e7-a79c-2258594fe0c6\",\n  \"eventName\": \"Diwali Bash\",\n  \"date\": \"22-10-2019\",\n  \"timeOfBooking\": \"14-09-2019\",\n  \"location\": \"Cleveland,Ohio\"\n}"
+				},
+				"url": {
+					"raw": "https://7g1vnr3vy6.execute-api.us-west-2.amazonaws.com/bookUserEvent",
+					"protocol": "https",
+					"host": [
+						"7g1vnr3vy6",
+						"execute-api",
+						"us-west-2",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"bookUserEvent"
+					]
+				},
+				"description": "It is invoked when a user books an event to create an entry in Riak DB"
+			},
+			"response": []
 		}
 	]
 }
