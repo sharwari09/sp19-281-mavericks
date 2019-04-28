@@ -97,7 +97,7 @@ func verifyPasswordHash(password, hash string) bool {
 
 /* Send new user ID to dashboard API */
 func makeRequest(uid string) {
-	url := dashboard_url + "bucket=eventbrite&username=" + uid
+	url := dashboard_url + "?bucket=eventbrite&username=" + uid
 
 	resp, err := http.Get(url)
 	if err != nil {
