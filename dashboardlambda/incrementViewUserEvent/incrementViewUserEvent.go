@@ -131,4 +131,12 @@ API Gateway URL:
 /*
 nlb_port 80
 riak_cluster_nlb riak-cluster-network-lb-d90a8ac266b9ee92.elb.us-west-2.amazonaws.com
+
+
+{
+  "bucket": "eventbrite",
+  "user_uuid": "4a6bd3f7-9fa9-44e7-a79c-2258594fe0c6",
+  "eventId": "8ff53536-95df-42c5-8f31-8bf7733f2f7e"
+}
+
 */
