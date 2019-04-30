@@ -320,7 +320,11 @@ func createUser(w http.ResponseWriter, req *http.Request) {
 	}
 
 	/* Assign new user ID */
-	uniqueId := uuid.NewV4()
+	uniqueId, err := uuid.NewV4()
+	if err != nil {
+		logger("Error while creating unique ID for new user")
+		return
+	}
 	user.Id = uniqueId.String()
 
 	/* Set password hash */
