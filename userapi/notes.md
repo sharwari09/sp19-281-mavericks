@@ -21,3 +21,7 @@ https://golangcode.com/get-a-url-parameter-from-a-request/
 ```
 docker-compose scale userapi=3 proxy=1
 ```
+### Imp links:
+```
+http://polyglot.ninja/golang-making-http-requests/
+```
