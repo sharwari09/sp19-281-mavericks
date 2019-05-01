@@ -14,6 +14,7 @@ import (
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 	"os"
+	"bytes"
 )
 
 // MongoDB Config
@@ -79,6 +80,35 @@ func setupResponse(w *http.ResponseWriter, req *http.Request) {
 	(*w).Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
 }
 
+/* Send new booking data to dashboard */
+func makeRequest(e *Bookings) {
+	url := dashboard_url
+
+	// Construct the message to be sent in request body
+	message := map[string]interface{}{
+		"bucket":    "eventbrite",
+		"user_uuid": e.UserID,
+		"orgId":     e.OrgId,
+		"eventId":   e.EventID,
+		"eventName": e.EventName,
+		"location":  e.Location,
+		"timeOfBooking": "25-04-2019",
+		"date":      e.Date,
+	}
+
+	// Marshal message into JSON format
+	bytesRepresentation, err := json.Marshal(message)
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+	_, err = http.Post(url, "application/json", bytes.NewBuffer(bytesRepresentation))
+	if err != nil {
+		fmt.Println("Sent new booked event details to dashboard")
+		log.Fatal(err)
+		return
+	}
+}
 // API to book an event
 func bookHandler(formatter *render.Render) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
@@ -113,6 +143,9 @@ func bookHandler(formatter *render.Render) http.HandlerFunc {
 				EventID:   b.EventID,
 				UserID:    b.UserID,
 				Price:     b.Price,
+				OrgId:     b.OrgId,
+				Date:      b.Date,
+				Location:  b.Location,
 				BookID:    bookID.String()}
 			fmt.Println("book_entry", book_entry)
 			fmt.Println("EventID: ", book_entry.EventID, "Price: ", book_entry.Price)
@@ -123,7 +156,7 @@ func bookHandler(formatter *render.Render) http.HandlerFunc {
 				formatter.JSON(w, http.StatusInternalServerError,
 					struct{ Response error }{err})
 			}
-
+			makeRequest(&book_entry)
 			// Return booking Status
 			formatter.JSON(w, http.StatusOK, struct{ Response string }{"Event successfully booked"})
 		}
@@ -209,3 +242,4 @@ func geteventBookings(formatter *render.Render) http.HandlerFunc {
 		}
 	}
 }
+

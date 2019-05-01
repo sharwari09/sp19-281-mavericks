@@ -11,6 +11,9 @@ type Bookings struct {
 	UserID    string `json:"userID" bson:"userID"`
 	BookID    string `json:"bookID" bson:"bookID"`
 	Price     int    `json:"price" bson:"price"`
+        OrgId     string `json:"orgId" bson:"orgId"`
+	Date      string `json:"date" bson:"date"`
+	Location  string `json:"location" bson:"location"`
 }
 
 type EventResponse struct {
