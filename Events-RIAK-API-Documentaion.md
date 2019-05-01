@@ -152,7 +152,85 @@ Response
 }
 ```
 
+# Get all events from User RIAK key
+
+METHOD: POST
+
+URL: ```https://lho0n8hxa3.execute-api.us-west-2.amazonaws.com/getUserEventDetails```
+
+Request
+```
+{
+    "bucket": "eventbrite",
+    "user_uuid": "a418b7f2-1aec-4e70-a0c7-984fc12ff587"
+}
+```
+
+Response
+```
+{
+    "postedEvents": [
+        {
+            "orgId": "",
+            "eventId": "",
+            "eventName": "Holi Hai",
+            "location": "Cupertino",
+            "date": "05/27/2019",
+            "numberOfviews": 0,
+            "numberOfBookings": 0
+        },
+    ],
+    "bookedEvents": []
+}
+```
+
+# Increment User event Booking
+Method: POST
+
+URL: ```https://7v6pqirtai.execute-api.us-west-2.amazonaws.com/increment-event-booking-prod```
+
+Request
+```
+{
+  "bucket": "eventbrite",
+  "user_uuid": "a418b7f2-1aec-4e70-a0c7-984fc12ff587",
+  "eventId": "806ef8b7-8261-459e-903e-0abed74ee"
+}
+```
+
+Response
+```
+{
+    "status": true
+}
+```
+
+# Increment User event Views
+Method: POST
+
+URL: ```https://nprke4h3j8.execute-api.us-west-2.amazonaws.com/incrementUserEventView```
+
+Request
+```
+{
+  "bucket": "eventbrite",
+  "user_uuid": "a418b7f2-1aec-4e70-a0c7-984fc12ff587",
+  "eventId": "806ef8b7-8261-459e-903e-0abed74ee"
+}
+```
+
+Response
+```
+{
+    "status": true
+}
+```
+
+
 DB Structure
+Key: 
+`user_uuid`
+
 ```
 type Dashboard struct {
 	PostedEvents []PostedEvent `json:"postedEvents"`
@@ -180,21 +258,6 @@ type BookedEvent struct {
 ```
 
 
-```
-{
-        "postedEvents":[
-        {
-            "orgId":"a418b7f2-1aec-4e70-a0c7-984fc12ff587",
-            "eventId":"806ef8b7-8261-459e-903e-0abed74e1a6e",
-            "eventName":"Summer bash",
-            "location":"San Jose,CA",
-            "date":"05/28/2019",
-            "numberOfviews":0,
-            "numberOfBookings":0
-        }
-    ],
-    "bookedEvents":[]
-}
-```
+
 
 
