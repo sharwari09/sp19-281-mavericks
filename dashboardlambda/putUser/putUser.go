@@ -29,7 +29,7 @@ func putUser(request MyRequest) (MyResponse, error) {
 
 	var url = fmt.Sprintf("http://%s:%s/buckets/%s/keys/%s?returnbody=true", nlb, port, bucket, key)
 	fmt.Println("" + url)
-	payload := strings.NewReader("{\"posted_events\" : [],\"booked_events\" : []}")
+	payload := strings.NewReader("{\"postedEvents\" : [],\"bookedEvents\" : []}")
 	req, _ := http.NewRequest("PUT", url, payload)
 	req.Header.Add("Content-Type", "application/json")
 	response, err := http.DefaultClient.Do(req)
@@ -58,8 +58,8 @@ func main() {
 API Gateway URL:
 # request
 {
-	"bucket" : "eventbrite"
-	"username" : "arihant"
+  "bucket": "eventbrite",
+  "username": "83d81f94-f0c2-4bbe-a4bc-d5411b85b477"
 }
 
 
