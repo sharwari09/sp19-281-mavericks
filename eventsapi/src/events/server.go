@@ -15,14 +15,15 @@ import (
 	"net/http"
 	"os"
 	"time"
+	"bytes"
 )
 
 /*TODO: Support environment variables for Mongo Config*/
 
-var mongodbServer = os.Getenv("SERVER") + ":27017"
+var mongodbServer = os.Getenv("MONGO_SERVER") + ":27017"
 var mongodbDatabase = os.Getenv("DATABASE")
 var mongodbCollection = os.Getenv("COLLECTION")
-
+var dashboard_url = os.Getenv("DASHBOARD_URL")
 
 func NewServer() *negroni.Negroni {
 	formatter := render.New(render.Options{
@@ -32,9 +33,9 @@ func NewServer() *negroni.Negroni {
 	mx := mux.NewRouter()
 	initRoutes(mx, formatter)
 	allowedHeaders := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"})
-	allowedMethods := handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE", "HEAD",  "OPTIONS"})
+	allowedMethods := handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"})
 	allowedOrigins := handlers.AllowedOrigins([]string{"*"})
-	n.UseHandler(handlers.CORS(allowedHeaders,allowedMethods , allowedOrigins)(mx))
+	n.UseHandler(handlers.CORS(allowedHeaders, allowedMethods, allowedOrigins)(mx))
 	return n
 }
 
@@ -48,6 +49,34 @@ func initRoutes(mx *mux.Router, formatter *render.Render) {
 	mx.HandleFunc("/events/{eventId}", optionsHandler(formatter)).Methods("OPTIONS")
 }
 
+/* Send new event data to dashboard */
+func makeRequest(e *ScheduledEvent) {
+	url := dashboard_url
+
+	// Construct the message to be sent in request body
+	message := map[string]interface{}{
+		"bucket":    "eventbrite",
+		"user_uuid": e.OrgId,
+		"eventId":   e.EventId,
+		"eventName": e.EventName,
+		"location":  e.Location,
+		"date":      e.Date,
+	}
+
+	// Marshal message into JSON format
+	bytesRepresentation, err := json.Marshal(message)
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+
+	// POST the message to dashboard_url
+	resp, err := http.Post(url, "application/json", bytes.NewBuffer(bytesRepresentation))
+	if err != nil {
+		return
+	}
+}
+
 /*TODO: Connect to MongoDb only when admin user is provided*/
 
 func postEventHandler(formatter *render.Render) http.HandlerFunc {
@@ -57,11 +86,11 @@ func postEventHandler(formatter *render.Render) http.HandlerFunc {
 		_ = json.NewDecoder(req.Body).Decode(&e)
 		fmt.Println("Event: ", e)
 		session, err := mgo.Dial(mongodbServer)
-        if err != nil {
-                panic(err)
+		if err != nil {
+			panic(err)
 		}
 		defer session.Close()
-        session.SetMode(mgo.Monotonic, true)
+		session.SetMode(mgo.Monotonic, true)
 		c := session.DB(mongodbDatabase).C(mongodbCollection)
 		var match EventPayload
 		// TODO: Revisit correct format for sending date
@@ -70,29 +99,32 @@ func postEventHandler(formatter *render.Render) http.HandlerFunc {
 		err = c.Find(bson.M{"eventName": e.EventName}).One(&match)
 		fmt.Println("Match: ", match)
 		eventId, _ := uuid.NewV4()
-		
-		if err == nil{
+
+		if err == nil {
 			fmt.Printf("Event %s is already scheduled with the same name provided!", match.EventName)
 		} else {
-		eventEntry := ScheduledEvent{
-			EventId: eventId.String(),
-			EventName: e.EventName,	
-			Date: localDate,
-			Location: e.Location, 
-			OrgId : e.OrgId, 
-			BucketName: e.BucketName,
-			Price: e.Price}
+			eventEntry := ScheduledEvent{
+				EventId:    eventId.String(),
+				EventName:  e.EventName,
+				Date:       localDate,
+				Location:   e.Location,
+				OrgId:      e.OrgId,
+				BucketName: e.BucketName,
+				Price:      e.Price}
 
-		err = c.Insert(eventEntry)
-						
-		if err != nil {
-			fmt.Println("Error while adding Events: ", err)
-			formatter.JSON(w, http.StatusInternalServerError, 
-				struct{ Response error }{err})
-		} else {
-			formatter.JSON(w, http.StatusOK, 
-				struct{ Response string }{"Event successfully added"})}
-		
+			err = c.Insert(eventEntry)
+
+			if err != nil {
+				fmt.Println("Error while adding Events: ", err)
+				formatter.JSON(w, http.StatusInternalServerError,
+					struct{ Response error }{err})
+			} else {
+				formatter.JSON(w, http.StatusOK,
+					struct{ Response string }{"Event successfully added"})
+				/* POST new event details to the dashboard */
+				makeRequest(&eventEntry)
+			}
+
 		}
 	}
 }
@@ -135,21 +167,21 @@ func getEventHandler(formatter *render.Render) http.HandlerFunc {
 		var results []ScheduledEvent
 		params := mux.Vars(req)
 		var eventId string = params["eventId"]
-		fmt.Printf( "Event ID: %s", eventId)
+		fmt.Printf("Event ID: %s", eventId)
 		err = c.Find(bson.M{"eventId": eventId}).All(&results)
 		if err != nil {
 			log.Fatal(err)
 		}
 		fmt.Println(results)
 		response := EventResponse{
-			Count: len(results),
+			Count:  len(results),
 			Events: results}
-		
+
 		if len(results) > 0 {
 			//formatter.JSON(w, http.StatusOK, response)
 			formatter.JSON(w, http.StatusOK, response)
-		}else{
-			formatter.JSON(w, http.StatusNoContent, 
+		} else {
+			formatter.JSON(w, http.StatusNoContent,
 				struct{ Response string }{"No Events found for the given ID"})
 		}
 	}
@@ -181,11 +213,11 @@ func getAllEventsHandler(formatter *render.Render) http.HandlerFunc {
 		}
 		fmt.Println(results)
 		response := EventResponse{
-			Count: len(results),
+			Count:  len(results),
 			Events: results}
 		if len(results) > 0 {
 			formatter.JSON(w, http.StatusOK, response)
-		}else{
+		} else {
 			formatter.JSON(w, http.StatusNoContent,
 				struct{ Response string }{"No Events found"})
 		}
@@ -202,13 +234,13 @@ func deleteEventhandler(formatter *render.Render) http.HandlerFunc {
 		var eventId string = params["eventId"]
 		fmt.Println("Event To Delete is: ", eventId)
 		err = c.Remove(bson.M{"eventId": eventId})
-		if err!=nil{
+		if err != nil {
 			fmt.Printf("Event not found with ID: %s", eventId)
 			formatter.JSON(w, http.StatusNotFound, "Event Not Found")
 			return
 		}
-		formatter.JSON(w, http.StatusOK, "Event: " +
-			eventId + " Deleted")
+		formatter.JSON(w, http.StatusOK, "Event: "+
+			eventId+" Deleted")
 	}
 }
 
@@ -227,3 +259,4 @@ func pingHandler(formatter *render.Render) http.HandlerFunc {
 		formatter.JSON(w, http.StatusOK, struct{ Test string }{"API version 1.0 alive!"})
 	}
 }
+

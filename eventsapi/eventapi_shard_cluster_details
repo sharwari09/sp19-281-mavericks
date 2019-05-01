@@ -1,0 +1,47 @@
+configReplSet
+Config srv1: 10.0.1.19
+Config srv2: 10.0.1.238
+rs.initiate(
+{
+	_id: "configReplSet",
+	configsvr: true,
+	members: [
+		{ _id: 0, host: "10.0.1.19:27019" },
+		{ _id: 1, host: "10.0.1.238:27019" },
+	]
+}
+);
+
+
+
+
+shardReplSet1
+Shard srv1: 10.0.1.131
+rs.initiate(
+{
+        _id: "shardReplSet1",
+        members: [
+                { _id: 0, host: "10.0.1.131:27018" },
+        ]
+}
+);
+
+
+
+shardReplSet2
+Shard srv2: 10.0.1.107
+rs.initiate(
+{
+        _id: "shardReplSet2",
+        members: [
+                { _id: 0, host: "10.0.1.107:27018" },
+        ]
+}
+);
+
+
+
+mongos: 3.210.40.136
+mongos --config /etc/mongod.conf --fork --logpath /var/log/mongodb/mongod.log
+sh.addShard("shardReplSet1/10.0.1.131:27018")
+sh.addShard("shardReplSet2/10.0.1.107:27018")

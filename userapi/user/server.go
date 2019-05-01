@@ -8,11 +8,13 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"os"
 
 	"github.com/codegangsta/negroni"
 	"github.com/gorilla/mux"
+	"github.com/gorilla/handlers"
 	"github.com/satori/go.uuid"
 	"github.com/unrolled/render"
 
@@ -25,17 +27,8 @@ import (
 var mongodb_server = os.Getenv("MONGO_SERVER")
 var mongodb_database = os.Getenv("MONGO_DATABASE")
 var mongodb_collection = os.Getenv("MONGO_COLLECTION")
-var allowed_origin = os.Getenv("ALLOWED_ORIGIN")
-
-/*var mongo_admin_database = os.Getenv("MONGO_ADMIN_DATABASE")
-var mongo_username = os.Getenv("MONGO_USERNAME")
-var mongo_password = os.Getenv("MONGO_PASS")*/
-
-/* testing:
-var mongodb_server = "localhost"
-var mongodb_database = "userdb"
-var mongodb_collection = "users"
-*/
+//var allowed_origin = os.Getenv("ALLOWED_ORIGIN")
+var dashboard_url = os.Getenv("DASHBOARD_URL")
 
 func newUserServer() *negroni.Negroni {
 	formatter := render.New(render.Options{
@@ -44,7 +37,10 @@ func newUserServer() *negroni.Negroni {
 	n := negroni.Classic()
 	router := mux.NewRouter()
 	initRoutes(router, formatter)
-	n.UseHandler(router)
+	allowedHeaders := handlers.AllowedHeaders([]string{"X-Requested-With", "Content-Type", "Authorization"})
+	allowedMethods := handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS"})
+	allowedOrigins := handlers.AllowedOrigins([]string{"*"})
+	n.UseHandler(handlers.CORS(allowedHeaders, allowedMethods, allowedOrigins)(router))
 	return n
 }
 
@@ -62,7 +58,7 @@ func initRoutes(router *mux.Router, formatter *render.Render) {
 
 /* Setup response headers */
 func setupResponse(w *http.ResponseWriter, req *http.Request) {
-	(*w).Header().Set("Access-Control-Allow-Origin", allowed_origin)
+	(*w).Header().Set("Access-Control-Allow-Origin", "*")
 	(*w).Header().Set("Access-Control-Allow-Credentials", "true")
 	(*w).Header().Set("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS")
 	(*w).Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
@@ -95,6 +91,23 @@ func hashPassword(password string) (string, error) {
 func verifyPasswordHash(password, hash string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
 	return err == nil
+}
+
+/* Send new user ID to dashboard API */
+func makeRequest(uid string) {
+	url := dashboard_url + "?bucket=eventbrite&username=" + uid
+
+	resp, err := http.Get(url)
+	if err != nil {
+		logger("Error while posting to dashboard")
+		return
+	}
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		logger("Failed to post to dashboard")
+		logger(string(body))
+	}
 }
 
 func logger(message string) {
@@ -307,7 +320,11 @@ func createUser(w http.ResponseWriter, req *http.Request) {
 	}
 
 	/* Assign new user ID */
-	uniqueId := uuid.NewV4()
+	uniqueId, err := uuid.NewV4()
+	if err != nil {
+		logger("Error while creating unique ID for new user")
+		return
+	}
 	user.Id = uniqueId.String()
 
 	/* Set password hash */
@@ -321,6 +338,9 @@ func createUser(w http.ResponseWriter, req *http.Request) {
 		json.NewEncoder(w).Encode(message)
 		return
 	}
+
+	/* Send new user ID to dashboard API */
+	makeRequest(uniqueId.String())
 
 	/* Return newly created user */
 	w.WriteHeader(http.StatusCreated)

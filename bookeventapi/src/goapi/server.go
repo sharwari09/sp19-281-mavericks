@@ -9,7 +9,7 @@ import (
 	// "github.com/streadway/amqp"
 	"github.com/gorilla/mux"
 	"github.com/unrolled/render"
-	// "github.com/satori/go.uuid"
+	"github.com/satori/go.uuid"
 	"gopkg.in/mgo.v2"
     "gopkg.in/mgo.v2/bson"
 )
@@ -77,7 +77,6 @@ func bookHandler(formatter *render.Render) http.HandlerFunc {
 		setupResponse(&w, req)
 		fmt.Println("request body : ", req.Body)
 		_ = json.NewDecoder(req.Body).Decode(&b)
-		fmt.Println(req.Body)
 		fmt.Println("booking details:", b.EventName)
 		// Open MongoDB Session
 		session, err := mgo.Dial(mongodb_server)
@@ -88,11 +87,24 @@ func bookHandler(formatter *render.Render) http.HandlerFunc {
         session.SetMode(mgo.Monotonic, true)
         c := session.DB(mongodb_database).C(mongodb_collection)
 
+        var match Bookings
+
+        err = c.Find(bson.M{ "$and": []bson.M{ bson.M{"eventID":b.EventID}, bson.M{"userID":b.UserID} } } ).One(&match)
+
+        if err == nil{
+			fmt.Printf("Booking already exists!")
+			formatter.JSON(w, http.StatusConflict, struct{ Response string }{"Booking already exists"})
+			
+		}else {
+
+		bookID := uuid.NewV4()
+		
         book_entry := Bookings{
 			EventName: b.EventName,
 			EventID: b.EventID,
 			UserID: b.UserID,
-			Price: b.Price}
+			Price: b.Price,
+			BookID: bookID.String()}
 		fmt.Println("book_entry", book_entry)
         fmt.Println( "EventID: ", book_entry.EventID , "Price: ", book_entry.Price)
         err = c.Insert(book_entry)
@@ -105,6 +117,8 @@ func bookHandler(formatter *render.Render) http.HandlerFunc {
 
 		// Return booking Status
 		formatter.JSON(w, http.StatusOK, struct{ Response string }{"Event successfully booked"})
+		}
+        
 	}
 }
 
