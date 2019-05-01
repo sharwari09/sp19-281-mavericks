@@ -71,8 +71,10 @@ func makeRequest(e *ScheduledEvent) {
 	}
 
 	// POST the message to dashboard_url
-	resp, err := http.Post(url, "application/json", bytes.NewBuffer(bytesRepresentation))
+	_, err = http.Post(url, "application/json", bytes.NewBuffer(bytesRepresentation))
 	if err != nil {
+		fmt.Println("Sent new event details to dashboard")
+		log.Fatal(err)
 		return
 	}
 }
