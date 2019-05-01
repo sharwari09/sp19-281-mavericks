@@ -14,12 +14,12 @@ import (
 
 // AWS lambda request
 type MyRequest struct {
-	Bucket    string `json:"bucket"`
-	Key       string `json:"user_uuid"`
-	OrgID     string `json:"orgId"`
-	EventName string `json:"eventName"`
-	Location  string `json:"location"`
-	Date      string `json:"date"`
+	Bucket    string `json:"bucket"`    // Bucket in Riak
+	Key       string `json:"user_uuid"` // user_id of user who is posting event
+	EventID   string `json:"eventId"`   // id of the event
+	EventName string `json:"eventName"` // name of the event
+	Location  string `json:"location"`  // location
+	Date      string `json:"date"`      // date
 }
 
 // AWS lambda response
@@ -35,7 +35,8 @@ type Dashboard struct {
 }
 
 type PostedEvent struct {
-	OrgID            string `json:"orgId"`
+	OrgID            string `json:"orgId"`   // id of the organizer
+	EventID          string `json:"eventId"` // id of the event
 	EventName        string `json:"eventName"`
 	Location         string `json:"location"`
 	Date             string `json:"date"`
@@ -58,7 +59,7 @@ func createUserEvent(request MyRequest) (MyResponse, error) {
 	var bucket = request.Bucket
 	var key = request.Key
 	var location = request.Location
-	var orgID = request.OrgID
+	var eventID = request.EventID
 	var date = request.Date
 	var eventName = request.EventName
 
@@ -79,7 +80,8 @@ func createUserEvent(request MyRequest) (MyResponse, error) {
 	}
 
 	createEvent := PostedEvent{
-		OrgID:            orgID,
+		OrgID:            key,
+		EventID:          eventID,
 		NumberOfViews:    0,
 		NumberOfBookings: 0,
 		Location:         location,
@@ -118,12 +120,12 @@ func main() {
 API Gateway URL:
 # request
 {
-	Bucket    string `json:"bucket"`
-	Key       string `json:"user_uuid"`
-	OrgID     string `json:"orgId"`
-	EventName string `json:"eventName"`
-	Location  string `json:"location"`
-	Date      string `json:"date"`
+	"bucket"    : "eventbrite",
+	"user_uuid" : "",
+	"eventId"   : "",
+	"eventName" : "",
+	"location"  : "",
+	"date"      : ""
 }
 
 
