@@ -48,6 +48,16 @@ func Wrap(handler http.Handler) Handler {
 	})
 }
 
+// WrapFunc converts a http.HandlerFunc into a negroni.Handler so it can be used as a Negroni
+// middleware. The next http.HandlerFunc is automatically called after the Handler
+// is executed.
+func WrapFunc(handlerFunc http.HandlerFunc) Handler {
+	return HandlerFunc(func(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
+		handlerFunc(rw, r)
+		next(rw, r)
+	})
+}
+
 // Negroni is a stack of Middleware Handlers that can be invoked as an http.Handler.
 // Negroni middleware is evaluated in the order that they are added to the stack using
 // the Use and UseHandler methods.
@@ -67,8 +77,10 @@ func New(handlers ...Handler) *Negroni {
 // With returns a new Negroni instance that is a combination of the negroni
 // receiver's handlers and the provided handlers.
 func (n *Negroni) With(handlers ...Handler) *Negroni {
+	currentHandlers := make([]Handler, len(n.handlers))
+	copy(currentHandlers, n.handlers)
 	return New(
-		append(n.handlers, handlers...)...,
+		append(currentHandlers, handlers...)...,
 	)
 }
 
@@ -106,7 +118,7 @@ func (n *Negroni) UseHandler(handler http.Handler) {
 	n.Use(Wrap(handler))
 }
 
-// UseHandler adds a http.HandlerFunc-style handler function onto the middleware stack.
+// UseHandlerFunc adds a http.HandlerFunc-style handler function onto the middleware stack.
 func (n *Negroni) UseHandlerFunc(handlerFunc func(rw http.ResponseWriter, r *http.Request)) {
 	n.UseHandler(http.HandlerFunc(handlerFunc))
 }
@@ -140,11 +152,12 @@ func (n *Negroni) Handlers() []Handler {
 func build(handlers []Handler) middleware {
 	var next middleware
 
-	if len(handlers) == 0 {
+	switch {
+	case len(handlers) == 0:
 		return voidMiddleware()
-	} else if len(handlers) > 1 {
+	case len(handlers) > 1:
 		next = build(handlers[1:])
-	} else {
+	default:
 		next = voidMiddleware()
 	}
 
