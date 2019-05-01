@@ -1,62 +1,53 @@
-
 all: clean
 
 clean: 
-	find . -name 'goapi' -type f -exec rm -f {} \; 
+	find . -name 'bookevent' -type f -exec rm -f {} \; 
 	go clean
+go-get:
+	rm -rf src/github.com
+	go get -v github.com/codegangsta/negroni
+	go get -v github.com/streadway/amqp
+	go get -v github.com/gorilla/mux
+	go get -v github.com/unrolled/render
+	go get -v github.com/satori/go.uuid
+	go get -v gopkg.in/mgo.v2
+	go get -v gopkg.in/mgo.v2/bson
+	go get -v github.com/gorilla/handlers
 
-run:
-	go run src/app/$(app).go
+go-format:
+	go fmt bookevent
 
-main:
-	go run src/app/main.go
+go-install:
+	go install bookevent
 
-format:
-	go fmt goapi
+go-build:
+	go build bookevent
 
-install:
-	go install goapi
-
-build:
-	go build goapi
-
-start:
-	./goapi 
-
-test-ping:
-	curl localhost:3000/ping
-
-test-gumball:
-	curl localhost:3000/gumball
-
-docker-build: 
-	docker build -t goapi .
-	docker images
+go-run: go-build
+	./bookevent
 
 docker-run:
-	docker run --name goapi -td -p 3000:3000 goapi
-	docker ps
+	docker run --name bookevent -e MONGO_SERVER=$(mongodb) -e DATABASE=$(db) -e COLLECTION=$(collection) -p 3000:3000 -td bookevent	
 
-docker-network:
-	docker network ls
+docker-stop:
+	docker stop $(name)
 
-docker-network-inspect:
-	docker network inspect host
-
-docker-shell:
-	docker exec -it goapi bash 
+docker-rm:
+	docker rm $(name)
 
 docker-clean:
-	docker stop goapi
-	docker rm goapi
-	docker rmi goapi
+	docker stop $(name)
+	docker rm $(name)
 
-docker-ip:
-	docker-machine ip
+docker-tag:
+	docker tag bookevent sayalipatil/bookevent:$(v)
 
-docker-ps:
-	 docker ps --all --format "table {{.ID}}\t{{.Names}}\t{{.Image}}\t{{.Status}}\t"
+docker-push:
+	docker push sayalipatil/bookevent:$(v)
 
-docker-ps-ports:
-	 docker ps --all --format "table {{.Names}}\t{{.Ports}}\t"
+docker-run-bookevent:
+	docker build -t bookevent .
+	docker tag events sayalipatil/bookevent:$(v)
+	docker push sayalipatil/bookevent:$(v)
+	docker run --name bookevent -e MONGO_SERVER=$(mongodb) -e DATABASE=$(db) -e COLLECTION=$(collection) -p 3000:3000 -td sayalipatil/bookevent:$(v)
 
