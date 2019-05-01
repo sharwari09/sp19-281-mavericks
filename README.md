@@ -10,7 +10,7 @@ Team members:
 5. [Thol Chidambaram](https://github.com/thol)
 
 # Project Architecture
-<img src="./images/cmpe281_arch.png"/>
+<img src="./images/cmpe281_arch_v5.png"/>
 
 # Project Journal
 [Project Journal](ProjectJournal.md)
