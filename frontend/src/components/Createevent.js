@@ -86,6 +86,7 @@ class Createevent extends Component {
             
             <ul><a href="/list" className="buttons">List Events</a></ul>
             <ul><a href="/create" className="buttons">Create Event</a></ul>
+            <ul><a href="/dashboard" className="buttons">Dashboard</a></ul>
             <ul class="nav navbar-nav mr-4">
                 
                 <Link to="#" class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true">
