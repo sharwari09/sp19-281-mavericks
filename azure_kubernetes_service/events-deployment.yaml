@@ -24,6 +24,8 @@ spec:
           value: "eventbrite"
         - name: COLLECTION
           value: "events"
+        - name: DASHBOARD_URL
+          value: "https://k3gku1lix8.execute-api.us-west-2.amazonaws.com/createUserEvent"
 ---
 apiVersion: v1
 kind: Service
