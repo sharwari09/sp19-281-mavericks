@@ -71,4 +71,46 @@ Server: kong/0.9.9
 
 {"key":"685cd6e92bf045b0b0b217fec6e219c9","consumer_id":"46b395a5-42dc-4cad-8d6c-066ba8c3e8ba","created_at":1556772295000,"id":"6b7e113c-2d67-4ee9-aee1-36f458f5f0ba"}
 
+======
+
+curl -i -X POST http://localhost:8001/apis/eventapi/plugins --data "name=key-auth"
+
+HTTP/1.1 201 Created
+Date: Thu, 02 May 2019 04:55:47 GMT
+Content-Type: application/json; charset=utf-8
+Transfer-Encoding: chunked
+Connection: keep-alive
+Access-Control-Allow-Origin: *
+Server: kong/0.9.9
+
+{"api_id":"d96c0175-db24-4442-abd2-66158a98ee74","id":"fb768930-4f5c-410e-8ed0-9baabe5bb540","created_at":1556772947000,"enabled":true,"name":"key-auth","config":{"key_names":["apikey"],"hide_credentials":false}}
+
+=======
+
+curl -i -X POST http://localhost:8001/apis/userapi/plugins --data "name=key-auth"
+
+HTTP/1.1 201 Created
+Date: Thu, 02 May 2019 05:00:45 GMT
+Content-Type: application/json; charset=utf-8
+Transfer-Encoding: chunked
+Connection: keep-alive
+Access-Control-Allow-Origin: *
+Server: kong/0.9.9
+
+{"api_id":"b8ad0699-f82e-4362-96b6-cf6eeaf46e4d","id":"164f4c8f-d83b-493f-a491-e5a312c02dab","created_at":1556773245000,"enabled":true,"name":"key-auth","config":{"key_names":["apikey"],"hide_credentials":false}}
+
+=======
+
+curl -i -X POST http://localhost:8001/apis/bookapi/plugins --data "name=key-auth"
+
+HTTP/1.1 201 Created
+Date: Thu, 02 May 2019 05:01:42 GMT
+Content-Type: application/json; charset=utf-8
+Transfer-Encoding: chunked
+Connection: keep-alive
+Access-Control-Allow-Origin: *
+Server: kong/0.9.9
+
+{"api_id":"bda29a4a-a827-40c2-ba4f-2d688af3ea32","id":"4d04c002-56e3-478c-8d0d-151d46404d2a","created_at":1556773302000,"enabled":true,"name":"key-auth","config":{"key_names":["apikey"],"hide_credentials":false}}
+
 ```
