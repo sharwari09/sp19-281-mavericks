@@ -117,5 +117,12 @@ az aks browse --resource-group eventbrite --name eventsAKS
 ```
 Once the dashboard starts running successfully, you will see the following:
 
+![AKS Dashboard](https://github.com/nguyensjsu/sp19-281-mavericks/blob/master/images/aks-dashboard.png)
 
 
+
+## References
+
+- https://docs.microsoft.com/en-us/azure/aks/tutorial-kubernetes-deploy-application
+
+- https://docs.microsoft.com/en-us/cli/azure/create-an-azure-service-principal-azure-cli?view=azure-cli-latest
