@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: users
+spec:
+  selector:
+    matchLabels:
+      app: users
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: users
+    spec:
+      containers:
+      - name: users
+        image: pratikb25/userapi:v4.0
+        ports:
+        - containerPort: 5000
+        env:
+        - name: MONGO_SERVER
+          value: "34.212.50.122"
+        - name: MONGO_DATABASE
+          value: "userdb"
+        - name: MONGO_COLLECTION
+          value: "users"
+        - name: DASHBOARD_URL
+          value: "https://k3gku1lix8.execute-api.us-west-2.amazonaws.com/createUserEvent"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: users
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 5000
+  selector:
+    app: users
+
