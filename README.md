@@ -12,6 +12,9 @@ Team members:
 # Project Architecture
 <img src="./images/cmpe281_arch.png"/>
 
+# Project Architecture
+<img src="./images/cmpe281_microservices.png"/>
+
 # Project Journal
 [Project Journal](ProjectJournal.md)
 
