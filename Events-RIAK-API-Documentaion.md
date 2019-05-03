@@ -245,6 +245,7 @@ type PostedEvent struct {
 	Date             string `json:"date"`
 	NumberOfViews    int    `json:"numberOfviews"`
 	NumberOfBookings int    `json:"numberOfBookings"`
+	Price            int    `json:"price"`
 }
 
 type BookedEvent struct {
@@ -254,6 +255,7 @@ type BookedEvent struct {
 	Date          string `json:"date"`
 	TimeOfBooking string `json:"timeOfBooking"`
 	Location      string `json:"location"`
+	Price         int    `json:"price"`
 }
 ```
 

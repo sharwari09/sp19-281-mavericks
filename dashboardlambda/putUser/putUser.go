@@ -27,6 +27,8 @@ func putUser(request MyRequest) (MyResponse, error) {
 	var bucket = request.Bucket
 	var key = request.Key
 
+	fmt.Printf("Request Object\n")
+	fmt.Printf("%v\n", request)
 	var url = fmt.Sprintf("http://%s:%s/buckets/%s/keys/%s?returnbody=true", nlb, port, bucket, key)
 	fmt.Println("" + url)
 	payload := strings.NewReader("{\"postedEvents\" : [],\"bookedEvents\" : []}")
