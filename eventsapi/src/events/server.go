@@ -62,6 +62,7 @@ func makeRequest(e *ScheduledEvent) {
 		"location":  e.Location,
 		"date":      e.Date,
 	}
+	
 
 	// Marshal message into JSON format
 	bytesRepresentation, err := json.Marshal(message)
@@ -97,7 +98,7 @@ func postEventHandler(formatter *render.Render) http.HandlerFunc {
 		var match EventPayload
 		// TODO: Revisit correct format for sending date
 		//localDate, err := time.Parse("2006-01-02", e.Date)
-		localDate, err := time.Parse("01-02-2006", e.Date)
+		localDate, err := time.Parse("2006-01-02", e.Date)
 		err = c.Find(bson.M{"eventName": e.EventName}).One(&match)
 		fmt.Println("Match: ", match)
 		eventId, _ := uuid.NewV4()

@@ -25,7 +25,7 @@ spec:
         - name: MONGO_COLLECTION
           value: "users"
         - name: DASHBOARD_URL
-          value: "https://k3gku1lix8.execute-api.us-west-2.amazonaws.com/createUserEvent"
+          value: "https://lho0n8hxa3.execute-api.us-west-2.amazonaws.com/putUserDetails"
 ---
 apiVersion: v1
 kind: Service

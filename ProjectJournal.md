@@ -9,6 +9,77 @@ Team members:
 4. [Sharwari Phadnis](https://github.com/sharwari09)
 5. [Thol Chidambaram](https://github.com/thol)
 
+
+## Description :
+
+1. Frontend - User
+
+Technology Stack: ReactJs, CSS. The frontend User Client has been used by a user to log in to the application and the corresponding request will be transfered to corresponding user GO API via Kong API Gateway.
+
+2. Frontend - Event
+
+Technology Stack: ReactJs, CSS. The frontend Event client has been used by a logged in user to register a new event with all the details i.e eventname, date, location, price per ticket etc. in to the application and the corresponding request will be transferred to the corresponding event GO API via Kong Gateway.
+
+3. Frontend - Eventbooking
+
+Technology Stack: ReactJs, CSS. The frontend EventBooking client has been used by a logged in user to book with all the details i.e eventname, date, location, price per ticket etc. in to the application and the corresponding request will be transferred to the corresponding event GO API via Kong Gateway. 
+
+4. Kong API Gateway
+
+The Kong API Gateway is used to route the frontend request to the External Load Balancer for respective  GO APIS deployed on Azure Kubernetes Service (AKS).
+
+5. Load Balancers: 
+
+
+6. Go APIs
+
+i] User API service has below features :
+
+ Add a new user <br/>
+ Delete a user <br/>
+ Update user details <br/>
+ Get user by userID <br/>
+ 
+ii] Event API service has below features :
+
+ Register a new event <br/>
+ Delete an event <br/>
+ Get all events <br/>
+ Get an event by eventId <br/>
+ 
+ iii] EventBooking API service has below features :
+ 
+ Book a registered event <br/>
+ 
+7. Mongo DB Sharded cluster
+
+The mongo db sharded cluster consists of a replica set of 2 config server nodes, 2 shard servers with 1 node each and 1 mongos instance as a query router.
+8. Riak Cluster
+# AKF Scale Cube  :
+
+## X-axis Scaling: 
+
+ x-axis scaling or Horizontal duplication refers to running multiple identical copies of the application behind a load  
+ balancer. In x-axis scaling, each server runs an identical copy of the service. It has been impleneted with multiple clones  
+ of our APIs (i.e pods) behind an External Load Balancer in Azure Kubernetes Serivce (AKS).<br/>
+     
+
+## Y-axis Scaling:
+
+ Y axis scaling refers to functional decomposition of a monolith service i.e. creating microservices. <br/>
+ It has been implemented by separating all the services independently i.e userAPI, eventAPI and bookeventAPI with pods 
+ deployed on Azure Kubernetes Service(AKS) <br/>
+
+## Z-axis Scaling:
+
+ Z axis scaling refers to splitting similar data into different servers.<br/>
+ It has been implemented by using MongoDB sharded cluster with 2 config servers, 2 sharded replica sets and 1 mongos   
+ server. MongoDb has been used to store user details, events details and booking details. <br/>
+
+
+
+
+The riak cluster consists of 3 nodes.
 # Microservices Distribution
 1. User signup - (Owner: Pratik Bhandarkar)<br/>
    - This microservice allows a user to sign up with our app.

@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: events
-        image: sphadnis09/events:v11
+        image: sphadnis09/events:v12
         ports:
         - containerPort: 3000
         env:
