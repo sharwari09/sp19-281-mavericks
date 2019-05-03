@@ -1,0 +1,110 @@
+{
+	"info": {
+		"_postman_id": "52fcb67d-761c-440b-9c83-aba0c755f441",
+		"name": "Mavericks-bookevent",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "getBookingByEventId",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:4000/bookings/b5af2691-bd42-4f44-a300-c9f8e0b8cc9f",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"bookings",
+						"b5af2691-bd42-4f44-a300-c9f8e0b8cc9f"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getBookingByUserID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:4000/booking/a638ef3e-7c5d-4f9a-8108-1ccd705ebe65",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"booking",
+						"a638ef3e-7c5d-4f9a-8108-1ccd705ebe65"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ping",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:4000/ping",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"ping"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "bookEvent",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"eventName\" :\"Diwali festival\",\n\t\"eventID\"  :  \"c9b4f552-c6e6-a957-2c385887c08e\",\n\t\"userID\" : \"a638ef3e-7c5d-4f9a-8108-1\",\n\t\"price\" : 120,\n    \"orgId\" : \"a638ef3e-7c5d-4f9a-8108\",\n\t\"date\" : \"2019-05-12\",\n\t\"location\" : \"Pune\"\n}\n\n\n\t"
+				},
+				"url": {
+					"raw": "http://localhost:4000/book",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"book"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
