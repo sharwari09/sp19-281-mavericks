@@ -24,12 +24,10 @@ Technology Stack: ReactJs, CSS. The frontend Event client has been used by a log
 
 Technology Stack: ReactJs, CSS. The frontend EventBooking client has been used by a logged in user to book with all the details i.e eventname, date, location, price per ticket etc. in to the application and the corresponding request will be transferred to the corresponding event GO API via Kong Gateway. 
 
-4. Kong API Gateway
+4. Frontend - Dashboard 
+5. Kong API Gateway
 
 The Kong API Gateway is used to route the frontend request to the External Load Balancer for respective  GO APIS deployed on Azure Kubernetes Service (AKS).
-
-5. Load Balancers: 
-
 
 6. Go APIs
 
@@ -50,11 +48,18 @@ ii] Event API service has below features :
  iii] EventBooking API service has below features :
  
  Book a registered event <br/>
+ Get bookings by userID <br/>
+ Get bookings by userID <br/>
+ 
+ iv] Dashboard API service has below features :
+ 
  
 7. Mongo DB Sharded cluster
 
-The mongo db sharded cluster consists of a replica set of 2 config server nodes, 2 shard servers with 1 node each and 1 mongos instance as a query router.
+The MongoDb sharded cluster consists of a replica set of 2 config server AWS EC2 instances, 2 shard server instances with 1 node in each shard server and 1 mongos instance as a query router to which respective GO API will send request.
+
 8. Riak Cluster
+
 # AKF Scale Cube  :
 
 ## X-axis Scaling: 
