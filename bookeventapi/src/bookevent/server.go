@@ -113,7 +113,7 @@ func makeRequest(e *Bookings) {
 func bookHandler(formatter *render.Render) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
 		var b Bookings
-		setupResponse(&w, req)
+		//setupResponse(&w, req)
 		fmt.Println("request body : ", req.Body)
 		_ = json.NewDecoder(req.Body).Decode(&b)
 		fmt.Println("booking details:", b.EventName)

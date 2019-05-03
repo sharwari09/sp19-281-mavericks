@@ -10,7 +10,10 @@ Team members:
 5. [Thol Chidambaram](https://github.com/thol)
 
 # Project Architecture
-<img src="./images/cmpe281_arch_v5.png"/>
+<img src="./images/cmpe281_arch.png"/>
+
+# Microservices Architecture
+<img src="./images/cmpe281_microservices.png"/>
 
 # Project Journal
 [Project Journal](ProjectJournal.md)
