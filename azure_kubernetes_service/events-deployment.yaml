@@ -14,11 +14,11 @@ spec:
     spec:
       containers:
       - name: events
-        image: sphadnis09/events:v10
+        image: sphadnis09/events:v11
         ports:
         - containerPort: 3000
         env:
-        - name: SERVER
+        - name: MONGO_SERVER
           value: "3.210.40.136"
         - name: DATABASE
           value: "eventbrite"
