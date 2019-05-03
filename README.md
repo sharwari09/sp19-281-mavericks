@@ -1,4 +1,8 @@
-# Team Mavericks
+## EventBrite App :ticket:
+
+EventBrite is an event creation and ticketing app. This service allows users to browse, create, local and far events. There are Microservices included in this application to cater different features.
+
+## Team Mavericks  :busts_in_silhouette:
 Team project for CMPE-281, Cloud Computing <br>
 Submitted To: [Prof Paul Nguyen](https://github.com/paulnguyen)
 
@@ -9,22 +13,22 @@ Team members:
 4. [Sharwari Phadnis](https://github.com/sharwari09)
 5. [Thol Chidambaram](https://github.com/thol)
 
-# Project Architecture
+## Project Architecture  :page_with_curl:
 <img src="./images/cmpe281_arch.png"/>
 
-# Microservices Architecture
+## Microservices Architecture
 <img src="./images/cmpe281_microservices.png"/>
 
-# Project Journal
+## Project Journal :clipboard:
 [Project Journal](ProjectJournal.md)
 
-# Kanban Board
+## Kanban Board :chart_with_upwards_trend:
 [Kanban Task Board](https://github.com/nguyensjsu/sp19-281-mavericks/projects/1)
 
-# Team Meetings
+## Team Meetings :calendar:
 [Team Meetings Log](ProjectJournal.md#Minutes-of-Meeting)
 
-# Lambda vs Kubernetes
+## Lambda vs Kubernetes
 
 Serverless architectures — which in many ways is simply a repackaging and re-imagining of microservice architectures — is competing with Kubernetes because it allows for the scaling of applications and deployments without the complexity and configuration headaches of Kubernetes, or even containers. But don’t confuse the two as being equal.
 
