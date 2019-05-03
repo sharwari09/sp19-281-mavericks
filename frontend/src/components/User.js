@@ -34,7 +34,7 @@ class User extends Component {
             Password : this.state.password
         }
         console.log("data : ",  data);
-        //axios.defaults.withCredentials = true;
+        axios.defaults.withCredentials = true;
         axios.post(userURL + 'users/signin', data, { headers: { 'Content-Type': 'application/json'}})
             .then(response => { 
             console.log("response :", response)
