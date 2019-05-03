@@ -36,10 +36,6 @@ function BookedEventCard(props){
 );
 }
 
-/*
-a418b7f2-1aec-4e70-a0c7-984fc12ff587
-Pratik
-*/
 
 class Dashboard extends Component {
     
