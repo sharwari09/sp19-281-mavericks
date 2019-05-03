@@ -14,10 +14,7 @@ Team members:
 5. [Thol Chidambaram](https://github.com/thol)
 
 ## Project Architecture  :page_with_curl:
-<img src="https://github.com/nguyensjsu/sp19-281-mavericks/blob/master/images/micro-arch.jpg"/>
-
-## Microservices Architecture
-<img src="./images/cmpe281_microservices.png"/>
+<img src="https://github.com/nguyensjsu/sp19-281-mavericks/blob/master/images/project-diagram.jpg"/>
 
 ## Project Journal :clipboard:
 [Project Journal](ProjectJournal.md)
