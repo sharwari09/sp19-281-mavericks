@@ -33,13 +33,23 @@ The Kong API Gateway is used to route the frontend request to the External Load 
 
 6. Go APIs
 
-User API service has below features :
+i] User API service has below features :
 
  Add a new user <br/>
  Delete a user <br/>
  Update user details <br/>
  Get user by userID <br/>
  
+ii] Event API service has below features :
+
+ Register a new event <br/>
+ Delete an event <br/>
+ Get all events <br/>
+ Get an event by eventId <br/>
+ 
+ iii] EventBooking API service has below features :
+ 
+ Book a registered event <br/>
  
 7. Mongo DB Sharded cluster
 
