@@ -20,6 +20,7 @@ type MyRequest struct {
 	EventName string `json:"eventName"` // name of the event
 	Location  string `json:"location"`  // location
 	Date      string `json:"date"`      // date
+	Price     int    `json:"price"`     // price
 }
 
 // AWS lambda response
@@ -42,14 +43,17 @@ type PostedEvent struct {
 	Date             string `json:"date"`
 	NumberOfViews    int    `json:"numberOfviews"`
 	NumberOfBookings int    `json:"numberOfBookings"`
+	Price            int    `json:"price"` // price
 }
 
 type BookedEvent struct {
 	OrgID         string `json:"orgId"`
 	EventName     string `json:"eventName"`
+	EventID       string `json:"eventId"`
 	Date          string `json:"date"`
 	TimeOfBooking string `json:"timeOfBooking"`
 	Location      string `json:"location"`
+	Price         int    `json:"price"` // price
 }
 
 func createUserEvent(request MyRequest) (MyResponse, error) {
@@ -62,8 +66,11 @@ func createUserEvent(request MyRequest) (MyResponse, error) {
 	var eventID = request.EventID
 	var date = request.Date
 	var eventName = request.EventName
+	var price = request.Price
 
 	// Getting the details of the user from RIAK
+	fmt.Printf("Request Object\n")
+	fmt.Printf("%v\n", request)
 	var url = fmt.Sprintf("http://%s:%s/buckets/%s/keys/%s", nlb, port, bucket, key)
 	responseUserDetails, err := http.Get(url)
 	if err != nil {
@@ -87,6 +94,7 @@ func createUserEvent(request MyRequest) (MyResponse, error) {
 		Location:         location,
 		Date:             date,
 		EventName:        eventName,
+		Price:            price,
 	}
 
 	dashboard.PostedEvents = append(dashboard.PostedEvents, createEvent)
@@ -125,7 +133,8 @@ API Gateway URL:
 	"eventId"   : "",
 	"eventName" : "",
 	"location"  : "",
-	"date"      : ""
+	"date"      : "",
+	"price"		: 233,
 }
 
 

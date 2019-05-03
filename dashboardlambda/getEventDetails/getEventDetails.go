@@ -22,49 +22,53 @@ type MyResponse struct {
 }
 
 type PostedEvent struct {
-	OrgID            string `json:"orgId"`
+	OrgID            string `json:"orgId"`   // id of the organizer
+	EventID          string `json:"eventId"` // id of the event
 	EventName        string `json:"eventName"`
 	Location         string `json:"location"`
 	Date             string `json:"date"`
 	NumberOfViews    int    `json:"numberOfviews"`
 	NumberOfBookings int    `json:"numberOfBookings"`
+	Price            int    `json:"price"` // price
 }
 
 type BookedEvent struct {
 	OrgID         string `json:"orgId"`
 	EventName     string `json:"eventName"`
+	EventID       string `json:"eventId"`
 	Date          string `json:"date"`
 	TimeOfBooking string `json:"timeOfBooking"`
 	Location      string `json:"location"`
+	Price         int    `json:"price"` // price
 }
 
 func getUserEvents(request MyRequest) (MyResponse, error) {
-	/* http://{{riak-cluster-nlb}}:{{riak-cluster-nlb-port}}/buckets/{{bucket-name}}}/keys/{{key}} */
+
 	var nlb = os.Getenv("riak_cluster_nlb")
 	var port = os.Getenv("nlb_port")
 	var bucket = request.Bucket
 	var key = request.Key
 
-	fmt.Println("nlb %s, port, %s, bucket %s, key %s", nlb, port, bucket, key)
+	fmt.Printf("Request Object\n")
+	fmt.Printf("%v\n", request)
 	var url = fmt.Sprintf("http://%s:%s/buckets/%s/keys/%s", nlb, port, bucket, key)
 	response, err := http.Get(url)
 	if err != nil {
 		log.Fatalf("ERROR: %s", err)
 		return MyResponse{}, err
-	} else {
-		defer response.Body.Close()
-		body, _ := ioutil.ReadAll(response.Body)
-		var data MyResponse
-		err := json.Unmarshal(body, &data)
-		if err != nil {
-			fmt.Println("whoops:", err)
-			return MyResponse{}, err
-		} else {
-			fmt.Printf("Results: %v\n", data)
-			return data, nil
-		}
-
 	}
+	defer response.Body.Close()
+	body, _ := ioutil.ReadAll(response.Body)
+	var data MyResponse
+	errInUnmarshall := json.Unmarshal(body, &data)
+
+	if errInUnmarshall != nil {
+		fmt.Println("whoops:", err)
+		return MyResponse{}, err
+	}
+
+	fmt.Printf("Results: %v\n", data)
+	return data, nil
 
 }
 
@@ -78,41 +82,24 @@ func main() {
 API Gateway URL:
 # request
 {
-    "bucket": "eventbrite",
-    "userid": "asp"
+    "bucket" : "eventbrite"
+	"user_uuid" : ""
 }
 
-{"events":[{"1235":12},{"12456":12}]}
+
 # response
 {
-    "posted_events" : [
-    	{
-			"event_id" : "12345",
-			"number_of_views" : 20,
-			"number_of_bookings" : 30,
-			"time_of_posting" : 123894943444
-		},
+        "postedEvents":[
         {
-    		"event_id" : "12385",
-			"number_of_views" : 20,
-			"number_of_bookings" : 30,
-			"time_of_posting" : 123894943444
-		}
-	],
-
-	"booked_events" : [
-		{
-			"event_id" : "12344",
-			"time_of_booking" : 123894923334
-		},
-        {
-    		"event_id" : "12346",
-			"time_of_booking" : 123894923334
-		},
-        {
-    		"event_id" : "18344",
-			"time_of_booking" : 123894923334
-		}
-	]
+            "orgId":"a418b7f2-1aec-4e70-a0c7-984fc12ff587",
+            "eventId":"806ef8b7-8261-459e-903e-0abed74e1a6e",
+            "eventName":"Summer bash",
+            "location":"San Jose,CA",
+            "date":"05/28/2019",
+            "numberOfviews":0,
+            "numberOfBookings":0
+        }
+    ],
+    "bookedEvents":[]
 }
 */
