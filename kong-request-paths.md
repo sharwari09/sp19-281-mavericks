@@ -15,17 +15,17 @@ Server: kong/0.9.9
 
 ## Events API
 ```
-curl -i -X POST --url http://localhost:8001/apis/ -d 'name=eventapi' -d 'upstream_url=http://52.165.18.94:3000' -d 'request_path=/eventapi/' -d 'strip_request_path=true'
+curl -i -X POST --url http://localhost:8001/apis/ -d 'name=eventapi' -d 'upstream_url=http://13.67.182.205:3000' -d 'request_path=/eventapi/' -d 'strip_request_path=true'
 
 HTTP/1.1 201 Created
-Date: Thu, 02 May 2019 04:37:23 GMT
+Date: Fri, 03 May 2019 00:28:15 GMT
 Content-Type: application/json; charset=utf-8
 Transfer-Encoding: chunked
 Connection: keep-alive
 Access-Control-Allow-Origin: *
 Server: kong/0.9.9
 
-{"upstream_url":"http:\/\/52.165.18.94:3000","strip_request_path":true,"request_path":"\/eventapi","id":"d96c0175-db24-4442-abd2-66158a98ee74","created_at":1556771843000,"preserve_host":false,"name":"eventapi"}
+{"upstream_url":"http:\/\/13.67.182.205:3000","strip_request_path":true,"request_path":"\/eventapi","id":"67981bba-9640-4189-948f-9f1a6fe42df4","created_at":1556843295000,"preserve_host":false,"name":"eventapi"}
 ```
 
 ## Booking API
@@ -76,14 +76,15 @@ Server: kong/0.9.9
 curl -i -X POST http://localhost:8001/apis/eventapi/plugins --data "name=key-auth"
 
 HTTP/1.1 201 Created
-Date: Thu, 02 May 2019 04:55:47 GMT
+Date: Fri, 03 May 2019 00:28:36 GMT
 Content-Type: application/json; charset=utf-8
 Transfer-Encoding: chunked
 Connection: keep-alive
 Access-Control-Allow-Origin: *
 Server: kong/0.9.9
 
-{"api_id":"d96c0175-db24-4442-abd2-66158a98ee74","id":"fb768930-4f5c-410e-8ed0-9baabe5bb540","created_at":1556772947000,"enabled":true,"name":"key-auth","config":{"key_names":["apikey"],"hide_credentials":false}}
+{"api_id":"67981bba-9640-4189-948f-9f1a6fe42df4","id":"e0c8b911-e26e-4401-aeed-563515faf6e7","created_at":1556843316000,"enabled":true,"name":"key-auth","config":{"key_names":["apikey"],"hide_credentials":false}}
+
 
 =======
 
