@@ -81,7 +81,8 @@ componentWillMount(){
             Date : this.state.date,
             EventID: this.state.eventId,
             UserID: localStorage.getItem("id"),
-            OrgID : this.state.orgId
+            OrgID : this.state.orgId, 
+            Location : this.state.location
         }
         console.log("data : ",  data);
         //set the with credentials to true
