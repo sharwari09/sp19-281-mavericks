@@ -45,6 +45,11 @@ docker-tag:
 docker-push:
 	docker push $(dockerid)/events:$(v)
 
+docker-tag-push:
+        docker build -t events .
+        docker tag events $(dockerid)/events:$(v)
+        docker push $(dockerid)/events:$(v)
+
 docker-run-events:
 	docker build -t events .
 	docker tag events $(dockerid)/events:$(v)
