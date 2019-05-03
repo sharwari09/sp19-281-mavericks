@@ -1,3 +1,8 @@
+### Kong EC2 instance address:
+```
+    54.149.88.143
+```
+
 ## User API
 ```
 curl -i -X POST --url http://localhost:8001/apis/ -d 'name=userapi' -d 'upstream_url=http://168.61.189.227:5000' -d 'request_path=/userapi/' -d 'strip_request_path=true'
