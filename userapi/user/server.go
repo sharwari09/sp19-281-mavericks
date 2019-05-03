@@ -13,8 +13,8 @@ import (
 	"os"
 
 	"github.com/codegangsta/negroni"
-	"github.com/gorilla/mux"
 	"github.com/gorilla/handlers"
+	"github.com/gorilla/mux"
 	"github.com/satori/go.uuid"
 	"github.com/unrolled/render"
 
@@ -27,6 +27,7 @@ import (
 var mongodb_server = os.Getenv("MONGO_SERVER")
 var mongodb_database = os.Getenv("MONGO_DATABASE")
 var mongodb_collection = os.Getenv("MONGO_COLLECTION")
+
 //var allowed_origin = os.Getenv("ALLOWED_ORIGIN")
 var dashboard_url = os.Getenv("DASHBOARD_URL")
 
@@ -269,11 +270,12 @@ func createUser(w http.ResponseWriter, req *http.Request) {
 
 	var user User
 	_ = json.NewDecoder(req.Body).Decode(&user)
+	fmt.Println("Decoded the request body. Found email ID: ", user.Email)
 
 	/* Open DB session */
 	session, err := mgo.Dial(mongodb_server)
 	if err != nil {
-		message := "Error while connecting to database"
+		message := "Error while dialing to database"
 		w.WriteHeader(http.StatusInternalServerError)
 		json.NewEncoder(w).Encode(message)
 		return
@@ -282,13 +284,14 @@ func createUser(w http.ResponseWriter, req *http.Request) {
 	defer session.Close()
 
 	session.SetMode(mgo.Monotonic, true)
+	logger("setting DB mode to mgo.Monotonic")
 
 	/* Obtain DB connection */
 	c := session.DB(mongodb_database).C(mongodb_collection)
 
 	/* Validate that email ID is not empty */
 	if len(user.Email) <= 0 {
-		message := "Email not provided"
+		message := "Email ID not provided in request"
 		w.WriteHeader(http.StatusBadRequest)
 		json.NewEncoder(w).Encode(message)
 		return
@@ -297,18 +300,27 @@ func createUser(w http.ResponseWriter, req *http.Request) {
 	/* Check for duplicate email address */
 	query := bson.M{"email": user.Email}
 	var result bson.M
+	var r []bson.M
 	err = c.Find(query).One(&result)
-	if err != nil && err != mgo.ErrNotFound {
-		message := "Error while fetching data"
-		w.WriteHeader(http.StatusInternalServerError)
-		json.NewEncoder(w).Encode(message)
-		return
-	} else if result != nil {
+	logger("Checking if this email already exists")
+	e := c.Find(query).All(&r)
+	fmt.Println("All users:", r)
+	fmt.Println("Error:", e)
+	if err != nil {
+		if err != mgo.ErrNotFound {
+			fmt.Println("Error while fetching data from database")
+			w.WriteHeader(http.StatusInternalServerError)
+			json.NewEncoder(w).Encode(err)
+			return
+		}
+	}
+	if result != nil {
 		message := "User with this email ID already exists"
 		w.WriteHeader(http.StatusConflict)
 		json.NewEncoder(w).Encode(message)
 		return
 	}
+	logger("Successfully fetched from database")
 
 	/* Generate password hash */
 	pHash, err := hashPassword(user.Password)
@@ -318,6 +330,7 @@ func createUser(w http.ResponseWriter, req *http.Request) {
 		json.NewEncoder(w).Encode(message)
 		return
 	}
+	logger("New password created!")
 
 	/* Assign new user ID */
 	uniqueId, err := uuid.NewV4()
@@ -331,6 +344,7 @@ func createUser(w http.ResponseWriter, req *http.Request) {
 	user.Password = pHash
 
 	/* Commit new user info */
+	fmt.Println("Committing new user to DB: " + user.Email)
 	err = c.Insert(user)
 	if err != nil {
 		message := "Error while creating new user"
@@ -338,6 +352,7 @@ func createUser(w http.ResponseWriter, req *http.Request) {
 		json.NewEncoder(w).Encode(message)
 		return
 	}
+	logger("Committed successfully!")
 
 	/* Send new user ID to dashboard API */
 	makeRequest(uniqueId.String())

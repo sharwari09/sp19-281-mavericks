@@ -138,7 +138,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"bucket\": \"eventbrite\",\n    \"user_uuid\": \"4a6bd3f7-9fa9-44e7-a79c-2258594fe0c6\"\n}"
+					"raw": "{\n    \"bucket\": \"eventbrite\",\n    \"user_uuid\": \"a418b7f2-1aec-4e70-a0c7-984fc12ff587\"\n}"
 				},
 				"url": {
 					"raw": "https://lho0n8hxa3.execute-api.us-west-2.amazonaws.com/getUserEventDetails",
@@ -236,7 +236,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "https://lho0n8hxa3.execute-api.us-west-2.amazonaws.com/putUserDetails?bucket=eventbrite&username=4a6bd3f7-9fa9-44e7-a79c-2258594fe0c6",
+					"raw": "https://lho0n8hxa3.execute-api.us-west-2.amazonaws.com/putUserDetails?bucket=eventbrite&username=a418b7f2-1aec-4e70-a0c7-984fc12ff587",
 					"protocol": "https",
 					"host": [
 						"lho0n8hxa3",
@@ -255,7 +255,7 @@
 						},
 						{
 							"key": "username",
-							"value": "4a6bd3f7-9fa9-44e7-a79c-2258594fe0c6"
+							"value": "a418b7f2-1aec-4e70-a0c7-984fc12ff587"
 						}
 					]
 				},
@@ -277,7 +277,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"bucket\": \"eventbrite\",\n  \"user_uuid\": \"4a6bd3f7-9fa9-44e7-a79c-2258594fe0c6\",\n  \"orgId\": \"8ff53536-95df-42c5-8f31-8bf7733f2f7e\",\n  \"eventName\" : \"Diwali Bash\",\n  \"location\" : \"Cleveland,Ohio\",\n  \"date\" : \"22-10-2019\"\n}"
+					"raw": "{\n  \"bucket\": \"eventbrite\",\n  \"user_uuid\": \"a418b7f2-1aec-4e70-a0c7-984fc12ff587\",\n  \"eventId\": \"806ef8b7-8261-459e-903e-0abed74ee\",\n  \"eventName\": \"Summer bash\",\n  \"location\": \"Santa Cruz,CA\",\n  \"date\": \"05/30/2019\"\n}"
 				},
 				"url": {
 					"raw": "https://k3gku1lix8.execute-api.us-west-2.amazonaws.com/createUserEvent",
@@ -311,7 +311,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"bucket\": \"eventbrite\",\n  \"user_uuid\": \"4a6bd3f7-9fa9-44e7-a79c-2258594fe0c\",\n  \"orgId\": \"4a6bd3f7-9fa9-44e7-a79c-2258594fe0c6\",\n  \"eventName\": \"Diwali Bash\",\n  \"date\": \"22-10-2019\",\n  \"timeOfBooking\": \"14-09-2019\",\n  \"location\": \"Cleveland,Ohio\"\n}"
+					"raw": "{\n  \"bucket\": \"eventbrite\",\n  \"user_uuid\": \"c020593e-d672-41eb-be39-53aeae9c31b5\", \n  \"orgId\": \"a418b7f2-1aec-4e70-a0c7-984fc12ff587\",\n  \"eventId\" : \"806ef8b7-8261-459e-903e-0abed74ee\",\n  \"eventName\": \"Summer bash\",\n  \"date\": \"05/30/2019\",\n  \"timeOfBooking\": \"25-04-2019\",\n  \"location\": \"Santa Cruz,CA\"\n}"
 				},
 				"url": {
 					"raw": "https://7g1vnr3vy6.execute-api.us-west-2.amazonaws.com/bookUserEvent",
@@ -328,6 +328,74 @@
 					]
 				},
 				"description": "It is invoked when a user books an event to create an entry in Riak DB"
+			},
+			"response": []
+		},
+		{
+			"name": "Increment Booking of User Event",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"bucket\": \"eventbrite\",\n  \"user_uuid\": \"a418b7f2-1aec-4e70-a0c7-984fc12ff587\",\n  \"eventId\": \"806ef8b7-8261-459e-903e-0abed74ee\"\n}"
+				},
+				"url": {
+					"raw": "https://7v6pqirtai.execute-api.us-west-2.amazonaws.com/increment-event-booking-prod",
+					"protocol": "https",
+					"host": [
+						"7v6pqirtai",
+						"execute-api",
+						"us-west-2",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"increment-event-booking-prod"
+					]
+				},
+				"description": "Whenever user makes a booking for a event we try to increment the number of bookings"
+			},
+			"response": []
+		},
+		{
+			"name": "Increment views of event posted by user",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"bucket\": \"eventbrite\",\n  \"user_uuid\": \"a418b7f2-1aec-4e70-a0c7-984fc12ff587\",\n  \"eventId\": \"806ef8b7-8261-459e-903e-0abed74ee\"\n}"
+				},
+				"url": {
+					"raw": "https://nprke4h3j8.execute-api.us-west-2.amazonaws.com/incrementUserEventView",
+					"protocol": "https",
+					"host": [
+						"nprke4h3j8",
+						"execute-api",
+						"us-west-2",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"incrementUserEventView"
+					]
+				},
+				"description": "Increment views of event posted by user"
 			},
 			"response": []
 		}

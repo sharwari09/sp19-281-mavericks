@@ -4,6 +4,7 @@ import Booking from "./Booking";
 import User from "./User";
 import Listevents from './Listevents';
 import Createevent from "./Createevent";
+import Dashboard from "./dashboard.js";
 
 class Main extends Component {
     state = {  }
@@ -14,8 +15,7 @@ class Main extends Component {
                 <Route path="/book" component={Booking}/>
                 <Route path="/list" component={Listevents}/>
                 <Route path="/home" component={User}/>
-                
-                
+                <Route path="/dashboard" component={Dashboard}/>
             </div>
         )
     }

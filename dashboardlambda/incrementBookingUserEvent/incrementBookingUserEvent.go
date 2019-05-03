@@ -51,7 +51,7 @@ type BookedEvent struct {
 	Location      string `json:"location"`
 }
 
-func incrementViewUserEvent(request MyRequest) (MyResponse, error) {
+func incrementBookingUserEvent(request MyRequest) (MyResponse, error) {
 
 	var nlb = os.Getenv("riak_cluster_nlb")
 	var port = os.Getenv("nlb_port")
@@ -80,8 +80,8 @@ func incrementViewUserEvent(request MyRequest) (MyResponse, error) {
 
 	for i := range dashboard.PostedEvents {
 		if dashboard.PostedEvents[i].EventID == eventID {
-			numberofViews := dashboard.PostedEvents[i].NumberOfViews
-			dashboard.PostedEvents[i].NumberOfViews = numberofViews + 1
+			numberOfbookings := dashboard.PostedEvents[i].NumberOfBookings
+			dashboard.PostedEvents[i].NumberOfBookings = numberOfbookings + 1
 			break
 		}
 	}
@@ -109,7 +109,7 @@ func incrementViewUserEvent(request MyRequest) (MyResponse, error) {
 }
 
 func main() {
-	lambda.Start(incrementViewUserEvent)
+	lambda.Start(incrementBookingUserEvent)
 }
 
 /*

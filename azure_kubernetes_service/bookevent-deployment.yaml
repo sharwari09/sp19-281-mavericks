@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bookevent
+spec:
+  selector:
+    matchLabels:
+      app: bookevent
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: bookevent
+    spec:
+      containers:
+      - name: bookevent
+        image: sphadnis09/bookevent:v1.0
+        ports:
+        - containerPort: 4000
+        env:
+        - name: MONGO_SERVER
+          value: "52.52.92.197"
+        - name: DATABASE
+          value: "cmpe281"
+        - name: COLLECTION
+          value: "bookevent"
+        - name: DASHBOARD_URL
+          value: "https://7g1vnr3vy6.execute-api.us-west-2.amazonaws.com/bookUserEvent"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bookevent
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 4000
+  selector:
+    app: bookevent
+
