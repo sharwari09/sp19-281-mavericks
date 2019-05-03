@@ -78,7 +78,7 @@ class Listevents extends Component {
                      <div className="col-md-11" >
                      <h3 className="title1"><Link to="/book" onClick = {this.showBooking.bind(this, item.eventId)}>{item.eventName}</Link></h3>
                     <h4 className="title1">Location:{item.location}</h4>
-                    <h4 className="title1">Date: {new Date(item.date).toDateString()}</h4>
+                    <h4 className="title1">Date: {(item.date).toString()}</h4>
         
                     </div>
 

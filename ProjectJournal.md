@@ -9,6 +9,29 @@ Team members:
 4. [Sharwari Phadnis](https://github.com/sharwari09)
 5. [Thol Chidambaram](https://github.com/thol)
 
+
+# AKF Scale Cube  :
+
+## X-axis Scaling: 
+
+ x-axis scaling or Horizontal duplication refers to running multiple identical copies of the application behind a load  
+ balancer. In x-axis scaling, each server runs an identical copy of the service. It has been impleneted with multiple clones  
+ of our APIs (i.e pods) behind an External Load Balancer in Azure Kubernetes Serivce (AKS).<br/>
+     
+
+## Y-axis Scaling:
+
+ Y axis scaling refers to functional decomposition of a monolith service i.e. creating microservices. <br/>
+ It has been implemented by separating all the services independently i.e userAPI, eventAPI and bookeventAPI with pods 
+ deployed on Azure Kubernetes Service(AKS) <br/>
+
+## Z-axis Scaling:
+
+ Z axis scaling refers to splitting similar data into different servers.<br/>
+ It has been implemented by using MongoDB sharded cluster with 2 config servers, 2 sharded replica sets and 1 mongos   
+ server. MongoDb has been used to store user details, events details and booking details. <br/>
+
+
 # Microservices Distribution
 1. User signup - (Owner: Pratik Bhandarkar)<br/>
    - This microservice allows a user to sign up with our app.

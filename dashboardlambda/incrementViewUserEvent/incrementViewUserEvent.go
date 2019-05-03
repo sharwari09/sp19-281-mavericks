@@ -40,6 +40,7 @@ type PostedEvent struct {
 	Date             string `json:"date"`
 	NumberOfViews    int    `json:"numberOfviews"`
 	NumberOfBookings int    `json:"numberOfBookings"`
+	Price            int    `json:"price"` // price
 }
 
 type BookedEvent struct {
@@ -49,6 +50,7 @@ type BookedEvent struct {
 	Date          string `json:"date"`
 	TimeOfBooking string `json:"timeOfBooking"`
 	Location      string `json:"location"`
+	Price         int    `json:"price"` // price
 }
 
 func incrementViewUserEvent(request MyRequest) (MyResponse, error) {
@@ -61,7 +63,8 @@ func incrementViewUserEvent(request MyRequest) (MyResponse, error) {
 	var eventID = request.EventID
 
 	// Getting the details of the user from RIAK
-	fmt.Println("Arihant")
+	fmt.Printf("Request Object\n")
+	fmt.Printf("%v\n", request)
 	var url = fmt.Sprintf("http://%s:%s/buckets/%s/keys/%s", nlb, port, bucket, key)
 	fmt.Println(url)
 	responseUserDetails, err := http.Get(url)

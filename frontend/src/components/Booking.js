@@ -75,9 +75,10 @@ componentWillMount(){
         //     price : price,
         // });
         var data = {
-            bucketName : "eventbrite",
+            bucketname : "eventbrite",
             EventName : this.state.eventName,
             Price : price,
+            Date : this.state.date,
             EventID: this.state.eventId,
             UserID: localStorage.getItem("id"),
             OrgID : this.state.orgId
