@@ -25,3 +25,14 @@ BODY
 }
 ```
 Request
+
+| Parameter     | Type      | Description |
+| ------------- |-----------| ------------|
+| eventName     | string    | Event ID
+| orgId         | string    | Organizer ID|
+| bucketname    | string    | Bucketname  |
+| location      | string    | Location    |
+| date          | string    | Date of the event|
+| price         | int       | Price of event ticket|
+
+Response Parameters for Success (Status code: 200)
