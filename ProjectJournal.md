@@ -154,7 +154,7 @@ The riak cluster consists of 5 nodes.
 
 # Microservices Distribution
 
-1. **User signup - (Owner: Pratik Bhandarkar)**<br/><br/>
+1. **User signup - (Owner: Pratik Bhandarkar)** <br/><br/>
 
 
 ![User Microservice](images/users-service.png)
@@ -164,7 +164,7 @@ The riak cluster consists of 5 nodes.
      event and create his/her own events to be hosted.
      
      
-2. **Create Event - (Owner: Sharwari Phadnis)**<br/><br/>
+2. **Create Event - (Owner: Sharwari Phadnis)** <br/><br/>
 ![Create Event Microservice](images/events-service.jpg)
    - This microservice handles creation of events on our app. 
    - The user/organiser has to add details such as name, schedule, venue related to a particular 
@@ -172,7 +172,7 @@ The riak cluster consists of 5 nodes.
    - The service will contain API implementation of creating events and storing them into the MongoDB cluster.
    
    
-3. **Browse Event - (Owner: Thol)**<br/><br/>
+3. **Browse Event - (Owner: Thol)** <br/><br/>
    - This microservice handles browsing events for the specific user.
    - User can see following lists
      - Events posted by him
@@ -180,23 +180,19 @@ The riak cluster consists of 5 nodes.
   - This service will have the GET API implementation from MongoDB cluster.
   
   
-4. **Book event - (Owner: Sayali)**<br/><br/>
+4. **Book event - (Owner: Sayali)** <br/><br/>
 ![Book Event Microservice](images/bookevents-service.png)
    - This microservice handles booking of an event on our app.
    - The user can choose number of the seats and register for the event.
    - The service will contain API implementation of booking the events and storing them into the MongoDB cluster.
    
    
-5. **Dashboard - Arihant ** <br/><br/>
+5. **Dashboard - (Owner: Arihant)**  <br/><br/>
 
 ![Dashboard Microservice](images/dashboard-service.png)
    - This microservice handles the dashboard of the user
    - Here the user will be able to view events posted by him and booked by him and analytics
    - The service will contain API implementation of dashboarding the events and retrieving from RIAK cluster
-
-
-Steps involved in how to make system fault tolerant during partition
-[Network Partition](network-partition.md)
 
 
 # WOW Factor :sunglasses:
@@ -208,7 +204,7 @@ Steps involved in how to make system fault tolerant during partition
 
 
 
-**CAP Theorem**
+# **CAP Theorem**
 
 - C : Consistency
 
@@ -224,6 +220,11 @@ Every non-failing node returns a response for all read and write requests in a r
 he system continues to function and upholds its consistency guarantees in spite of network partitions. Network partitions are a fact of life. Distributed systems guaranteeing partition tolerance can gracefully recover from partitions once the partition heals
 
 It is a widely used concept in distributed system.
+
+
+## Steps involved in how to make system fault tolerant during partition
+[Network Partition](network-partition.md)
+
 
 
 # Creativity in the use and application of topics and tools discussed in class
