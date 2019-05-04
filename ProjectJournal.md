@@ -9,7 +9,7 @@ Team members:
 4. [Sharwari Phadnis](https://github.com/sharwari09)
 5. [Thol Chidambaram](https://github.com/thol)
 
-## Key Contributions:
+## Key Contributions: :pushpin:
 ### Pratik Bhandarkar: (Users Microservice, Kong API Gateway)
 - Design and deployment of a GO microservices to handle new user signup and user login
 - Deployment of MongoDB Shard Clusters for this microservice
@@ -45,11 +45,11 @@ Booking event, Getting event by userID, Getting event by eventID
 - Implemented riak cluster and developed procedure for testing partiton tolerance in riak.
 - Tested the application for partition tolerance.
 
-## Project Architecture Diagram :
+## Project Architecture Diagram : 
 
 ![mavericks_latest](https://user-images.githubusercontent.com/4371600/57172019-6f088d00-6dcf-11e9-9d91-78b74062195c.jpg)
 
-## Description :
+## Description : :information_source:
 
 
 #### 1. Frontend - User
@@ -75,8 +75,13 @@ The frontend EventBooking client has been used by a logged in user to book with 
 **Technology Stack:** ReactJs, CSS
 
 This page describes the association of the user with the app. It lists out the `Posted Events` and `Booked Events` of the user. 
-**Posted Events:** These are the events which are posted by the user. This also provides analytics of the events
+
+**Posted Events:** 
+- These are the events which are posted by the user. 
+- This also provides analytics of the events
+
 **Booked Events:** These are the events which are booked by the user
+
 
 #### 5. Kong API Gateway
 
@@ -85,98 +90,117 @@ The Kong API Gateway is used to route the frontend request to the External Load 
 #### 6. Go APIs
 
 i] User API service has below features :
-
- Add a new user <br/>
- Delete a user <br/>
- Update user details <br/>
- Get user by userID <br/>
+```
+ Add a new user
+ Delete a user
+ Update user details
+ Get user by userID
+```
  
 ii] Event API service has below features :
-
- Register a new event <br/>
- Delete an event <br/>
- Get all events <br/>
- Get an event by eventId <br/>
+```
+ Register a new event 
+ Delete an event 
+ Get all events 
+ Get an event by eventId
+```
  
  iii] EventBooking API service has below features :
- 
- Book a registered event <br/>
- Get bookings by userID <br/>
- Get bookings by userID <br/>
+ ```
+ Book a registered event 
+ Get bookings by userID 
+ Get bookings by userID 
+ ```
  
  iv] Dashboard API service has below features :
- 
- View Posted Events <br/>
- View Booked Events <br/>
- View Analytics Regarding Posted Events <br/>
+ ```
+ View Posted Events 
+ View Booked Events 
+ View Analytics Regarding Posted Events 
+ ```
  
  
 #### 7. Mongo DB Sharded cluster
 
-The MongoDb sharded cluster consists of a replica set of 2 config server AWS EC2 instances, 2 shard server instances with 1 node in each shard server and 1 mongos instance as a query router to which respective GO API will send request.
-For the details regarding sharded cluster, refer [BookEventAPI  sharded cluster](https://github.com/nguyensjsu/sp19-281-mavericks/blob/master/bookeventapi/MongoDB_sharding_for_bookeventAPI.md)
+- The MongoDb sharded cluster consists of a replica set of 2 config server AWS EC2 instances, 2 shard server instances with 1 node in each shard server and 1 mongos instance as a query router to which respective GO API will send request.
+
+- For the details regarding sharded cluster, refer [BookEventAPI  sharded cluster](https://github.com/nguyensjsu/sp19-281-mavericks/blob/master/bookeventapi/MongoDB_sharding_for_bookeventAPI.md)
 
 #### 8. Riak Cluster
 
 The riak cluster consists of 5 nodes.
 
-# AKF Scale Cube  :
+# AKF Scale Cube  : :bar_chart:
 
 ## X-axis Scaling: 
 
- x-axis scaling or Horizontal duplication refers to running multiple identical copies of the application behind a load  
- balancer. In x-axis scaling, each server runs an identical copy of the service. It has been impleneted with multiple clones  
+ - x-axis scaling or Horizontal duplication refers to running multiple identical copies of the application behind a load  
+ balancer. 
+ - In x-axis scaling, each server runs an identical copy of the service. It has been impleneted with multiple clones  
  of our APIs (i.e pods) behind an External Load Balancer in Azure Kubernetes Serivce (AKS).<br/>
      
 
 ## Y-axis Scaling:
 
- Y axis scaling refers to functional decomposition of a monolith service i.e. creating microservices. <br/>
- It has been implemented by separating all the services independently i.e userAPI, eventAPI and bookeventAPI with pods 
+ - Y axis scaling refers to functional decomposition of a monolith service i.e. creating microservices. <br/>
+ - It has been implemented by separating all the services independently i.e userAPI, eventAPI and bookeventAPI with pods 
  deployed on Azure Kubernetes Service(AKS) <br/>
 
 ## Z-axis Scaling:
 
- Z axis scaling refers to splitting similar data into different servers.<br/>
- It has been implemented by using MongoDB sharded cluster with 2 config servers, 2 sharded replica sets and 1 mongos   
+ - Z axis scaling refers to splitting similar data into different servers.<br/>
+ - It has been implemented by using MongoDB sharded cluster with 2 config servers, 2 sharded replica sets and 1 mongos   
  server. MongoDb has been used to store user details, events details and booking details. <br/>
 
 # Microservices Distribution
-1. User signup - (Owner: Pratik Bhandarkar)<br/>
+
+1. **User signup - (Owner: Pratik Bhandarkar)**<br/><br/>
+
+
 ![User Microservice](images/users-service.png)
    - This microservice allows a user to sign up with our app.
    - During sign up a user has to provide his/her email id (which can later be used to login) and a password.
    - The user details and credentials are stored in the MongoDB cluster. A user, on signed up, can book register for an
      event and create his/her own events to be hosted.
-2. Create Event - (Owner: Sharwari Phadnis)<br/>
+     
+     
+2. **Create Event - (Owner: Sharwari Phadnis)**<br/><br/>
 ![Create Event Microservice](images/events-service.jpg)
    - This microservice handles creation of events on our app. 
    - The user/organiser has to add details such as name, schedule, venue related to a particular 
      event that they want to host. 
    - The service will contain API implementation of creating events and storing them into the MongoDB cluster.
-3. Browse Event - Thol
+   
+   
+3. **Browse Event - (Owner: Thol)**<br/><br/>
    - This microservice handles browsing events for the specific user.
    - User can see following lists
      - Events posted by him
      - Events booked by him
   - This service will have the GET API implementation from MongoDB cluster.
-4. Book event - (Owner: Sayali)<br/>
+  
+  
+4. **Book event - (Owner: Sayali)**<br/><br/>
 ![Book Event Microservice](images/bookevents-service.png)
    - This microservice handles booking of an event on our app.
    - The user can choose number of the seats and register for the event.
    - The service will contain API implementation of booking the events and storing them into the MongoDB cluster.
-5. Dashboard - Arihant <br/>
+   
+   
+5. **Dashboard - Arihant ** <br/><br/>
+
 ![Dashboard Microservice](images/dashboard-service.png)
    - This microservice handles the dashboard of the user
    - Here the user will be able to view events posted by him and booked by him and analytics
    - The service will contain API implementation of dashboarding the events and retrieving from RIAK cluster
 
-# [Partition Tolerant](https://docs.hazelcast.org/docs/2.0/manual/html/ch13s08.html)
 
 Steps involved in how to make system fault tolerant during partition
 [Network Partition](network-partition.md)
 
+
 **CAP Theorem**
+
 - C : Consistency
 
 A guarantee that every node in a distributed cluster returns the same, most recent, successful write. Consistency refers to every client having the same view of the data
@@ -190,53 +214,59 @@ Every non-failing node returns a response for all read and write requests in a r
 
 he system continues to function and upholds its consistency guarantees in spite of network partitions. Network partitions are a fact of life. Distributed systems guaranteeing partition tolerance can gracefully recover from partitions once the partition heals
 
-
+It is a widely used concept in distributed system.
 
 
 # Creativity in the use and application of topics and tools discussed in class
 
-We have deployed our front end client on Heroku.
-We have used kong as our microservice API gateway.
-All our microservices are deployedas pods using Azure Kubernetes Service. All the microservices pods are running behind external load balancer on AKS achieving x-axis and y-axis as part of AKF scale cube.
+- We have deployed our front end client on Heroku.
+- We have used kong as our microservice API gateway.
+- All our microservices are deployed as pods using Azure Kubernetes Service. 
+- All the microservices pods are running behind external load balancer on AKS achieving x-axis and y-axis as part of AKF scale cube.
 
 
-# Website 
+## Website :computer:
+
 [http://cmpe281-mavericks-eventbrite.herokuapp.com/](http://cmpe281-mavericks-eventbrite.herokuapp.com/)
 
-- Logging into the system
+## BookMyEvent GUI Workflow
+
+- Logging into the system as an organizer <br>
+
 ![Login](images/bookmyevent-frontend/1.png)
 
-- Browsing thrugh the list
+- Browsing through the list of event that are created <br>
+
 ![Browse List](images/bookmyevent-frontend/2.png)
 
-- Creating the event
+- Creating the event <br>
 ![Creating the event](images/bookmyevent-frontend/3.png)
 
-- Successful response
+- Successful response after creating an event <br>
 ![Success in creation](images/bookmyevent-frontend/4.png)
 
-- List gets updated
+- List gets updated after creating an event <br>
 ![New event added](images/bookmyevent-frontend/5.png)
 
-- Update of Posted Events in dashboard
+- Update of Posted Events in dashboard <br>
 ![Posted events update](images/bookmyevent-frontend/6.png)
 
-- Signing out 
+- Signing out <br>
 ![Signing out](images/bookmyevent-frontend/7.png)
 
-- Logging in as another user 
+- Logging in as another user who wants to book an event <br>
 ![Another user](images/bookmyevent-frontend/8.png)
 
-- Browsing through the list and checking for the event which we posted earlier 
+- Browsing through the list and checking for the event which we posted earlier <br>
 ![checking for posted event](images/bookmyevent-frontend/9.png)
 
-- Booking for the event we browsed 
+- Booking for the event we browsed  <br>
 ![Booking](images/bookmyevent-frontend/10.png)
 
-- Successful Booking of event
+- Successful Booking of event <br>
 ![Successful booking](images/bookmyevent-frontend/12.png)
 
-- Checking the dashboard for the updates 
+- Checking the dashboard for the updates  <br>
 ![Dashboard booked updates](images/bookmyevent-frontend/13.png)
 
 # Meeting #1
@@ -335,6 +365,9 @@ All our microservices are deployedas pods using Azure Kubernetes Service. All th
 
   - CORS issue while connecting GO APIs from frontend
   - Communication between microservices
+  - Setting up Microsoft Azure Kubernetes Service Cluster for running all the microservices
+  - Setting up lambda server to trigger data into Riak Cluster
+  - Testing end to end as the system being distributed
 
 
 ## References

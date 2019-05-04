@@ -15,6 +15,8 @@
 ```
     Content-Type: application/json
 ```
+- <b>Request Attributes</b><br/>
+![](https://github.com/nguyensjsu/sp19-281-mavericks/blob/master/images/user-signup-api.PNG)
 - <b>Body</b>
 ```
     {
@@ -40,6 +42,8 @@
 ```
     Content-Type: application/json
 ```
+- <b>Request Attributes</b><br/>
+![](https://github.com/nguyensjsu/sp19-281-mavericks/blob/master/images/user-login-api.PNG)
 - <b>Body</b>
 ```
     {
