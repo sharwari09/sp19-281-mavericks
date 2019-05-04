@@ -131,6 +131,11 @@ The riak cluster consists of 5 nodes.
      event that they want to host. 
    - The service will contain API implementation of creating events and storing them into the MongoDB cluster.
 3. Browse Event - Thol
+   - This microservice handles browsing events for the specific user.
+   - User can see following lists
+     - Events posted by him
+     - Events booked by him
+  - This service will have the GET API implementation from MongoDB cluster.
 4. Book event - (Owner: Sayali)<br/>
 ![Book Event Microservice](images/bookevents-service.png)
    - This microservice handles booking of an event on our app.
