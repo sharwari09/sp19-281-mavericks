@@ -25,6 +25,16 @@ Reference : https://docs.mongodb.com/manual/sharding/
 
 ## ReplicaSet status for Config Server :
 
+
+<img width="1440" alt="Screen Shot 2019-04-30 at 3 11 58 PM" src="https://user-images.githubusercontent.com/4371600/57172829-3fab4d80-6dda-11e9-8ff5-326a44abeabb.png">
+
+
+<img width="1440" alt="Screen Shot 2019-04-30 at 3 12 05 PM" src="https://user-images.githubusercontent.com/4371600/57172832-50f45a00-6dda-11e9-8e62-2846f46b0935.png">
+
+
+<img width="1440" alt="Screen Shot 2019-04-30 at 3 12 09 PM" src="https://user-images.githubusercontent.com/4371600/57172837-5ce01c00-6dda-11e9-8a4d-5f6946a62757.png">
+
+
 ## Start Mongos	: 
 
 sudo mongos --config /etc/mongod.conf --fork --logpath /var/log/mongodb/mongod.log
