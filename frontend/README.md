@@ -3,6 +3,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ## Link to front end
 [http://cmpe281-mavericks-eventbrite.herokuapp.com/](http://cmpe281-mavericks-eventbrite.herokuapp.com/)
 
+## Screenshots
 - Logging into the system
 ![Login](../images/bookmyevent-frontend/1.png)
 
