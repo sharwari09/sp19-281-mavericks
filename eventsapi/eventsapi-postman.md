@@ -57,3 +57,16 @@ Deletes an event using its ID
 Response Parameters for Success (Status code: 200)
 
 -----------------------------------------------
+
+GET Get event
+```shell
+http://{{server}}:3000/events/{{eventId}}
+```
+Gets a specific event according to its ID
+
+Response Parameters for Success (Status code: 200)
+
+
+## References
+
+https://documenter.getpostman.com/view/5639390/S1LsZVyQ 
