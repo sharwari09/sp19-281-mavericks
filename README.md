@@ -14,7 +14,8 @@ Team members:
 5. [Thol Chidambaram](https://github.com/thol)
 
 ## Project Architecture  :page_with_curl:
-<img src="https://github.com/nguyensjsu/sp19-281-mavericks/blob/master/images/project-diagram-final.jpeg"/>
+![mavericks_latest](https://user-images.githubusercontent.com/4371600/57172019-6f088d00-6dcf-11e9-9d91-78b74062195c.jpg)
+
 
 ## Project Journal :clipboard:
 [Project Journal](ProjectJournal.md)
