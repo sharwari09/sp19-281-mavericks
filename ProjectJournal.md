@@ -131,7 +131,7 @@ We have used kong as our microservice API gateway.
 All our microservices are deployedas pods using Azure Kubernetes Service. All the microservices pods are running behind external load balancer on AKS achieving x-axis and y-axis as part of AKF scale cube.
 
 
-### Website 
+# Website 
 [http://cmpe281-mavericks-eventbrite.herokuapp.com/](http://cmpe281-mavericks-eventbrite.herokuapp.com/)
 
 - Logging into the system
@@ -142,6 +142,15 @@ All our microservices are deployedas pods using Azure Kubernetes Service. All th
 
 - Creating the event
 ![Creating the event](images/bookmyevent-frontend/3.png)
+
+- Successful response
+![Success in creation](images/bookmyevent-frontend/4.png)
+
+- List gets updated
+![New event added](images/bookmyevent-frontend/5.png)
+
+- Update of dashboard
+![Posted events update](images/bookmyevent-frontend/6.png)
 
 # Meeting #1
 ## Week-1 (8 April 2019 to 14 April 2019)
