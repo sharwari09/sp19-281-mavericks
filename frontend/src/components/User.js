@@ -26,6 +26,13 @@ class User extends Component {
             password : e.target.value
         })
     }
+
+    componentDidMount(){
+        axios.get(`${userURL}users`).then((response)=>{
+            console.log(response.status);
+            console.log(response.data);
+        })
+    }
     submitLogin = (e) => {
         var headers = new Headers();
         e.preventDefault();

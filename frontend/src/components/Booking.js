@@ -4,7 +4,7 @@ import axios from 'axios';
 import { bookURL } from '../config/environment';
 import {Link} from 'react-router-dom';
 import {Redirect} from 'react-router';
-import { eventURL } from '../config/environment';
+import { eventURL,incrementBookingURL,incrementEventViewURL } from '../config/environment';
 
 var swal = require('sweetalert')
 
@@ -71,9 +71,7 @@ componentWillMount(){
         e.preventDefault();
         var price = this.state.quantity * 40;
         console.log("price" + price);
-        // this.setState({
-        //     price : price,
-        // });
+        
         var data = {
             bucketname : "eventbrite",
             EventName : this.state.eventName,
@@ -81,8 +79,7 @@ componentWillMount(){
             Date : this.state.date,
             EventID: this.state.eventId,
             UserID: localStorage.getItem("id"),
-            OrgID : this.state.orgId, 
-            Location : this.state.location
+            OrgID : this.state.orgId
         }
         console.log("data : ",  data);
         //set the with credentials to true
@@ -90,8 +87,25 @@ componentWillMount(){
         axios.post(bookURL + 'book', data, { headers: { 'Content-Type': 'application/json'}})
             .then(response => { 
             console.log("response :", response.status)
-            if(response.status == 200)
+            if(response.status == 200){
                 swal("Event booked Successfully!", "", "success");
+                const bookingEvent = {
+                    bucket:bucket,
+                    user_uuid:this.state.orgId,
+                    eventId:this.state.eventId
+                }
+                axios.post(`${incrementBookingURL}`,bookingEvent,{ headers: { 'Content-Type': 'application/json'}})
+                    .then((response)=>{
+                        console.log("In increment event booking")
+                        console.log(response.status);
+                        console.log(response.data)
+                    })
+                    .catch((error)=>{
+                        console.log("Error in increment event booking")
+                    })
+            }
+              
+
         })
         .catch(error => {
             console.log(error)

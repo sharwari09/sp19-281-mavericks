@@ -15,6 +15,7 @@ class Main extends Component {
                 <Route path="/book" component={Booking}/>
                 <Route path="/list" component={Listevents}/>
                 <Route path="/home" component={User}/>
+                <Route path="/" component={User}/>
                 <Route path="/dashboard" component={Dashboard}/>
             </div>
         )
