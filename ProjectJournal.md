@@ -65,6 +65,7 @@ ii] Event API service has below features :
 #### 7. Mongo DB Sharded cluster
 
 The MongoDb sharded cluster consists of a replica set of 2 config server AWS EC2 instances, 2 shard server instances with 1 node in each shard server and 1 mongos instance as a query router to which respective GO API will send request.
+For the details regarding sharded cluster, refer [BookEventAPI  sharded cluster](https://github.com/nguyensjsu/sp19-281-mavericks/blob/master/bookeventapi/MongoDB_sharding_for_bookeventAPI.md)
 
 #### 8. Riak Cluster
 
