@@ -9,6 +9,42 @@ Team members:
 4. [Sharwari Phadnis](https://github.com/sharwari09)
 5. [Thol Chidambaram](https://github.com/thol)
 
+## Key Contributions:
+### Pratik Bhandarkar: (Users Microservice, Kong API Gateway)
+- Design and deployment of a GO microservices to handle new user signup and user login
+- Deployment of MongoDB Shard Clusters for this microservice
+- Setup of Kong API gateway to expose all microservices over public network
+- Worked in discussing architecture for the BookMyEvent application.
+- Worked on finalizing backend databases for the app.
+
+### Arihant Sai: (Dashboard, Lambda Service)
+- Researched on how microservice help scale website
+- Decided on why RIAK database is important for dashboard
+- Implemented AWS lambda services for serverless communication between microservices
+- Created serverless dashboard service for high availibility
+- Allowed availibility of dashboard service even during the presence of event failures.
+
+### Sharwari Phadnis: (Events Microservice, Microsoft Azure Kubernetes Service)
+- Developed Events microservice that creates events on BookMyEvent App.
+- Worked on configuring Microsoft Azure Kubernetes Cluster
+- Built infrastructure on AKS required for running all microservices. 
+- Deployed all the micro-services on Azure Kubernetes Service.
+- Worked in discussing architecture for the BookMyEvent application.
+
+### Sayali Patil: (Book Events Microservice, React GUI development)
+- Developed frontend of whole application using ReactJs with below features :
+User login , Listing already posted events, Registering new event, Booking one of the listed events
+- BookEventAPI GO service : 3 endpoints
+Booking event, Getting event by userID, Getting event by eventID
+- MongoDB sharded cluster for BookEventAPI - x-axis scaling as part of AKF scale cube
+- Worked in discussing architecture for the BookMyEvent application.
+- Worked on finalizing backend databases for the app.
+
+### Thol Chidambaram: (Dashboard, RIAK Cluster)
+- Developed increment user event bookings and user event views as part of user analytics dashboard in golang.
+- Implemented riak cluster and developed procedure for testing partiton tolerance in riak.
+- Tested the application for partition tolerance.
+
 ## Project Architecture Diagram :
 
 ![mavericks_latest](https://user-images.githubusercontent.com/4371600/57172019-6f088d00-6dcf-11e9-9d91-78b74062195c.jpg)
@@ -105,10 +141,6 @@ The riak cluster consists of 5 nodes.
  It has been implemented by using MongoDB sharded cluster with 2 config servers, 2 sharded replica sets and 1 mongos   
  server. MongoDb has been used to store user details, events details and booking details. <br/>
 
-
-
-
-
 # Microservices Distribution
 1. User signup - (Owner: Pratik Bhandarkar)<br/>
 ![User Microservice](images/users-service.png)
@@ -123,10 +155,15 @@ The riak cluster consists of 5 nodes.
      event that they want to host. 
    - The service will contain API implementation of creating events and storing them into the MongoDB cluster.
 3. Browse Event - Thol
+   - This microservice handles browsing events for the specific user.
+   - User can see following lists
+     - Events posted by him
+     - Events booked by him
+  - This service will have the GET API implementation from MongoDB cluster.
 4. Book event - (Owner: Sayali)<br/>
 ![Book Event Microservice](images/bookevents-service.png)
    - This microservice handles booking of an event on our app.
-   - The user can book the ticket and process it with payment
+   - The user can choose number of the seats and register for the event.
    - The service will contain API implementation of booking the events and storing them into the MongoDB cluster.
 5. Dashboard - Arihant <br/>
 ![Dashboard Microservice](images/dashboard-service.png)
@@ -201,9 +238,6 @@ All our microservices are deployedas pods using Azure Kubernetes Service. All th
 
 - Checking the dashboard for the updates 
 ![Dashboard booked updates](images/bookmyevent-frontend/13.png)
-
-
-
 
 # Meeting #1
 ## Week-1 (8 April 2019 to 14 April 2019)
