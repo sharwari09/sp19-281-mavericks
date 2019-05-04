@@ -199,6 +199,15 @@ Steps involved in how to make system fault tolerant during partition
 [Network Partition](network-partition.md)
 
 
+# WOW Factor :sunglasses:
+
+- BookMyEvent is a scalable application and can be deployed conveniently on any Cloud Platform.
+- After exploring multiple Kubernetes Platforms we decided to move further with Azure Kubernetes Service.
+- Azure Kubernetes Service (AKS) simplifies the deployment and operations of Kubernetes and enables you to dynamically scale your application infrastructure with confidence and agility.
+- For our project, we have deployed all our backend micro-services on Azure Kubernetes Service.
+
+
+
 **CAP Theorem**
 
 - C : Consistency

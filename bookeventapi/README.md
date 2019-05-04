@@ -1,21 +1,103 @@
 # BookEvent API
 
+This microservice handles booking of an event on our app. <br/>
+The user can choose number of the seats and register for the event. <br/>
+The service will contain API implementation of booking the events and storing them into the MongoDB cluster.<br/>
+
+![Booking](images/bookmyevent-frontend/10.png)
+
 
 ### Golang BookEvent API runs on Azure Kubernetes Engine
 
 Kong URL for BookEvent API:
 ```http://54.149.88.143:8000/bookapi/```
 
-**Attributes**
+## Running GOLANG API locally
 
-|Attribute Name    | Type    | Description|
-|---------------|-------|------------|
-|paymentId |String|Payment| Id         |
-|userId |    String  |    User  |     Id |
-|orderId |    String | Unique | Order Number |
-|totalAmount |Double |Total | Amount Paid |
-|status    | Boolean |    Payment Status (True = Paid, False = Cancelled) |
-|paymentDate |DateTime    |Paid date|
+- Open a terminal
+- Set your GOPATH to the project directoy
+```shell
+export GOPATH="Your Project directory"
+```
+
+Note you might need to setup your environment before running the API
+- Get all the packages
+
+```shell
+make go-get
+```
+
+- Build your app
+```shell
+make go-build
+```
+
+- Run the app from terminal
+```shell
+make go-run
+```
+
+- Check whether the app is running
+```shell
+[negroni] listening on :4000
+```
+
+## Running the GO API in EC2 using docker
+1. Install Docker
+2. Start Docker
+sudo systemctl start docker
+sudo systemctl is-active docker
+3. Login to your docker hub account
+sudo docker login
+4. Create Docker file
+sudo vim Dockerfile
+
+```shell
+FROM golang:latest 
+EXPOSE 4000
+RUN mkdir /app 
+ADD . /app/ 
+WORKDIR /app 
+ENV GOPATH /app
+RUN cd /app ; go install events
+CMD ["/app/bin/events"]
+```
+
+5. Build the docker image locally
+```shell
+sudo docker build -t bookevent .
+sudo docker images
+```
+
+6. Push docker image to dockerhub
+```shell
+docker push bookevent:latest
+```
+
+7. Create Public EC2 Instance
+Configuration:
+```shell
+AMI: CentOS 7 (x86_64) - with Updates HVM
+Instance Type: t2.micro
+VPC: cmpe281
+Network: Public subnet (us-west-1c)
+Auto Public IP: Yes
+SG Open Ports: 22, 80, 8080, 3000, 8000
+Key Pair: cmpe281-us-west-1
+```
+8. ssh to your ec2 instance, user name is centos
+9. Create docker-compose yml file (with the environment variables set up)
+10. Deploy go API for order sevice
+```shell
+docker-compose up
+```
+11. Clean Up docker environment when finished
+```shell
+docker stop events
+docker rm events
+docker rmi {imageid}
+```
+
 
 ## 1. Ping the API endpoint
    
