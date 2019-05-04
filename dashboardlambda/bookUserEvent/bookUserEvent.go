@@ -124,12 +124,13 @@ func bookUserEvent(request MyRequest) (MyResponse, error) {
 	defer responsePostingEvent.Body.Close()
 	body, _ := ioutil.ReadAll(responsePostingEvent.Body)
 
-	go incrementBookingOfEvent(orgID, eventID, bucket)
+	//go incrementBookingOfEvent(orgID, eventID, bucket)
 	fmt.Printf("Results: %s\n", string(body))
 	return MyResponse{Status: true}, nil
 
 }
 
+/*
 func incrementBookingOfEvent(orgID string, eventID string, bucket string) {
 	fmt.Println("****Increment booking event****")
 	bookingIncrementURL := os.Getenv("booking_increment_url")
@@ -154,6 +155,7 @@ func incrementBookingOfEvent(orgID string, eventID string, bucket string) {
 	defer response.Body.Close()
 	fmt.Println("****Increment booking event end****")
 }
+*/
 
 func main() {
 	lambda.Start(bookUserEvent)
