@@ -9,6 +9,14 @@ Team members:
 4. [Sharwari Phadnis](https://github.com/sharwari09)
 5. [Thol Chidambaram](https://github.com/thol)
 
+## Key Contributions:
+### Pratik Bhandarkar: (Users Microservice, Kong API Gateway)
+- Design and deployment of a GO microservices to handle new user signup and user login
+- Deployment of MongoDB Shard Clusters for this microservice
+- Setup of Kong API gateway to expose all microservices over public network
+- Worked in discussing architecture for the BookMyEvent application.
+- Worked on finalizing backend databases for the app.
+
 ## Project Architecture Diagram :
 
 ![mavericks_latest](https://user-images.githubusercontent.com/4371600/57172019-6f088d00-6dcf-11e9-9d91-78b74062195c.jpg)
