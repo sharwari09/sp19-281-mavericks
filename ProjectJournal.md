@@ -301,3 +301,14 @@ All our microservices are deployedas pods using Azure Kubernetes Service. All th
 
   - CORS issue while connecting GO APIs from frontend
   - Communication between microservices
+
+
+## References
+- [CAP theorem](https://dzone.com/articles/understanding-the-cap-theorem)
+- [Network Partition](https://aphyr.com/posts/281-jepsen-on-the-perils-of-network-partitions)
+- [AWS Lambda](https://aws.amazon.com/lambda/)
+- [Serverless computation](https://martinfowler.com/articles/serverless.html)
+- [Kubernetes](https://www.redhat.com/en/topics/containers/what-is-kubernetes)
+- [Azure Kubernetes Service](https://docs.microsoft.com/en-us/azure/)
+- [Prof Paul Nguyen](https://github.com/paulnguyen)
+

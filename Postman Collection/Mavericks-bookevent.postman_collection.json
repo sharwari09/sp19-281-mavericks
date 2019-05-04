@@ -15,15 +15,19 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "http://localhost:4000/bookings/b5af2691-bd42-4f44-a300-c9f8e0b8cc9f",
+					"raw": "http://54.149.88.143:8000/bookapi/bookings/c9b4f552-c6e6-a957-2c385c08e",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"54",
+						"149",
+						"88",
+						"143"
 					],
-					"port": "4000",
+					"port": "8000",
 					"path": [
+						"bookapi",
 						"bookings",
-						"b5af2691-bd42-4f44-a300-c9f8e0b8cc9f"
+						"c9b4f552-c6e6-a957-2c385c08e"
 					]
 				}
 			},
@@ -39,15 +43,19 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "http://localhost:4000/booking/a638ef3e-7c5d-4f9a-8108-1ccd705ebe65",
+					"raw": "http://54.149.88.143:8000/bookapi/booking/a638ef3e-7c5d-4f9a-08-1",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"54",
+						"149",
+						"88",
+						"143"
 					],
-					"port": "4000",
+					"port": "8000",
 					"path": [
+						"bookapi",
 						"booking",
-						"a638ef3e-7c5d-4f9a-8108-1ccd705ebe65"
+						"a638ef3e-7c5d-4f9a-08-1"
 					]
 				}
 			},
@@ -63,13 +71,17 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "http://localhost:4000/ping",
+					"raw": "http://54.149.88.143:8000/bookapi/ping",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"54",
+						"149",
+						"88",
+						"143"
 					],
-					"port": "4000",
+					"port": "8000",
 					"path": [
+						"bookapi",
 						"ping"
 					]
 				}
@@ -90,16 +102,20 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"eventName\" :\"Diwali festival\",\n\t\"eventID\"  :  \"c9b4f552-c6e6-a957-2c385887c08e\",\n\t\"userID\" : \"a638ef3e-7c5d-4f9a-8108-1\",\n\t\"price\" : 120,\n    \"orgId\" : \"a638ef3e-7c5d-4f9a-8108\",\n\t\"date\" : \"2019-05-12\",\n\t\"location\" : \"Pune\"\n}\n\n\n\t"
+					"raw": "{\n    \"eventName\" :\"RSA conference\",\n\t\"eventID\"  :  \"c9b4f552-c6e6-a957-2c385c08e\",\n\t\"userID\" : \"a638ef3e-7c5d-4f9a-08-1\",\n\t\"price\" : 80,\n    \"orgId\" : \"a638ef3e-c5-4f9a-8108\",\n\t\"date\" : \"2019-05-13\",\n\t\"location\" : \"San Francisco\"\n}\n\n\n\t"
 				},
 				"url": {
-					"raw": "http://localhost:4000/book",
+					"raw": "http://54.149.88.143:8000/bookapi/book",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"54",
+						"149",
+						"88",
+						"143"
 					],
-					"port": "4000",
+					"port": "8000",
 					"path": [
+						"bookapi",
 						"book"
 					]
 				}
