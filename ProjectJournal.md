@@ -134,10 +134,10 @@ The riak cluster consists of 5 nodes.
    - Here the user will be able to view events posted by him and booked by him and analytics
    - The service will contain API implementation of dashboarding the events and retrieving from RIAK cluster
 
-# [Network Partition](https://docs.hazelcast.org/docs/2.0/manual/html/ch13s08.html)
-A partition is an event of node or network failure
+# [Partition Tolerant](https://docs.hazelcast.org/docs/2.0/manual/html/ch13s08.html)
 
-Partition Tolerance : A partition tolrant system refers to a system which is functional despite of network or node failures
+The partition of 
+[Network Partition](network-partition.md)
 
 **CAP Theorem**
 - C : Consistency
@@ -153,7 +153,7 @@ Every non-failing node returns a response for all read and write requests in a r
 
 he system continues to function and upholds its consistency guarantees in spite of network partitions. Network partitions are a fact of life. Distributed systems guaranteeing partition tolerance can gracefully recover from partitions once the partition heals
 
-It is a widely used concept in distributed system.
+
 
 
 # Creativity in the use and application of topics and tools discussed in class
