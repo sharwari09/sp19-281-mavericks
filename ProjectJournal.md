@@ -222,7 +222,7 @@ It is a widely used concept in distributed system.
 
 - We have deployed our front end client on Heroku.
 - We have used kong as our microservice API gateway.
-- All our microservices are deployedas pods using Azure Kubernetes Service. 
+- All our microservices are deployed as pods using Azure Kubernetes Service. 
 - All the microservices pods are running behind external load balancer on AKS achieving x-axis and y-axis as part of AKF scale cube.
 
 
