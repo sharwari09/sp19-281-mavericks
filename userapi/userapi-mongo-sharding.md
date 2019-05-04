@@ -12,17 +12,26 @@ Reference : https://docs.mongodb.com/manual/sharding/
 ```
 	config-server1                       : 10.0.1.93
 	config-server2                       : 10.0.1.17
-	shard-Replica set 1 (Primary)	       : 10.0.1.194
+	shard-Replica set 1 (Primary)	     : 10.0.1.194
 	shard-Replica set 1 (Secondary)	     : 10.0.1.46
-	shard-Replica set 2 (Primary)	       : 10.0.1.178
+	shard-Replica set 2 (Primary)	     : 10.0.1.178
 	shard-Replica set 2 (Secondary)	     : 10.0.1.241
 	mongos	                             : 34.212.50.122
 ```
 ## AWS console screen:
+![](https://github.com/nguyensjsu/sp19-281-mavericks/blob/master/images/mongo-shard-instances-aws.PNG)
 
 ## Sharding status:
+```
+	sh.status()
+```
+![](https://github.com/nguyensjsu/sp19-281-mavericks/blob/master/images/user-mongo-shard.png)
 
-## List Shards :
+## List Shards:
+```
+	db.adminCommand({listShards:1})
+```
+![](https://github.com/nguyensjsu/sp19-281-mavericks/blob/master/images/user-mongo-list-shards.png)
 
 ## Shard distribution:
 
