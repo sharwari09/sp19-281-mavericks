@@ -1,4 +1,16 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was bootstrapped with `React` and hosted on `Heroku` 
+
+Visit [http://cmpe281-mavericks-eventbrite.herokuapp.com/](http://cmpe281-mavericks-eventbrite.herokuapp.com/)
+
+
+## Run the project on your local machine
+```
+git clone https://github.com/nguyensjsu/sp19-281-mavericks.git
+cd sp19-281-mavericks/frontend
+npm install
+npm start
+```
+Open the [http://localhost:3000/](http://localhost:3000/) on your browser
 
 ## Link to front end
 [http://cmpe281-mavericks-eventbrite.herokuapp.com/](http://cmpe281-mavericks-eventbrite.herokuapp.com/)
