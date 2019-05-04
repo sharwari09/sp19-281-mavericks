@@ -173,7 +173,7 @@ The riak cluster consists of 5 nodes.
 
 # [Partition Tolerant](https://docs.hazelcast.org/docs/2.0/manual/html/ch13s08.html)
 
-The partition of 
+Steps involved in how to make system fault tolerant during partition
 [Network Partition](network-partition.md)
 
 **CAP Theorem**

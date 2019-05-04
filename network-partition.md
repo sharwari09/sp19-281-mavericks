@@ -47,4 +47,27 @@ Dashboard status after Stopping one of the instance
 ![Dashboard Status](images/riak-network-partition/6.png)
 
 
+Health check of Newtork Load balancer
+![NLB](images/riak-network-partition/7.png)
+
+Creating an event during Partition
+![Event creation](images/riak-network-partition/8.png)
+
+Checking the event created on dashboard during Partition
+![Dashboard check](images/riak-network-partition/9.png)
+
+Checking the RIAK servers status during partition
+```
+curl -X GET http://10.0.1.169:8098/ping
+curl -X GET http://10.0.1.104:8098/ping
+curl -X GET http://10.0.1.7:8098/ping
+curl -X GET http://10.0.2.215:8098/ping
+curl -X GET http://10.0.2.172:8098/ping
+```
+
+![Dashboard check](images/riak-network-partition/10.png)
+
+
+
+
 
