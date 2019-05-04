@@ -98,7 +98,7 @@ class Dashboard extends Component {
             <div className=" ht nav-height">
             <div class="navbar-header">
             <Link to="/">
-            <h1 style={{'margin-left':'20px', color:'rgb(27, 167, 231)'}}>Eventbrite</h1></Link>
+            <h1 style={{'margin-left':'20px', color:'rgb(27, 167, 231)'}}>Book My Event</h1></Link>
             </div>
             <nav class="navbar nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <ul><Link to="/list" className="buttons">List Events</Link></ul>

@@ -65,7 +65,7 @@ class User extends Component {
             <div className="nav-height">
                 {/* <div class="container-fluid"> */}
                     <div class="navbar-header">
-                    <h1 style={{'margin-left':'20px', color:'rgb(27, 167, 231)'}}>eventbrite</h1>
+                    <h1 style={{'margin-left':'20px', color:'rgb(27, 167, 231)'}}>Book My Event</h1>
                     </div>
                     <nav class="navbar nav"> </nav>
             </div>

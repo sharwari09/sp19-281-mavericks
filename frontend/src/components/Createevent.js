@@ -80,7 +80,7 @@ class Createevent extends Component {
             <div className=" ht nav-height">
             <div class="navbar-header">
             <Link to="/">
-            <h1 style={{'margin-left':'20px', color:'rgb(27, 167, 231)'}}>eventbrite</h1></Link>
+            <h1 style={{'margin-left':'20px', color:'rgb(27, 167, 231)'}}>Book My Event</h1></Link>
             </div>
             <nav class="navbar nav">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             
