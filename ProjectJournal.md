@@ -12,24 +12,25 @@ Team members:
 
 ## Description :
 
-1. Frontend - User
+
+##### 1. Frontend - User
 
 Technology Stack: ReactJs, CSS. The frontend User Client has been used by a user to log in to the application and the corresponding request will be transfered to corresponding user GO API via Kong API Gateway.
 
-2. Frontend - Event
+##### 2. Frontend - Event
 
 Technology Stack: ReactJs, CSS. The frontend Event client has been used by a logged in user to register a new event with all the details i.e eventname, date, location, price per ticket etc. in to the application and the corresponding request will be transferred to the corresponding event GO API via Kong Gateway.
 
-3. Frontend - Eventbooking
+##### 3. Frontend - Eventbooking
 
 Technology Stack: ReactJs, CSS. The frontend EventBooking client has been used by a logged in user to book with all the details i.e eventname, date, location, price per ticket etc. in to the application and the corresponding request will be transferred to the corresponding event GO API via Kong Gateway. 
 
-4. Frontend - Dashboard 
-5. Kong API Gateway
+##### 4. Frontend - Dashboard 
+##### 5. Kong API Gateway
 
 The Kong API Gateway is used to route the frontend request to the External Load Balancer for respective  GO APIS deployed on Azure Kubernetes Service (AKS).
 
-6. Go APIs
+##### 6. Go APIs
 
 i] User API service has below features :
 
@@ -58,11 +59,11 @@ ii] Event API service has below features :
  View Analytics Regarding Posted Events <br/>
  
  
-7. Mongo DB Sharded cluster
+##### 7. Mongo DB Sharded cluster
 
 The MongoDb sharded cluster consists of a replica set of 2 config server AWS EC2 instances, 2 shard server instances with 1 node in each shard server and 1 mongos instance as a query router to which respective GO API will send request.
 
-8. Riak Cluster
+##### 8. Riak Cluster
 
 # AKF Scale Cube  :
 
