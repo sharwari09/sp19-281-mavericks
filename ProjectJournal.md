@@ -134,6 +134,15 @@ All our microservices are deployedas pods using Azure Kubernetes Service. All th
 ### Website 
 [http://cmpe281-mavericks-eventbrite.herokuapp.com/](http://cmpe281-mavericks-eventbrite.herokuapp.com/)
 
+- Logging into the system
+![Login](images/bookmyevent-frontend/1.png)
+
+- Browsing thrugh the list
+![Browse List](images/bookmyevent-frontend/2.png)
+
+- Creating the event
+![Creating the event](images/bookmyevent-frontend/3.png)
+
 # Meeting #1
 ## Week-1 (8 April 2019 to 14 April 2019)
 ## Discussion Points:
