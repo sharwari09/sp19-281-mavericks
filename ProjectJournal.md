@@ -18,17 +18,30 @@ Team members:
 
 #### 1. Frontend - User
 
-Technology Stack: ReactJs, CSS. The frontend User Client has been used by a user to log in to the application and the corresponding request will be transfered to corresponding user GO API via Kong API Gateway.
+**Technology Stack:** ReactJs, CSS 
+
+The frontend User Client has been used by a user to log in to the application and the corresponding request will be transfered to corresponding user GO API via Kong API Gateway.
 
 #### 2. Frontend - Event
 
-Technology Stack: ReactJs, CSS. The frontend Event client has been used by a logged in user to register a new event with all the details i.e eventname, date, location, price per ticket etc. in to the application and the corresponding request will be transferred to the corresponding event GO API via Kong Gateway.
+**Technology Stack:** ReactJs, CSS 
+
+The frontend Event client has been used by a logged in user to register a new event with all the details i.e eventname,date, location, price per ticket etc. in to the application and the corresponding request will be transferred to the corresponding event GO API via Kong Gateway.
 
 #### 3. Frontend - Eventbooking
 
-Technology Stack: ReactJs, CSS. The frontend EventBooking client has been used by a logged in user to book with all the details i.e eventname, date, location, price per ticket etc. in to the application and the corresponding request will be transferred to the corresponding event GO API via Kong Gateway. 
+**Technology Stack:** ReactJs, CSS. 
+
+The frontend EventBooking client has been used by a logged in user to book with all the details i.e eventname, date, location, price per ticket etc. in to the application and the corresponding request will be transferred to the corresponding event GO API via Kong Gateway. 
 
 #### 4. Frontend - Dashboard 
+
+**Technology Stack:** ReactJs, CSS
+
+This page describes the association of the user with the app. It lists out the `Posted Events` and `Booked Events` of the user. 
+**Posted Events:** These are the events which are posted by the user. This also provides analytics of the events
+**Booked Events:** These are the events which are booked by the user
+
 #### 5. Kong API Gateway
 
 The Kong API Gateway is used to route the frontend request to the External Load Balancer for respective  GO APIS deployed on Azure Kubernetes Service (AKS).
@@ -121,7 +134,8 @@ The riak cluster consists of 5 nodes.
    - Here the user will be able to view events posted by him and booked by him and analytics
    - The service will contain API implementation of dashboarding the events and retrieving from RIAK cluster
 
-# Network Partition
+# [Network Partition](https://docs.hazelcast.org/docs/2.0/manual/html/ch13s08.html)
+A partition is an event of node or network failure
 
 
 # Creativity in the use and application of topics and tools discussed in class
