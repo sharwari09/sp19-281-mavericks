@@ -18,6 +18,6 @@ export{
     eventURL,
     dashboardURL,
     bucket,
-    incrementBookingURL,
+    incrementEventBookingURL,
     incrementEventViewURL
 }

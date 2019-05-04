@@ -11,12 +11,12 @@ class Main extends Component {
     render(){
         return(
             <div>
-                <Route path="/create" component={Createevent}/>
-                <Route path="/book" component={Booking}/>
-                <Route path="/list" component={Listevents}/>
-                <Route path="/home" component={User}/>
-                <Route path="/" component={User}/>
-                <Route path="/dashboard" component={Dashboard}/>
+                <Route exact path="/create" component={Createevent}/>
+                <Route exact path="/book" component={Booking}/>
+                <Route exact path="/list" component={Listevents}/>
+                <Route exact path="/home" component={User}/>
+                <Route exact path="/" component={User}/>
+                <Route exact path="/dashboard" component={Dashboard}/>
             </div>
         )
     }

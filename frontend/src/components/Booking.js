@@ -4,7 +4,7 @@ import axios from 'axios';
 import { bookURL } from '../config/environment';
 import {Link} from 'react-router-dom';
 import {Redirect} from 'react-router';
-import { eventURL,incrementBookingURL,incrementEventViewURL } from '../config/environment';
+import { eventURL,incrementEventBookingURL,incrementEventViewURL,bucket } from '../config/environment';
 
 var swal = require('sweetalert')
 
@@ -79,7 +79,8 @@ componentWillMount(){
             Date : this.state.date,
             EventID: this.state.eventId,
             UserID: localStorage.getItem("id"),
-            OrgID : this.state.orgId
+            OrgID : this.state.orgId,
+            Location:this.state.location
         }
         console.log("data : ",  data);
         //set the with credentials to true
@@ -94,7 +95,7 @@ componentWillMount(){
                     user_uuid:this.state.orgId,
                     eventId:this.state.eventId
                 }
-                axios.post(`${incrementBookingURL}`,bookingEvent,{ headers: { 'Content-Type': 'application/json'}})
+                axios.post(`${incrementEventBookingURL}`,bookingEvent,{ headers: { 'Content-Type': 'application/json'}})
                     .then((response)=>{
                         console.log("In increment event booking")
                         console.log(response.status);

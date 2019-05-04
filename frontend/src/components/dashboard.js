@@ -86,7 +86,7 @@ class Dashboard extends Component {
         if (!localStorage.getItem("id")) {
             redirectVar = <Redirect to="/home" />
         }
-
+        console.log(`Id : ${localStorage.getItem("id")}`);
         const {postedEvents,bookedEvents} = this.state;
         const {firstname,user_uuid} = this.state;
 
