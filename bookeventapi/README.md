@@ -17,7 +17,7 @@ Kong URL for BookEvent API:
 |status    | Boolean |    Payment Status (True = Paid, False = Cancelled) |
 |paymentDate |DateTime    |Paid date|
 
-1. Ping the API endpoint
+## 1. Ping the API endpoint
    
 **Request**
    
@@ -39,9 +39,7 @@ None
 }
 ```
     
-
-
-2. Book an event
+## 2. Book an event
 
 **Request**
 
@@ -70,7 +68,7 @@ Parameters for Success (Status code: 200)
    "Response": "Event successfully booked"
   }
 ```
-3. Get booked events List by eventID
+## 3. Get booked events List by eventID
 
 **Request**
 
@@ -86,6 +84,46 @@ None
 **Response**
 
 Parameters for Success (Status code: 200)
+```
+{
+"count": 1,
+"bookedevents": [
+    {
+        "id": "",
+        "eventName": "RSA conference",
+        "eventID": "c9b4f552-c6e6-a957-2c385c08e",
+        "userID": "a638ef3e-7c5d-4f9a-08-1",
+        "bookID": "decbf878-c0e7-450c-bc11-be50ada439c3",
+        "price": 80,
+        "orgId": "a638ef3e-c5-4f9a-8108",
+        "date": "2019-05-13",
+        "location": "San Francisco"
+    }
+]
+}
+```
+
+## 4. Get booked events List by userID
+
+**Request**
+
+
+ ```
+ GET /booking/:userID
+ Content-Type: application/json
+ ```
+
+
+**Parameters**
+
+|Parameter    |Type |    Description|
+|-----|-----|------|
+|userID    |String|    User Id|
+
+**Response**
+
+Parameters for Success (Status code: 200)
+
 ```
 {
 "count": 1,
