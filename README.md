@@ -26,5 +26,5 @@ Team members:
 ## Team Meetings :calendar:
 [Team Meetings Log](ProjectJournal.md#Minutes-of-Meeting)
 
-## Project website
+## Project website :tada:
 [Book My Event!](http://cmpe281-mavericks-eventbrite.herokuapp.com/)
