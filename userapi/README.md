@@ -1,21 +1,21 @@
 ## API endpoints:
 ### Ping
-- Method: GET
-- URI: 
+- <b>Method:</b> GET
+- <b>URI:</b> 
 ```
     {{apihost}}:{{apiport}}/ping
 ```
 ### User signup
-- Method: POST
-- URI: 
+- <b>Method:</b> POST
+- <b>URI: </b>
 ```
-    http://{{apihost}}:{{apiport}}/users/signup
+    {{apihost}}:{{apiport}}/users/signup
 ```
-- HEADERS
+- <b>Headers</b>
 ```
     Content-Type: application/json
 ```
-- BODY
+- <b>Body</b>
 ```
     {
 	    "firstname": "Tony",
@@ -31,20 +31,49 @@
     }
 ```
 ### User login
-- Method: POST
-- URI: 
+- <b>Method:</b> POST
+- <b>URI:</b> 
 ```
     {{apihost}}:{{apiport}}/users/signin
 ```
-- HEADERS
+- <b>Headers</b>
 ```
     Content-Type: application/json
 ```
-- BODY
+- <b>Body</b>
 ```
     {
     	"email": "devv@gmail.com",
     	"password": "welcome123"
     }
 ```
-
+### Get user by ID
+- <b>Method:</b> GET
+- <b>URI:</b>
+```
+    {{apihost}}:{{apiport}}/users/{user-id}
+```
+### Get all users
+- <b>Method:</b> GET
+- <b>URI:</b>
+```
+    {{apihost}}:{{apiport}}/users
+```
+### Get user by email
+- <b>Method:</b> GET
+- <b>URI:</b>
+```
+    {{apihost}}:{{apiport}}/users?email={{email-id}}
+```
+### Delete by user ID
+- <b>Method:</b> DELETE
+- <b>URI:</b>
+```
+    {{apihost}}:{{apiport}}/users/{{user-id}}
+```
+### Delete by email ID
+- <b>Method:</b> DELETE
+- <b>URI:</b> 
+```
+    {{apihost}}:{{apiport}}/users?email={{email-id}}
+```
