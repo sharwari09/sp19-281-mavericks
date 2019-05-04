@@ -131,6 +131,9 @@ We have used kong as our microservice API gateway.
 All our microservices are deployedas pods using Azure Kubernetes Service. All the microservices pods are running behind external load balancer on AKS achieving x-axis and y-axis as part of AKF scale cube.
 
 
+### Website 
+[http://cmpe281-mavericks-eventbrite.herokuapp.com/](http://cmpe281-mavericks-eventbrite.herokuapp.com/)
+
 # Meeting #1
 ## Week-1 (8 April 2019 to 14 April 2019)
 ## Discussion Points:
@@ -175,7 +178,6 @@ All our microservices are deployedas pods using Azure Kubernetes Service. All th
  - Implementing kong or AWS API gateway
  - discussion regarding wow factor - Amazon EKS service
  - MongoDB: Cluster for storing Users, events, payments information
- - Redis key-value store: To improve lookup performance while listing events
 
 ### Action Items :
 
@@ -226,4 +228,5 @@ All our microservices are deployedas pods using Azure Kubernetes Service. All th
 
 ### Challenges :
 
-  - CORS issue while connecting GO APIs from frontend 
+  - CORS issue while connecting GO APIs from frontend
+  - Communication between microservices
