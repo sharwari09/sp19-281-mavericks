@@ -1,5 +1,5 @@
 
-## Lambda Application in EventBrite
+## Serverless Application in Book-My-Eevnt!
 
 Serverless architectures — which in many ways is simply a repackaging and re-imagining of microservice architectures — is competing with Kubernetes because it allows for the scaling of applications and deployments without the complexity and configuration headaches of Kubernetes, or even containers. But don’t confuse the two as being equal.
 
