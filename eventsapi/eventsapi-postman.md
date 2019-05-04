@@ -36,3 +36,24 @@ Request
 | price         | int       | Price of event ticket|
 
 Response Parameters for Success (Status code: 200)
+
+-----------------------------------------------
+GET Get all events
+```shell
+http://{{server}}:3000/events
+```
+GET request gets all the create events
+
+Response Parameters for Success (Status code: 200)
+
+-----------------------------------------------
+
+DEL Delete Event
+```shell
+http://{{server}}:3000/events/{{eventId}}
+```
+Deletes an event using its ID
+
+Response Parameters for Success (Status code: 200)
+
+-----------------------------------------------
