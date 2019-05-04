@@ -69,6 +69,8 @@ For the details regarding sharded cluster, refer [BookEventAPI  sharded cluster]
 
 #### 8. Riak Cluster
 
+The riak cluster consists of 5 nodes.
+
 # AKF Scale Cube  :
 
 ## X-axis Scaling: 
@@ -93,7 +95,7 @@ For the details regarding sharded cluster, refer [BookEventAPI  sharded cluster]
 
 
 
-The riak cluster consists of 3 nodes.
+
 # Microservices Distribution
 1. User signup - (Owner: Pratik Bhandarkar)<br/>
 ![User Microservice](images/users-service.png)
@@ -101,26 +103,38 @@ The riak cluster consists of 3 nodes.
    - During sign up a user has to provide his/her email id (which can later be used to login) and a password.
    - The user details and credentials are stored in the MongoDB cluster. A user, on signed up, can book register for an
      event and create his/her own events to be hosted.
-2. Create Event - (Owner: Sharwari Phadnis)<br>
+2. Create Event - (Owner: Sharwari Phadnis)<br/>
 ![Create Event Microservice](images/events-service.jpg)
    - This microservice handles creation of events on our app. 
    - The user/organiser has to add details such as name, schedule, venue related to a particular 
      event that they want to host. 
    - The service will contain API implementation of creating events and storing them into the MongoDB cluster.
 3. Browse Event - Thol
-4. Book event - (Owner: Sayali)<br>
+4. Book event - (Owner: Sayali)<br/>
 ![Book Event Microservice](images/bookevents-service.png)
    - This microservice handles booking of an event on our app.
    - The user can book the ticket and process it with payment
    - The service will contain API implementation of booking the events and storing them into the MongoDB cluster.
-5. Dashboard - Arihant
+5. Dashboard - Arihant <br/>
 ![Dashboard Microservice](images/dashboard-service.png)
    - This microservice handles the dashboard of the user
    - Here the user will be able to view events posted by him and booked by him and analytics
    - The service will contain API implementation of dashboarding the events and retrieving from RIAK cluster
 
-# Minutes of Meeting
+# Network Partition
+
+
+# Creativity in the use and application of topics and tools discussed in class
+
+We have deployed our front end client on Heroku.
+We have used kong as our microservice API gateway.
+All our microservices are deployedas pods using Azure Kubernetes Service. All the microservices pods are running behind external load balancer on AKS achieving x-axis and y-axis as part of AKF scale cube.
+
+
+# Meeting #1
 ## Week-1 (8 April 2019 to 14 April 2019)
+## Discussion Points:
+
 ### Ideas: Few project ideas that have been thought and put on the table
     - A door dash kind of system for dry cleaners 
     - An online event-planning site from which you can create an event page, register attendees, and sell tickets online
@@ -129,8 +143,7 @@ The riak cluster consists of 3 nodes.
     - A online ticket system like Fandango for reserving seats and booking tickets for Movies, Plays and Shows around the user
     - Home automation along with community monitoring platform (smart communities)
     - Platform for drone management - control and operate drones for agriculture, monitoring and delivery.
-
-### Finalized Project Idea
+    - Finalized Project Idea :
     - An online event-planning site from which you can create an event page, register attendees, and sell tickets online
 
 ### Action Items
@@ -144,7 +157,8 @@ The riak cluster consists of 3 nodes.
     - Dashboard to monitor the end-to-end status of the system
     - Setup continuous integration and delivery
 
-### April 10, 2019
+# Meeting #2 : April 10, 2019
+## Discussion Points:
  - Assign microservices tasks to all
  - No need for MySQL, we can use MongoDB for all db needs
  - Load balancer
@@ -162,10 +176,21 @@ The riak cluster consists of 3 nodes.
  - discussion regarding wow factor - Amazon EKS service
  - MongoDB: Cluster for storing Users, events, payments information
  - Redis key-value store: To improve lookup performance while listing events
+
+### Action Items :
+
  - decided scalable architecture of the application
  - decided how partition will affect nosql system
+ 
+### Challenges :
 
-### April 13, 2019
+- Finalizing replication of microservices
+- Implementing kubernetes service
+
+
+# Meeting #3 : April 13, 2019
+
+## Discussion Points:
 
 - Decided global redis for all microservices
 - Riak db for dashboard
@@ -193,3 +218,12 @@ The riak cluster consists of 3 nodes.
    Time
    Organizer
 
+### Action Items:
+
+  - Updated the KanBan style task board
+  - Completed API development and bug fixes
+  - Developed frontend application and integrated it with the backend
+
+### Challenges :
+
+  - CORS issue while connecting GO APIs from frontend 
