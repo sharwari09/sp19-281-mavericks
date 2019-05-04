@@ -18,47 +18,53 @@ Kong URL for BookEvent API:
 |paymentDate |DateTime    |Paid date|
 
 1. Ping the API endpoint
-   **Request**
    
-    ```GET /ping
-    Content-Type: application/json```
+**Request**
+   
+```
+GET /ping
+Content-Type: application/json
+```
     
-   **Parameters**
+**Parameters**
 
-   None
+None
 
 
-   **Response**
-   
-    ```{
-    "Test": "Go API version 1.0 alive!"
-    }```
+**Response**
+
+```
+{
+"Test": "Go API version 1.0 alive!"
+}
+```
     
 
 
 2. Book an event
 
-   **Request**
-   
-    ```POST /book
-    Content-Type: application/json
-    ```
-    
-   **Parameters**
+**Request**
 
-   |Parameter    |Type |    Description|
-   |-----|-----|------|
-   |eventName    |String|    Event Name|
-   |eventID|    String|    Event ID|
-   |userID|    String|    User ID|
-   |price|    Int|    Total amount of event tickets|
-   |orgId|    String|    Event Organizer ID|
-   |date|    String|    Date of Event|
-   |location|    String|    Location of the event|
+```
+POST /book
+Content-Type: application/json
+```
 
-   **Response**
+**Parameters**
 
-   Parameters for Success (Status code: 200)
+|Parameter    |Type |    Description|
+|-----|-----|------|
+|eventName    |String|    Event Name|
+|eventID|    String|    Event ID|
+|userID|    String|    User ID|
+|price|    Int|    Total amount of event tickets|
+|orgId|    String|    Event Organizer ID|
+|date|    String|    Date of Event|
+|location|    String|    Location of the event|
+
+**Response**
+
+Parameters for Success (Status code: 200)
 ```
   {
    "Response": "Event successfully booked"
