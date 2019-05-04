@@ -23,6 +23,7 @@ Reference : https://docs.mongodb.com/manual/sharding/
 
 <img width="1440" alt="sharding" src="https://user-images.githubusercontent.com/4371600/57172710-69fc0b80-6dd8-11e9-80fe-5b9cf14b041c.png">
 
+## ReplicaSet status for Config Server :
 
 ## Start Mongos	: 
 
@@ -43,6 +44,14 @@ mongo -port 27017
 
 ## Use Database
 
+use cmpe281
+
 ## Add Shard Key
+
 1. Enable Sharding on database
+
+<img width="1403" alt="enable_sharding" src="https://user-images.githubusercontent.com/4371600/57172744-fad2e700-6dd8-11e9-9eba-621d5c9706de.png">
+
 2. Add shard key
+
+<img width="1045" alt="shard_key" src="https://user-images.githubusercontent.com/4371600/57172747-0aeac680-6dd9-11e9-984e-66666bb07c76.png">
