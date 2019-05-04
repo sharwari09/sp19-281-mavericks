@@ -19,4 +19,19 @@ Reference : https://docs.mongodb.com/manual/sharding/
 	shard-1	       : 10.0.1.185
 	shard-2        : 10.0.1.73
 	mongos	       : 52.52.92.197
+	
+## Start Mongos	: 
 
+sudo mongos --config /etc/mongod.conf --fork --logpath /var/log/mongodb/mongod.log
+
+mongo -port 27017
+
+## Add Shards :
+
+## List Shards :
+
+## Use Database
+
+## Add Shard Key
+1. Enable Sharding on database
+2. Add shard key
