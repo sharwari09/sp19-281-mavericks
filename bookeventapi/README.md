@@ -41,7 +41,8 @@ Kong URL for BookEvent API:
    **Request**
    
     ```POST /book
-    Content-Type: application/json```
+    Content-Type: application/json
+    ```
     
    **Parameters**
 
@@ -58,7 +59,8 @@ Kong URL for BookEvent API:
    **Response**
 
    Parameters for Success (Status code: 200)
-
+```
   {
    "Response": "Event successfully booked"
   }
+```
