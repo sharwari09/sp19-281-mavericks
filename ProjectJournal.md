@@ -368,6 +368,19 @@ It is a widely used concept in distributed system.
   - Setting up Microsoft Azure Kubernetes Service Cluster for running all the microservices
   - Setting up lambda server to trigger data into Riak Cluster
   - Testing end to end as the system being distributed
+  
+  
+# Meeting #4 : April 25, 2019
+
+## Discussion Points:
+
+- Decided on how to demonstrate the final BookMyEvent workflow
+- Performed end to end integration for the complete application
+- Discussed on how to work on the project documentation
+  
+### Challenges :
+
+- Testing end to end as the system being distributed
 
 
 ## References
