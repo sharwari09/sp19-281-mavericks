@@ -11,7 +11,7 @@ In a CA system there can be writes into multiple DB's of a cluster. During the c
 
 
 ### SSH into Jumpbox
-`ssh -i "cmpe281-nyu-aws-oregon.pem.pem" ec2-user@ec2-54-186-66-83.us-west-2.compute.amazonaws.com`
+`ssh -i "cmpe281-nyu-aws-oregon.pem" ec2-user@ec2-54-186-66-83.us-west-2.compute.amazonaws.com`
 
 ### SSH into our RIAK clusters through jumpbox
 ```
