@@ -22,6 +22,36 @@ ssh -i "cmpe281-nyu-aws-oregon.pem" ec2-user@10.0.2.215
 ssh -i "cmpe281-nyu-aws-oregon.pem" ec2-user@10.0.2.172
 ```
 
+
+### Creating a RIAK Cluster
+
+#### Log into each of the instance using ssh and run the command on each of the instance
+```
+sudo riak start
+sudo riak ping
+sudo riak-admin status
+```
+
+#### Initiate the cluster by running the below command into each instance
+```
+sudo riak-admin cluster join riak@10.0.1.169
+```
+
+#### Checking the status of the cluster
+```
+sudo riak-admin cluster status
+```
+
+#### Creating a bucket and activating it
+```
+sudo riak-admin bucket-type create <bucket_name>
+sudo riak-admin bucket-type activate <bucket_name>
+```
+
+#### Checking the status of the RIAK cluster
+![RIAk cluster status](images/riak-network-partition/riak-cluster-status.png)
+
+
 ### Status of RIAK Cluster
 ![RIAK clusters](images/riak-network-partition/1.png)
 
