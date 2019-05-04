@@ -149,8 +149,29 @@ All our microservices are deployedas pods using Azure Kubernetes Service. All th
 - List gets updated
 ![New event added](images/bookmyevent-frontend/5.png)
 
-- Update of dashboard
+- Update of Posted Events in dashboard
 ![Posted events update](images/bookmyevent-frontend/6.png)
+
+- Signing out 
+![Signing out](images/bookmyevent-frontend/7.png)
+
+- Logging in as another user 
+![Another user](images/bookmyevent-frontend/8.png)
+
+- Browsing through the list and checking for the event which we posted earlier 
+![checking for posted event](images/bookmyevent-frontend/9.png)
+
+- Booking for the event we browsed 
+![Booking](images/bookmyevent-frontend/10.png)
+
+- Successful Booking of event
+![Successful booking](images/bookmyevent-frontend/12.png)
+
+- Checking the dashboard for the updates 
+![Dashboard booked updates](images/bookmyevent-frontend/13.png)
+
+
+
 
 # Meeting #1
 ## Week-1 (8 April 2019 to 14 April 2019)
