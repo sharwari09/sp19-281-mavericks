@@ -1,6 +1,7 @@
 This project was bootstrapped with `React` and hosted on `Heroku` 
 
-Visit [http://cmpe281-mavericks-eventbrite.herokuapp.com/](http://cmpe281-mavericks-eventbrite.herokuapp.com/)
+## Link to front end
+[http://cmpe281-mavericks-eventbrite.herokuapp.com/](http://cmpe281-mavericks-eventbrite.herokuapp.com/)
 
 
 ## Run the project on your local machine
@@ -11,9 +12,6 @@ npm install
 npm start
 ```
 Open the [http://localhost:3000/](http://localhost:3000/) on your browser
-
-## Link to front end
-[http://cmpe281-mavericks-eventbrite.herokuapp.com/](http://cmpe281-mavericks-eventbrite.herokuapp.com/)
 
 ## Screenshots
 - Logging into the system
