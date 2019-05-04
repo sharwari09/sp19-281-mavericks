@@ -366,6 +366,9 @@ It is a widely used concept in distributed system.
 
   - CORS issue while connecting GO APIs from frontend
   - Communication between microservices
+  - Setting up Microsoft Azure Kubernetes Service Cluster for running all the microservices
+  - Setting up lambda server to trigger data into Riak Cluster
+  - Testing end to end as the system being distributed
 
 
 ## References
