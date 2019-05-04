@@ -24,12 +24,10 @@ Technology Stack: ReactJs, CSS. The frontend Event client has been used by a log
 
 Technology Stack: ReactJs, CSS. The frontend EventBooking client has been used by a logged in user to book with all the details i.e eventname, date, location, price per ticket etc. in to the application and the corresponding request will be transferred to the corresponding event GO API via Kong Gateway. 
 
-4. Kong API Gateway
+4. Frontend - Dashboard 
+5. Kong API Gateway
 
 The Kong API Gateway is used to route the frontend request to the External Load Balancer for respective  GO APIS deployed on Azure Kubernetes Service (AKS).
-
-5. Load Balancers: 
-
 
 6. Go APIs
 
@@ -50,11 +48,22 @@ ii] Event API service has below features :
  iii] EventBooking API service has below features :
  
  Book a registered event <br/>
+ Get bookings by userID <br/>
+ Get bookings by userID <br/>
+ 
+ iv] Dashboard API service has below features :
+ 
+ View Posted Events <br/>
+ View Booked Events <br/>
+ View Analytics Regarding Posted Events <br/>
+ 
  
 7. Mongo DB Sharded cluster
 
-The mongo db sharded cluster consists of a replica set of 2 config server nodes, 2 shard servers with 1 node each and 1 mongos instance as a query router.
+The MongoDb sharded cluster consists of a replica set of 2 config server AWS EC2 instances, 2 shard server instances with 1 node in each shard server and 1 mongos instance as a query router to which respective GO API will send request.
+
 8. Riak Cluster
+
 # AKF Scale Cube  :
 
 ## X-axis Scaling: 
@@ -82,21 +91,28 @@ The mongo db sharded cluster consists of a replica set of 2 config server nodes,
 The riak cluster consists of 3 nodes.
 # Microservices Distribution
 1. User signup - (Owner: Pratik Bhandarkar)<br/>
+![User Microservice](images/users-service.png)
    - This microservice allows a user to sign up with our app.
    - During sign up a user has to provide his/her email id (which can later be used to login) and a password.
    - The user details and credentials are stored in the MongoDB cluster. A user, on signed up, can book register for an
      event and create his/her own events to be hosted.
 2. Create Event - (Owner: Sharwari Phadnis)<br>
+![Create Event Microservice](images/events-service.jpg)
    - This microservice handles creation of events on our app. 
    - The user/organiser has to add details such as name, schedule, venue related to a particular 
      event that they want to host. 
    - The service will contain API implementation of creating events and storing them into the MongoDB cluster.
 3. Browse Event - Thol
 4. Book event - (Owner: Sayali)<br>
+![Book Event Microservice](images/bookevents-service.png)
    - This microservice handles booking of an event on our app.
    - The user can book the ticket and process it with payment
    - The service will contain API implementation of booking the events and storing them into the MongoDB cluster.
 5. Dashboard - Arihant
+![Dashboard Microservice](images/dashboard-service.png)
+   - This microservice handles the dashboard of the user
+   - Here the user will be able to view events posted by him and booked by him and analytics
+   - The service will contain API implementation of dashboarding the events and retrieving from RIAK cluster
 
 # Minutes of Meeting
 ## Week-1 (8 April 2019 to 14 April 2019)
@@ -129,11 +145,11 @@ The riak cluster consists of 3 nodes.
  - Load balancer
  - Network or HAProxy?
  - Create sharded MongoDB in a VPC share it with team
- - VPC pairing for replication
+ - VPC peering for High Availibility
  - Application components in AKF Scaling
-     - X-axis - replication
-     - Y-axis - microservices
-     - Z-axis - mongodb sharding
+     - X-axis - Data replication
+     - Y-axis - Split of service
+     - Z-axis - Horizontal data partitioning
  - Redis for browsing the events to improve response time
  - REST API documentation / design per microservice
  - Create Postman REST API collection and share
