@@ -51,7 +51,6 @@ Booking event, Getting event by userID, Getting event by eventID
 
 ## Description : :information_source:
 
-
 #### 1. Frontend - User
 
 **Technology Stack:** ReactJs, CSS 
@@ -118,11 +117,19 @@ ii] Event API service has below features :
  View Booked Events 
  View Analytics Regarding Posted Events 
  ```
- 
- 
+
 #### 7. Mongo DB Sharded cluster
 
 - The MongoDb sharded cluster consists of a replica set of 2 config server AWS EC2 instances, 2 shard server instances with 1 node in each shard server and 1 mongos instance as a query router to which respective GO API will send request.
+
+- As per the hashed shard key specification, the field chosen as hashed shard key should have a good cardinality, or large number of different values. Hashed keys are ideal for shard keys with fields that change monotonically like ObjectId values or timestamps. A good example of this is the default _id field, assuming it only contains ObjectID values.
+
+- Here, chosing unique id for range based sharding removes the advantage of distributed writes in a sharded cluster, as after a point of time, all writes will go to a single chunk and we don't get equivalent distribution of write operations. However, using objectID as hashed shard key, the data will be distributed more evenly, inserts are efficiently distributed throughout the cluster. <br/>
+bookID - shard key for bookeventAPI <br/>
+EventID - shard key for eventAPI <br/>
+userID - shard key for userAPI <br/>
+
+Reference : https://docs.mongodb.com/manual/core/hashed-sharding/#hashed-sharding-shard-key
 
 - For the details regarding sharded cluster, refer [BookEventAPI  sharded cluster](https://github.com/nguyensjsu/sp19-281-mavericks/blob/master/bookeventapi/MongoDB_sharding_for_bookeventAPI.md)
 
