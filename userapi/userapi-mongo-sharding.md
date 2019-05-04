@@ -34,8 +34,13 @@ Reference : https://docs.mongodb.com/manual/sharding/
 ![](https://github.com/nguyensjsu/sp19-281-mavericks/blob/master/images/user-mongo-list-shards.png)
 
 ## Shard distribution:
+```
+	db.users.getShardDistribution()
+```
+![](https://github.com/nguyensjsu/sp19-281-mavericks/blob/master/images/user-mongo-shard-distribution.png)
 
 ## Records in shard replica set 1
+![](https://github.com/nguyensjsu/sp19-281-mavericks/blob/master/images/user-mongo-shard1-records.png)
 
 ## Records in shard replica set 2
-
+![](https://github.com/nguyensjsu/sp19-281-mavericks/blob/master/images/user-mongo-shard2-records.png)
