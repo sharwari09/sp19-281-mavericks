@@ -1,6 +1,6 @@
 ## BookMyEvent App :ticket:
 
-EventBrite is an event creation and ticketing app. This service allows users to browse, create, local and far events. There are Microservices included in this application to cater different features.
+BookMyEvent is an event creation and ticketing app. This service allows users to browse, and create local and remote events. There are Microservices included in this application to cater to different features.
 
 ## Team Mavericks  :busts_in_silhouette:
 Team project for CMPE-281, Cloud Computing <br>
